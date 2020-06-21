@@ -1,0 +1,131 @@
+﻿@using CMSDiamondStay.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<script type="application/x-javascript">
+    addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+           function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+
+<h1>DIAMOND STAY MEMBER LOGIN FORM</h1>
+
+<div class="container w3layouts agileits">
+
+    <div class="login w3layouts agileits">
+        <h2>Đăng Nhập</h2>
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "")
+
+            <div>
+                @Html.TextBoxFor(m => m.email, new { @placeholder = "Tên đăng nhập" })
+                @Html.ValidationMessageFor(m => m.email)
+
+                @Html.PasswordFor(m => m.password, new { @placeholder = "Mật khẩu" })
+                @Html.ValidationMessageFor(m => m.password)
+            </div>
+
+
+
+            <ul class="tick w3layouts agileits">
+                <li>
+                    <input type="checkbox" id="brand1" value="">
+                    <label for="brand1"><span></span>Nhớ mật khẩu</label>
+                </li>
+            </ul>
+            <div class="send-button w3layouts agileits">
+                <form>
+                    <input type="submit" value="Đăng Nhập">
+                </form>
+            </div>
+        }
+
+        <a href="forgetpass.html">Quên mật khẩu? Nhấn vào đây</a>
+        <div class="social-icons w3layouts agileits">
+            <p>- Đăng nhập cùng -</p>
+            <ul>
+                <li><a href="#"><span class="icons w3layouts agileits"></span><span class="text w3layouts agileits">Facebook</span></a></li>
+                <li class="ggp aits"><a href="#"><span class="icons agileits"></span><span class="text w3layouts agileits">Google+</span></a></li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="register w3layouts agileits">
+        <h2>Đăng ký</h2>
+        <form action="#" method="post">
+            <input type="text" Name="Name" placeholder="Tên Đăng nhập" required="">
+            <input type="text" Name="Email" placeholder="Email" required="">
+            <input type="password" Name="Password" placeholder="Mật khẩu" required="">
+            <input type="text" Name="Phone Number" placeholder="Số điện thoại" required="">
+        </form>
+        <div class="send-button w3layouts agileits">
+            <form>
+                <input type="submit" value="Đăng ký">
+            </form>
+        </div>
+        <p>Bằng cách tạo tài khoản, bạn đồng ý với các Điều khoản của chúng tôi. <a class="underline w3layouts agileits" href="#">Điều khoản</a></p>
+        <div class="clear"></div>
+    </div>
+
+    <div class="clear"></div>
+
+</div>
+
+<div class="footer w3layouts agileits">
+    <p> &copy; 2020  Member Login Form. All Rights Reserved | Design by <a href="http://w3layouts.com" target="_blank">Diamond Stay Company</a></p>
+</div>
+
+
+
+
+@*<div class="row">
+        <div class="col-md-8">
+            <section id="loginForm">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h4>Use a local account to log in.</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.email, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.password, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Log in" class="btn btn-default" />
+                        </div>
+                    </div>
+                    <p>
+                        @Html.ActionLink("Register as a new user", "Register")
+                    </p>
+
+                }
+            </section>
+        </div>
+        <div class="col-md-4">
+            <section id="socialLoginForm">
+                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </section>
+        </div>
+    </div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
