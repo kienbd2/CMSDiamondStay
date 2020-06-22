@@ -12,6 +12,7 @@ using CMSDiamondStay.Models;
 using System.Web.Script.Serialization;
 using System.Net.Http;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace CMSDiamondStay.Controllers
 {
@@ -147,31 +148,23 @@ namespace CMSDiamondStay.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+      
+        public  ActionResult Register( RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            using (var client = new HttpClient())
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                client.BaseAddress = new Uri("http://35.197.153.19:12345/");
+
+                //HTTP POST
+                var response = client.PostAsync("users", new StringContent(
+   new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
+
+                if (response.Result.IsSuccessStatusCode)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index","Home");
                 }
-                AddErrors(result);
+                return View();
             }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
         }
 
         //

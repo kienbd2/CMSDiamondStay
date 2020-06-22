@@ -54,22 +54,8 @@
         <div class="clear"></div>
     </div>
 
-    <div class="register w3layouts agileits">
-        <h2>Đăng ký</h2>
-        <form action="#" method="post">
-            <input type="text" Name="Name" placeholder="Tên Đăng nhập" required="">
-            <input type="text" Name="Email" placeholder="Email" required="">
-            <input type="password" Name="Password" placeholder="Mật khẩu" required="">
-            <input type="text" Name="Phone Number" placeholder="Số điện thoại" required="">
-        </form>
-        <div class="send-button w3layouts agileits">
-            <form>
-                <input type="submit" value="Đăng ký">
-            </form>
-        </div>
-        <p>Bằng cách tạo tài khoản, bạn đồng ý với các Điều khoản của chúng tôi. <a class="underline w3layouts agileits" href="#">Điều khoản</a></p>
-        <div class="clear"></div>
-    </div>
+    @Html.Partial("_PartialRegister")
+    
 
     <div class="clear"></div>
 

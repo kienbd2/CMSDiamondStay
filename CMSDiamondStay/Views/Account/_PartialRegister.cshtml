@@ -1,0 +1,34 @@
+﻿@model CMSDiamondStay.Models.RegisterViewModel
+
+
+    <div class="register w3layouts agileits">
+        <h2>Đăng ký</h2>
+        @using (Html.BeginForm("Register", "Account",FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "")
+
+            <div>
+                @Html.TextBoxFor(m => m.first_name, new { @placeholder = "First Name" })
+                @Html.ValidationMessageFor(m => m.first_name)
+
+                @Html.TextBoxFor(m => m.last_name, new { @placeholder = "Last Name" })
+                @Html.ValidationMessageFor(m => m.last_name)
+                @Html.TextBoxFor(m => m.email, new { @placeholder = "Email" })
+                @Html.ValidationMessageFor(m => m.email)
+                @Html.PasswordFor(m => m.Password, new { @placeholder = "PassWord" })
+                @Html.ValidationMessageFor(m => m.last_name)
+            </div>
+
+
+
+            <div class="send-button w3layouts agileits">
+                <form>
+                    <input type="submit" value="Đăng ký">
+                </form>
+            </div>
+            <p>Bằng cách tạo tài khoản, bạn đồng ý với các Điều khoản của chúng tôi. <a class="underline w3layouts agileits" href="#">Điều khoản</a></p>
+            <div class="clear"></div>
+        }
+
+    </div>
