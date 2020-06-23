@@ -13,7 +13,6 @@ using System.Web.Script.Serialization;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
-
 namespace CMSDiamondStay.Controllers
 {
 
@@ -157,9 +156,9 @@ namespace CMSDiamondStay.Controllers
 
                 //HTTP POST
                 var response = client.PostAsync("users", new StringContent(
-   new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
+   new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json")).Result;
 
-                if (response.Result.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index","Home");
                 }
