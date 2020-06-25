@@ -8,17 +8,17 @@
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "")
 
-            <div>
-                @Html.TextBoxFor(m => m.first_name, new { @placeholder = "First Name" })
-                @Html.ValidationMessageFor(m => m.first_name)
-
-                @Html.TextBoxFor(m => m.last_name, new { @placeholder = "Last Name" })
-                @Html.ValidationMessageFor(m => m.last_name)
+    <div>
+        @Html.TextBoxFor(m => m.first_name, new { @class = "form-control", @placeholder = "First Name" })
+        @Html.ValidationMessageFor(m => m.first_name, "", new { @class = "text-danger" })
+    </div>
+                @Html.TextBoxFor(m => m.last_name, new { @class = "form-control", @placeholder = "Last Name" })
+                @Html.ValidationMessageFor(m => m.last_name, "", new { @class = "text-danger" })
                 @Html.TextBoxFor(m => m.email, new { @placeholder = "Email" })
                 @Html.ValidationMessageFor(m => m.email)
-                @Html.PasswordFor(m => m.password, new { @placeholder = "PassWord" })
-                @Html.ValidationMessageFor(m => m.last_name)
-            </div>
+                @Html.PasswordFor(m => m.password, new { @class = "form-control", @placeholder = "PassWord" })
+                @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
+           
 
 
 
