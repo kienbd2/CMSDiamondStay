@@ -13,15 +13,16 @@ using System.Web.Script.Serialization;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace CMSDiamondStay.Controllers
 {
 
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        string Baseurl = "http://35.197.153.19:12345/";
         public AccountController()
         {
         }
@@ -70,7 +71,7 @@ namespace CMSDiamondStay.Controllers
      
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public  ActionResult Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -78,16 +79,33 @@ namespace CMSDiamondStay.Controllers
             }
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://35.197.153.19:12345/users/login");
+                client.BaseAddress = new Uri(Baseurl);
+
+                client.DefaultRequestHeaders.Clear();
+                //Define request data format  
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 //HTTP POST
-                var response = client.PostAsync("http://35.197.153.19:12345/users/login", new StringContent(
-   new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
+                var response =await  client.PostAsync("users/login", new StringContent(
+                        new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
+               
+                
+                
+                var EmpResponse = await response.Content.ReadAsStringAsync();
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var authori = response.Headers.GetValues("Authorization").FirstOrDefault();
+                
+                int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
 
-
-                //var result = postTask.Result;
-                if (response.Result.IsSuccessStatusCode)
+                if (code != 200)
                 {
+                    TempData["error"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
+                    return RedirectToAction("Login");
+                }
+                //var result = postTask.Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    Session.Add("Authent", authori);
                     return RedirectToAction("Index","Home");
                 }
                 return View();
@@ -137,29 +155,43 @@ namespace CMSDiamondStay.Controllers
             }
         }
 
-        //
-        // GET: /Account/Register
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
-
+        ////
+        //// GET: /Account/Register
+        //[AllowAnonymous]
+        //public ActionResult Register()
+        //{
+        //    return View();
+        //}
+        
         //
         // POST: /Account/Register
         [HttpPost]
       
-        public  ActionResult Register( RegisterViewModel model)
+        public async Task<ActionResult> Register( RegisterViewModel model)
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://35.197.153.19:12345/");
+                client.BaseAddress = new Uri(Baseurl);
+
+                client.DefaultRequestHeaders.Clear();
+                //Define request data format  
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+              
 
                 //HTTP POST
-                var response = client.PostAsync("users", new StringContent(
+                var response = await client.PostAsync("users", new StringContent(
    new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
 
-                if (response.Result.IsSuccessStatusCode)
+                //HttpResponseMessage Res = await client.GetAsync("/users");
+                var EmpResponse = await response.Content.ReadAsStringAsync();
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
+                if(code != 200)
+                {
+                    TempData["error"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
+                    return RedirectToAction("Login");
+                }
+                if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index","Home");
                 }
