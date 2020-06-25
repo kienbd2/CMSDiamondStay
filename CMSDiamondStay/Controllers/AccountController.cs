@@ -18,7 +18,7 @@ using System.Net.Http.Headers;
 namespace CMSDiamondStay.Controllers
 {
 
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -87,11 +87,16 @@ namespace CMSDiamondStay.Controllers
 
                 //HTTP POST
                 var response =await  client.PostAsync("users/login", new StringContent(
-   new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
-                 
+                        new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
+               
+                
+                
                 var EmpResponse = await response.Content.ReadAsStringAsync();
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var authori = response.Headers.GetValues("Authorization").FirstOrDefault();
+                
                 int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
+
                 if (code != 200)
                 {
                     TempData["error"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
@@ -100,6 +105,7 @@ namespace CMSDiamondStay.Controllers
                 //var result = postTask.Result;
                 if (response.IsSuccessStatusCode)
                 {
+                    Session.Add("Authent", authori);
                     return RedirectToAction("Index","Home");
                 }
                 return View();
