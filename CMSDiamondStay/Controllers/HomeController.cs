@@ -38,5 +38,9 @@ namespace CMSDiamondStay.Controllers
 
             return View();
         }
+        public ActionResult CreateApartment()
+        {
+            return View();
+        }
     }
 }

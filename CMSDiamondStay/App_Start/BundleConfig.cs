@@ -64,8 +64,22 @@ namespace CMSDiamondStay
                           "~/App_Themes/CMS/build/js/custom.min.js"
                        ));
 
+            bundles.Add(new StyleBundle("~/CreateApartment/css").Include(
+                    "~/App_Themes/CMS/vendors/bootstrap/dist/css/bootstrap.min.css",
+                   "~/App_Themes/CMS/vendors/bootstrap/dist/css/bootstrap.min.css",
+                   "~/App_Themes/CMS/vendors/font-awesome/css/font-awesome.min.css",
+                   "~/App_Themes/CMS/vendors/nprogress/nprogress.css",
+                    "~/App_Themes/CMS/vendors/bootstrap-daterangepicker/daterangepicker.css",
+                    "~/App_Themes/CMS/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css",
+                    "~/App_Themes/CMS/vendors/normalize-css/normalize.css",
+                    "~/App_Themes/CMS/vendors/ion.rangeSlider/css/ion.rangeSlider.css",
+                    "~/App_Themes/CMS/vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css",
+                    "~/App_Themes/CMS/vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css",
+                    "~/App_Themes/CMS/vendors/cropper/dist/cropper.min.css",
+                    "~/App_Themes/CMS/build/css/custom.min.css"
 
-
+                    ));
+           
 
         }
     }

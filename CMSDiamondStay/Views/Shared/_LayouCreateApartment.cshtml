@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/CreateApartment/jquery")
+</head>
+<body>
+    <div class="nav-md">
+        @RenderBody()
+    </div>
+
+    <script src="https:/ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="~/App_Themes/CMS/vendors/validator/multifield.js"></script>
+    <script src="~/App_Themes/CMS/vendors/validator/validator.js"></script>
+
+    <script>
+    var validator = new FormValidator({ "events": ['blur', 'input', 'change'] }, document.forms[0]);
+    
+    document.forms[0].onsubmit = function (e) {
+      var submit = true,
+        validatorResult = validator.checkAll(this);
+      console.log(validatorResult);
+      return !!validatorResult.valid;
+    };
+    document.forms[0].onreset = function (e) {
+      validator.reset();
+    };
+    $('.toggleValidationTooltips').change(function () {
+      validator.settings.alerts = !this.checked;
+      if (this.checked)
+        $('form .alert').remove();
+    }).prop('checked', false);</script>
+
+    <!-- jQuery -->
+    <script src="~/App_Themes/CMS/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/App_Themes/CMS/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/App_Themes/CMS/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="~/App_Themes/CMS/vendors/nprogress/nprogress.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="~/App_Themes/CMS/vendors/moment/min/moment.min.js"></script>
+    <script src="~/App_Themes/CMS/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-datetimepicker -->
+    <script src="~/App_Themes/CMS/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <!-- Ion.RangeSlider -->
+    <script src="~/App_Themes/CMS/vendors/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
+    <!-- Bootstrap Colorpicker -->
+    <script src="~/App_Themes/CMS/vendors/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+    <!-- jquery.inputmask -->
+    <script src="~/App_Themes/CMS/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+    <!-- jQuery Knob -->
+    <script src="~/App_Themes/CMS/vendors/jquery-knob/dist/jquery.knob.min.js"></script>
+    <!-- Cropper -->
+    <script src="~/App_Themes/CMS/vendors/cropper/dist/cropper.min.js"></script>
+    <!-- Switchery -->
+    <script src="~/App_Themes/CMS/vendors/switchery/dist/switchery.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="~/App_Themes/CMS/build/js/custom.min.js"></script>
+    <!-- Multiple image preview before upload with FileUpload control using JavaScript -->
+    <script type="text/javascript">window.onload = function () {
+          var fileUpload = document.getElementById("fileupload");
+          fileUpload.onchange = function () {
+              if (typeof (FileReader) != "undefined") {
+                  var dvPreview = document.getElementById("dvPreview");
+                  dvPreview.innerHTML = "";
+                  var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                  for (var i = 0; i < fileUpload.files.length; i++) {
+                      var file = fileUpload.files[i];
+                      if (regex.test(file.name.toLowerCase())) {
+                          var reader = new FileReader();
+                          reader.onload = function (e) {
+                              var img = document.createElement("IMG");
+                              img.height = "100";
+                              img.width = "100";
+                              img.src = e.target.result;
+                              dvPreview.appendChild(img);
+                          }
+                          reader.readAsDataURL(file);
+                      } else {
+                          alert(file.name + " is not a valid image file.");
+                          dvPreview.innerHTML = "";
+                          return false;
+                      }
+                  }
+              } else {
+                  alert("This browser does not support HTML5 FileReader.");
+              }
+          }
+      };</script>
+</body>
+</html>
