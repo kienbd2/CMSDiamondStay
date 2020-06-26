@@ -1,0 +1,14 @@
+﻿@model PagedList.IPagedList<CMSDiamondStay.Models.User>
+
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+    <div>
+        @{Html.RenderAction("GetPagingAsync", "User", new { page = 1 });}
+    </div>
+
+
+
+
