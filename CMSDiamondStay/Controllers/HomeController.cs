@@ -30,6 +30,7 @@ namespace CMSDiamondStay.Controllers
         }
         public ActionResult CreateApartment()
         {
+            ViewBag.convenience = getAllConvenience();
             return View();
         }
     }

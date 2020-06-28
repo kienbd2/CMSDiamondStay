@@ -28,7 +28,7 @@
                 <a><i class="fa fa-building-o"></i> Quản lý căn hộ <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="ApartmentList.html">Danh sách căn hộ</a></li>
-                    <li> @Html.ActionLink("Thêm căn hộ mới", "CreateApartment")</li>
+                    <li> @Html.ActionLink("Thêm căn hộ mới", "CreateApartment","Home")</li>
                 </ul>
             </li>
             <li>
@@ -41,8 +41,8 @@
             <li>
                 <a><i class="fa fa-table"></i> Quản lý dịch vụ <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="ServicesList.html">Các dich vụ</a></li>
-                    <li><a href="AddServices.html">Thêm dịch vụ mới</a></li>
+                    <li> @Html.ActionLink("Các dịch vụ", "Index", "Convenience") </li>
+                    <li> @Html.ActionLink("Thêm dịch vụ mới", "Create", "Convenience") </li>
                 </ul>
             </li>
             <li>
@@ -58,10 +58,10 @@
             <li>
                 <a><i class="fa fa-user"></i>Quản Lý Người Dùng <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li>@Html.ActionLink("Chủ Khách Sạn","Index","User")</li>
+                    <li>@Html.ActionLink("Chủ Khách Sạn", "Index", "User")</li>
                     <li><a href="profile.html">Người Dùng Cuối</a></li>
                 </ul>
-               
+
             </li>
         </ul>
     </div>

@@ -2,137 +2,13 @@
 @{
     ViewBag.Title = "CreateApartment";
 }
-    <div class="container body">
-        <div class="main_container">
-            <div class="col-md-3 left_col">
-                <div class="left_col scroll-view">
-                    <div class="navbar nav_title" style="border: 0;">
-                        <a href="/Home/Index" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
-                    </div>
+  
 
-                    <div class="clearfix"></div>
-
-                  
-
-                    <!-- sidebar menu -->
-                  @Html.Partial("_SidebarMenu")
-                    <!-- /sidebar menu -->
-                    <!-- /menu footer buttons -->
-                    <div class="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Settings">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Lock">
-                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                        </a>
-                    </div>
-                    <!-- /menu footer buttons -->
-                </div>
-            </div>
-
-            <!-- top navigation -->
-            <div class="top_nav">
-                <div class="nav_menu">
-                    <div class="nav toggle">
-                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-                    </div>
-                    <nav class="nav navbar-nav">
-                        <ul class=" navbar-right">
-                            <li class="nav-item dropdown open" style="padding-left: 15px;">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">John Doe
-                                </a>
-                                <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="javascript:;"> Profile</a>
-                                    <a class="dropdown-item" href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
-                                    </a>
-                                    <a class="dropdown-item" href="javascript:;">Help</a>
-                                    <a class="dropdown-item" href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
-                                </div>
-                            </li>
-
-                            <li role="presentation" class="nav-item dropdown open">
-                                <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span class="badge bg-green">6</span>
-                                </a>
-                                <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <div class="text-center">
-                                            <a class="dropdown-item">
-                                                <strong>See All Alerts</strong>
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <!-- /top navigation -->
             <!-- page content -->
-            <div class="right_col" role="main">
+          
                 <div class="">
                     <h3 style="text-align: center;">Vui lòng nhập thông tin căn hộ của bạn</h3>
-                    <div class="clearfix"></div>
+                    
                     <div class="row">
                         <!-- form input mask -->
                         <div class="col-md-12 col-sm-12  ">
@@ -162,45 +38,10 @@
                                             </div>
                                         </div>
                                         <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Diện tích (mét vuông)</label>
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Số Lượng Giường</label>
                                             <div class="col-md-6 col-sm-6">
                                                 <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
-                                                       placeholder="Diện tích tính bằng (mét vuông)" required="required" />
-                                            </div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Vị trí căn hộ</label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
-                                                       placeholder="Căn hộ của bạn nằm ở đâu? vị trí cụ thể. " required="required" />
-                                            </div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Số điện thoại liên hệ</label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
-                                                       placeholder="Số điện thoại liên hệ với chủ căn hộ." required="required" />
-                                            </div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Fax</label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
-                                                       placeholder="Số Fax" required="required" />
-                                            </div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Số lượng phòng ngủ</label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
-                                                       placeholder="Có bao nhiêu phòng ngủ trong căn hộ của bạn ?" required="required" />
-                                            </div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Số lượng phòng tắm</label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
-                                                       placeholder="Có bao nhiêu phòng tắm trong căn hộ của bạn ?" required="required" />
+                                                       placeholder="Số Lượng Giường (Chiếc)" required="required" />
                                             </div>
                                         </div>
                                         <div class="field item form-group">
@@ -218,37 +59,10 @@
                                             </div>
                                         </div>
                                         <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Chỗ trống</label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
-                                                       placeholder="Available slot" required="required" />
-                                            </div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Các tiện ích khác</label>
-                                            <p style="padding: 5px;">
-                                                <input type="checkbox" name="Utilities[]" id="hobby1" value="wifi" data-parsley-mincheck="2" required class="flat" /> Wifi
-                                                <br />
-
-                                                <input type="checkbox" name="Utilities[]" id="hobby2" value="free-park" class="flat" /> Chỗ để xe miễn phí
-                                                <br />
-
-                                                <input type="checkbox" name="Utilities[]" id="hobby3" value="great-view" class="flat" /> View đẹp
-                                                <br />
-                                            </p>
-                                        </div>
-                                        <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">Nơi vui chơi giải trí đề xuất</label>
                                             <div class="col-md-6 col-sm-6">
                                                 <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
                                                        placeholder="Đề xuất cho khách thuê một vài địa điểm vui choi." required="required" />
-                                            </div>
-                                        </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Ấm thực</label>
-                                            <div class="col-md-6 col-sm-6">
-                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
-                                                       placeholder="Món ngon." required="required" />
                                             </div>
                                         </div>
                                         <div class="field item form-group">
@@ -258,6 +72,15 @@
                                                        placeholder="Hướng đẫn khách sử dụng căn hộ hiệu quả." required="required" />
                                             </div>
                                         </div>
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Ấm thực</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Món ngon." required="required" />
+                                            </div>
+                                        </div>
+
                                         <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">Quy định căn hộ</label>
                                             <div class="col-md-6 col-sm-6">
@@ -265,6 +88,68 @@
                                                        placeholder="Quy tắc chung quản lý căn hộ." required="required" />
                                             </div>
                                         </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Số điện thoại liên hệ</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Số điện thoại liên hệ với chủ căn hộ." required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Fax</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Số Fax" required="required" />
+                                            </div>
+                                        </div>
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Diện tích (mét vuông)</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Diện tích tính bằng (mét vuông)" required="required" />
+                                            </div>
+                                        </div>
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Số lượng phòng tắm</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Có bao nhiêu phòng tắm trong căn hộ của bạn ?" required="required" />
+                                            </div>
+                                        </div>
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Số lượng phòng ngủ</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Có bao nhiêu phòng ngủ trong căn hộ của bạn ?" required="required" />
+                                            </div>
+                                        </div>
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Tiêu Chuẩn Sao</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Tiêu Chuẩn Sao" required="required" />
+                                            </div>
+                                        </div>
+
+                                        
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Các tiện ích</label>
+                                            <p style="padding: 5px;" class ="col-md-6 col-sm-6 " >
+                                                @foreach (var convenience in ViewBag.convenience)
+                                                {
+                                                    <input id="@convenience.id" type="checkbox" name="skill" value="@convenience.id" class="flat" /> 
+                                                    <label for="@convenience.id" class="flat"> @convenience.name</label>
+                                                }
+                                            </p>
+                                               
+                                         
+                                        </div>
+
                                         <div class="field item form-group">
                                             <label class="control-label col-md-3 col-sm-3 label-align">Chính sách hủy</label>
                                             <div class="col-md-6 col-sm-6 ">
@@ -275,6 +160,16 @@
                                                 </select>
                                             </div>
                                         </div>
+
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Vị trí căn hộ</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Căn hộ của bạn nằm ở đâu? vị trí cụ thể. " required="required" />
+                                            </div>
+                                        </div>
+
                                         <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">Hình ảnh</label>
                                             <div class="col-md-6 col-sm-6">
@@ -287,13 +182,67 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Giá tiền</label>
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Giá Phòng</label>
                                             <div class="col-md-6 col-sm-6">
                                                 <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
-                                                       placeholder="Giá tiền thỏa thuận với khách thuê." required="required" />
+                                                       placeholder="Giá Phòng" required="required" />
                                             </div>
                                         </div>
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Tăng giá</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Tăng giá" required="required" />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Phụ phí mỗi người</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Phụ phí mỗi người" required="required" />
+                                            </div>
+                                        </div>
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày tối thiểu</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Ngày tối thiểu" required="required" />
+                                            </div>
+                                        </div>
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày tối đa</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="Ngày tối đa" required="required" />
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">check in time</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="check in time" required="required" />
+                                            </div>
+                                        </div>
+
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">check out time</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                                       placeholder="check out time" required="required" />
+                                            </div>
+                                        </div>
+
+
                                         <div class="ln_solid">
                                             <div class="form-group">
                                                 <div class="col-md-6 offset-md-3">
@@ -310,16 +259,8 @@
 
                     </div>
                 </div><!-- /.docs-toggles -->
-            </div>
+            
             <!-- /page content -->
             <!-- footer content -->
-            <footer>
-                <div class="pull-right">
-                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-                </div>
-                <div class="clearfix"></div>
-            </footer>
-            <!-- /footer content -->
-        </div>
-       </div>
+            
 
