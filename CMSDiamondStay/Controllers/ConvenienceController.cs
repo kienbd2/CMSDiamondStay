@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using System.IO;
 
 namespace CMSDiamondStay.Controllers
 {
@@ -85,6 +88,7 @@ namespace CMSDiamondStay.Controllers
         {
             if (Session["Authent"] != null)
             {
+               
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri("http://35.197.153.19:12345/");

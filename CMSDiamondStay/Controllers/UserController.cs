@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using PagedList;
 using System.Threading.Tasks;
+using System.Web.WebPages;
+using Microsoft.Ajax.Utilities;
 
 namespace CMSDiamondStay.Controllers
 {
@@ -16,7 +18,7 @@ namespace CMSDiamondStay.Controllers
     {
         string Baseurl = "http://35.197.153.19:12345";
         // GET: User
-        public ActionResult Index(int? size, int? page)
+        public ActionResult Index(int? size, int? page, string searchString)
         {
             List<User> students = new List<User>();
             List<SelectListItem> items = new List<SelectListItem>();
@@ -26,10 +28,10 @@ namespace CMSDiamondStay.Controllers
             items.Add(new SelectListItem { Text = "15", Value = "15" });
             items.Add(new SelectListItem { Text = "18", Value = "18" });
             items.Add(new SelectListItem { Text = "30", Value = "30" });
+            ViewBag.CurrentFilter = searchString;
+
             if (Session["Authent"] != null)
             {
-
-
                 using (var client = new HttpClient())
                 {
                     //Passing service base url  
@@ -42,7 +44,11 @@ namespace CMSDiamondStay.Controllers
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     Task task = Task.Run(async () =>
                     {
-                        HttpResponseMessage Res = await client.GetAsync("/admin/users?page=1");
+                        HttpResponseMessage Res = await client.GetAsync($"/admin/users?page=1");
+                        if (!searchString.IsNullOrWhiteSpace())
+                        {
+                             Res = await client.GetAsync($"/admin/users?page=1&key={searchString}");
+                        }
                     if (Res.IsSuccessStatusCode)
                     {
                         //Storing the response details recieved from web api   

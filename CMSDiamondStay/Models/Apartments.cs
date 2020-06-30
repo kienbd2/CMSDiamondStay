@@ -27,13 +27,13 @@ namespace CMSDiamondStay.Models
         public float latitude { get; set; }
         public float longitude { get; set; }
 
-        public string detail_address { get; set; }
-        public string village_address { get; set; }
-        public string district_address { get; set; }
-        public string province_address { get; set; }
+        public string travelfrom { get; set; }
+        //public string detail_address { get; set; }
+        //public string village_address { get; set; }
+        //public string district_address { get; set; }
+        //public string province_address { get; set; }
         public int apartment_type { get; set; }
 
-        public List<string> gallery { get; set; }
         public float price { get; set; }
         public float price_promotion { get; set; }
         public int min_day { get; set; }

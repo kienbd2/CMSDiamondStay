@@ -61,8 +61,8 @@
                                         <i class="fa fa-user">
                                         </i> <i class="fa fa-comments-o"></i>
                                     </button>
-                                    <button type="button" class="btn btn-primary btn-sm">
-                                        <i class="fa fa-user"> </i> View Profile
+                                    <button type="button" class="btn btn-default btn-sm">
+                                       @Html.ActionLink("View Profile", "Edit", "", new { id = item.user_id }, new { @class = "fa fa-user" }) 
                                     </button>
                                 </div>
                             </div>
@@ -75,9 +75,12 @@
                 <div class="col-md-12 col-sm-12  text-center">
                    
                         @Html.PagedListPager(Model ,page => Url.Action("Index",
-                        new { page, size = ViewBag.currentSize, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }
-                        
-                        ))
+                        new { page, size = ViewBag.currentSize, sortOrder = ViewBag.CurrentSort, SearchString = ViewBag.CurrentFilter }),
+                            new PagedListRenderOptions()
+                            {
+                                LiElementClasses = new List<string> { "btn btn-success" }
+                            }
+                        )
                    
                    
 
@@ -90,11 +93,7 @@
 
       
     </div>
-<script>
-    $(document).ready(function () {
-        $("pagination-container pagination li").addClass("btn btn-primary");
-    });
-</script>
+
 
 
 

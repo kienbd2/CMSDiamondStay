@@ -1,4 +1,4 @@
-﻿
+﻿@model CMSDiamondStay.Models.Apartments
 @{
     ViewBag.Title = "CreateApartment";
 }
@@ -22,7 +22,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <form class="" action="" method="post" novalidate>
+                    <form class="" action="" id="data" method="post" enctype="multipart/form-data">
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Tên căn hộ mới</label>
                             <div class="col-md-6 col-sm-6">
@@ -33,7 +33,7 @@
                         <div class="field item form-group">
                             <label class="control-label col-md-3 col-sm-3 label-align">Chọn loại căn hộ</label>
                             <div class="col-md-6 col-sm-6 ">
-                                <select class="form-control" id="apartment_type">
+                                <select class="form-control" id="apartment_type" name="apartment_type">
                                     <option value="mini-apartment">Căn hộ mini</option>
                                     <option value="nor-apartment">Căn hộ thường</option>
                                     <option value="penthouse-apartment">Căn hộ Penthouse</option>
@@ -45,35 +45,42 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Số Lượng Giường</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_bed"
                                        placeholder="Số Lượng Giường (Chiếc)" required="required" id="amount_bed" />
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">Số Lượng Sofa</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_sofa"
+                                       placeholder="Số Lượng Giường (Chiếc)" required="required" id="amount_sofa" />
                             </div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Sức chứa tiêu chuẩn</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="capacity_standard"
                                        placeholder="Số lượng người cùng ở tiêu chuẩn." required="required" id="capacity_standard" />
                             </div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Sức chứa tối đa</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="capacity_max"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="capacity_max" id="capacity_max"
                                        placeholder="Số lượng người cùng ở tối đa." required="required" />
                             </div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Nơi vui chơi giải trí đề xuất</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="relax_suggest" id="relax_suggest"
                                        placeholder="Đề xuất cho khách thuê một vài địa điểm vui choi." required="required" />
                             </div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Hướng dẫn</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="direction_instruction"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="direction_instruction" id="direction_instruction"
                                        placeholder="Hướng đẫn khách sử dụng căn hộ hiệu quả." required="required" />
                             </div>
                         </div>
@@ -81,7 +88,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Ấm thực</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="cuisine_suggest"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="cuisine_suggest" id="cuisine_suggest"
                                        placeholder="Món ngon." required="required" />
                             </div>
                         </div>
@@ -89,21 +96,21 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Quy định căn hộ</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="regulation"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="regulation" id="regulation"
                                        placeholder="Quy tắc chung quản lý căn hộ." required="required" />
                             </div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Số điện thoại liên hệ</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="phone"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="phone" id="phone"
                                        placeholder="Số điện thoại liên hệ với chủ căn hộ." required="required" />
                             </div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Fax</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="fax"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="fax" id="fax"
                                        placeholder="Số Fax" required="required" />
                             </div>
                         </div>
@@ -111,7 +118,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Diện tích (mét vuông)</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="area"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="area" id="area"
                                        placeholder="Diện tích tính bằng (mét vuông)" required="required" />
                             </div>
                         </div>
@@ -119,7 +126,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Số lượng phòng tắm</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="amount_bathroom"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_bathroom" id="amount_bathroom"
                                        placeholder="Có bao nhiêu phòng tắm trong căn hộ của bạn ?" required="required" />
                             </div>
                         </div>
@@ -127,7 +134,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Số lượng phòng ngủ</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="amount_bedroom"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_bedroom" id="amount_bedroom"
                                        placeholder="Có bao nhiêu phòng ngủ trong căn hộ của bạn ?" required="required" />
                             </div>
                         </div>
@@ -135,7 +142,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Tiêu Chuẩn Sao</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="star_standard"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="star_standard" id="star_standard"
                                        placeholder="Tiêu Chuẩn Sao" required="required" />
                             </div>
                         </div>
@@ -147,7 +154,7 @@
                             <p style="padding: 5px;" class="col-md-6 col-sm-6 ">
                                 @foreach (var convenience in ViewBag.convenience)
                                 {
-                                    <input id="@convenience.id" type="checkbox" name="skill" value="@convenience.id" class="flat" />
+                                    <input id="@convenience.id" type="checkbox" name="convenience" value="@convenience.id" class="flat" />
                                     <label for="@convenience.id" class="flat"> @convenience.name</label>
                                 }
                             </p>
@@ -158,7 +165,7 @@
                         <div class="field item form-group">
                             <label class="control-label col-md-3 col-sm-3 label-align">Chính sách hủy</label>
                             <div class="col-md-6 col-sm-6 ">
-                                <select class="form-control" id="cancel_policy">
+                                <select class="form-control" id="cancel_policy" name="cancel_policy">
                                     <option value="0">Thường</option>
                                     <option value="1">Linh Hoạt</option>
                                     <option value="2">Nghiêm Ngặt</option>
@@ -172,7 +179,7 @@
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Vị trí căn hộ</label>
                             <div class="col-md-6 col-sm-6">
                                 <div>
-                                    Travel From : <input id="travelfrom" type="text" name="name" value="Hà Nội, Việt Nam" />
+                                    Travel From : <input id="travelfrom" type="text" name="travelfrom" value="Hà Nội, Việt Nam" />
                                     To : <input id="travelto" type="text" name="name" value="Bắc Ninh, Việt Nam" />
                                     <input type="button" value="Get Route" onclick="GetRoute()" />
 
@@ -196,7 +203,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Hình ảnh</label>
                             <div class="col-md-6 col-sm-6">
-                                <input id="fileupload" type="file" multiple="multiple" />
+                                <input id="fileupload" type="file" name="fileupload" multiple="multiple" />
                                 <hr />
                                 <b>Live Preview</b>
                                 <br />
@@ -209,7 +216,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Giá Phòng</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="price"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="price" id="price"
                                        placeholder="Giá Phòng" required="required" />
                             </div>
                         </div>
@@ -217,7 +224,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Tăng giá</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="price_promotion"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="price_promotion" id="price_promotion"
                                        placeholder="Tăng giá" required="required" />
                             </div>
                         </div>
@@ -226,7 +233,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Phụ phí mỗi người</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="surcharge_per_person"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="surcharge_per_person" id="surcharge_per_person"
                                        placeholder="Phụ phí mỗi người" required="required" />
                             </div>
                         </div>
@@ -234,7 +241,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày tối thiểu</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="min_day"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="min_day" id="min_day"
                                        placeholder="Ngày tối thiểu" required="required" />
                             </div>
                         </div>
@@ -242,7 +249,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày tối đa</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name" id="max_day"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="max_day" id="max_day"
                                        placeholder="Ngày tối đa" required="required" />
                             </div>
                         </div>
@@ -252,7 +259,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">check in time</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="check_in_time" id="check_in_time"
                                        placeholder="check in time" required="required" />
                             </div>
                         </div>
@@ -260,7 +267,7 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">check out time</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="name"
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="check_out_time" id="check_out_time"
                                        placeholder="check out time" required="required" />
                             </div>
                         </div>
@@ -269,7 +276,7 @@
                         <div class="ln_solid">
                             <div class="form-group">
                                 <div class="col-md-6 offset-md-3">
-                                    <button type='submit' class="btn btn-primary" id="btnSave">Submit</button>
+                                    <button type='button' class="btn btn-primary" id="btnSave">Submit</button>
                                     <button type='reset' class="btn btn-success">Reset</button>
                                 </div>
                             </div>
@@ -285,23 +292,118 @@
 @section scripts{
 
 
-
     <script>
+
+
         $(document).ready(function () {
+            var lat, lng;
             //function will be called on button click having id btnsave
             $("#btnSave").click(function () {
-                $.ajax(
-                    {
-                        type: "POST", //HTTP POST Method
-                        url: "Home/Create", // Controller/View
-                        data: { //Passing data
-                            Name: $("#txtName").val(), //Reading text box values using Jquery
-                            City: $("#txtAddress").val(),
-                            Address: $("#txtcity").val()
-                        }
+                var apartment_type = $('#apartment_type option:selected').val();
+                var cancel_policy = $('#cancel_policy option:selected').val();
+                var ckebox_value = $("input[name=convenience]:checked").map(function () {
+                    if ($(this).val() != 0) {
+                        return $(this).val();
+                    }
+                }).get();
 
-                    });
 
+                var files = $("#fileupload").get(0).files;
+                var file_data = new FormData();
+
+                for (var i = 0; i < files.length; i++) {
+                    file_data.append("fileupload", files[i]);
+                }
+
+                var apartment = new Object();
+                apartment.name = $("#name").val(); //Reading text box values using Jquery
+                apartment.amount_bed = $("#amount_bed").val();
+                apartment.amount_sofa = $("#amount_sofa").val();
+                apartment.capacity_standard = $("#capacity_standard").val();
+                apartment.capacity_max = $("#capacity_max").val();
+                apartment.relax_suggest = $("#relax_suggest").val();
+                apartment.direction_instruction = $("#direction_instruction").val();
+                apartment.cuisine_suggest = $("#cuisine_suggest").val();
+                apartment.regulation= $("#regulation").val();
+                apartment.phone = $("#phone").val();
+                apartment.fax = $("#fax").val();
+                apartment.area = $("#area").val();
+                apartment.amount_bathroom = $("#amount_bathroom").val();
+                apartment.amount_bedroom = $("#amount_bedroom").val();
+                apartment.star_standard = $("#star_standard").val();
+                apartment.conveniences = ckebox_value;
+                apartment.cancel_policy = cancel_policy;
+                apartment.latitude = lat;
+                apartment.longitude = lng;
+                apartment.travelfrom = $("#travelfrom").val();
+                apartment.apartment_type = apartment_type;
+                apartment.price = $("#price").val();
+                apartment.price_promotion = $("#price_promotion").val();
+                apartment.min_day = $("#min_day").val();
+                apartment.max_day = $("#max_day").val();
+                apartment.surcharge_per_person = $("#surcharge_per_person").val();
+                apartment.check_in_time = $("#check_in_time").val();
+                apartment.check_out_time = $("#check_in_time").val();
+
+                var form = $('#data')[0];
+                form.append('apartment_type', 4);
+                var dataModel = new FormData(form);
+
+                dataModel.append("convenience", ckebox_value);
+                dataModel.append('apartment_type', 4);
+                dataModel.append('cancel_policy', "1");
+
+                $.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url: "/Home/Create",
+                    data: dataModel,
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    success: function (result, status, xhr) {
+                        alert(result);
+                    },
+                    error: function (xhr, status, error) {
+                        alert(status);
+                    }
+                });
+                //$.ajax({
+                //    type: "POST",
+                //    url: "/Home/Create",
+                //    //dataType: "json",
+                //    contentType: false, // Not to set any content header
+                //    processData: false, // Not to process data
+                //    data: file_data,
+                //    success: function (result, status, xhr) {
+                //        alert(result);
+                //    },
+                //    error: function (xhr, status, error) {
+                //        alert(status);
+                //    }
+                //});
+
+            });
+            google.maps.event.addListener(map, 'click', function (event) {
+                placeMarker(map, event.latLng);
+                lat = event.latLng.lat();
+                lng = event.latLng.lng();
+            });
+        });
+
+        $("form#data").submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    alert(data)
+                },
+                cache: false,
+                contentType: false,
+                processData: false
             });
         });
 
@@ -339,7 +441,7 @@
         };
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyC4M0r4UZrpyrFzwHm7kUiQTaDzR8npPcg" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAWX9wvYc5A0RwrT_pMQfV9uw_YxIela_0" type="text/javascript"></script>
 
     <script>
         var source, destination;

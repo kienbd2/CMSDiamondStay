@@ -1,6 +1,9 @@
-﻿using CMSDiamondStay.Models;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CMSDiamondStay.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -15,8 +18,12 @@ namespace CMSDiamondStay.Controllers
     {
         public ActionResult Index()
         {
-
-            return View();
+            if (Session["Authent"] != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
+           
         }
 
         public ActionResult About()
@@ -43,12 +50,34 @@ namespace CMSDiamondStay.Controllers
         }
 
         [HttpPost]
-        public JsonResult Create( Apartments apartments)
+        public ActionResult Create(Apartments apartments)
         {
+            HttpFileCollectionBase files = Request.Files;
+            for (int i = 0; i < files.Count; i++)
+            {
+                HttpPostedFileBase file = files[i];
+                Account account = new Account("dev2020", "247996535991499", "9jI_5YjJaseBKUrY929sUtt0Fy0");
+                //MemoryStream ms = new MemoryStream();
+                //ms = new MemoryStream(file.fi)
+
+                string pic = Path.GetFileName(file.FileName);
+                string path = Path.Combine(Server.MapPath("Images"), Path.GetFileName(file.FileName));
+
+
+                Cloudinary cloudinary = new Cloudinary(account);
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(path, file.InputStream),
+                };
+                var uploadResult = cloudinary.Upload(uploadParams);
+                var ruta = uploadResult.SecureUrl.ToString();
+
+            }
             if (ModelState.IsValid)
             {
                 if (Session["Authent"] != null)
                 {
+                  
                     using (var client = new HttpClient())
                     {
                         client.BaseAddress = new Uri("http://35.197.153.19:12345/");
