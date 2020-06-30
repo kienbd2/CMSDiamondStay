@@ -34,12 +34,20 @@
                             <label class="control-label col-md-3 col-sm-3 label-align">Chọn loại căn hộ</label>
                             <div class="col-md-6 col-sm-6 ">
                                 <select class="form-control" id="apartment_type" name="apartment_type">
-                                    <option value="mini-apartment">Căn hộ mini</option>
-                                    <option value="nor-apartment">Căn hộ thường</option>
-                                    <option value="penthouse-apartment">Căn hộ Penthouse</option>
-                                    <option value="duplex-apartment">Căn hộ Duplex</option>
-                                    <option value="villa">Villa</option>
+                                    <option value="1">Biệt thự</option>
+                                    <option value="2">Studio</option>
+                                    <option value="3">Chung cư</option>
+                                    <option value="4">Nhà riêng</option>
+                                    <option value="5">Home stay</option>
+                                    <option value="6">Khách sạn</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">Mô tả</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="description" id="description"
+                                       placeholder="Mô tả căn hộ của bạn" required="required" />
                             </div>
                         </div>
                         <div class="field item form-group">
@@ -154,7 +162,7 @@
                             <p style="padding: 5px;" class="col-md-6 col-sm-6 ">
                                 @foreach (var convenience in ViewBag.convenience)
                                 {
-                                    <input id="@convenience.id" type="checkbox" name="convenience" value="@convenience.id" class="flat" />
+                                    <input id="@convenience.id" type="checkbox" name="conveniences" value="@convenience.id" class="flat" />
                                     <label for="@convenience.id" class="flat"> @convenience.name</label>
                                 }
                             </p>
@@ -297,61 +305,33 @@
 
         $(document).ready(function () {
             var lat, lng;
+            var apartment_type = $('#apartment_type option:selected').val(); 
+            var cancel_policy = $('#cancel_policy option:selected').val();
+            var ckebox_value = $("input[name=conveniences]:checked").map(function () {
+                if ($(this).val() != 0) {
+                    return $(this).val();
+                }
+            }).get();
             //function will be called on button click having id btnsave
             $("#btnSave").click(function () {
-                var apartment_type = $('#apartment_type option:selected').val();
-                var cancel_policy = $('#cancel_policy option:selected').val();
-                var ckebox_value = $("input[name=convenience]:checked").map(function () {
-                    if ($(this).val() != 0) {
-                        return $(this).val();
-                    }
-                }).get();
 
+                //var files = $("#fileupload").get(0).files;
+                //var file_data = new FormData();
 
-                var files = $("#fileupload").get(0).files;
-                var file_data = new FormData();
-
-                for (var i = 0; i < files.length; i++) {
-                    file_data.append("fileupload", files[i]);
-                }
-
-                var apartment = new Object();
-                apartment.name = $("#name").val(); //Reading text box values using Jquery
-                apartment.amount_bed = $("#amount_bed").val();
-                apartment.amount_sofa = $("#amount_sofa").val();
-                apartment.capacity_standard = $("#capacity_standard").val();
-                apartment.capacity_max = $("#capacity_max").val();
-                apartment.relax_suggest = $("#relax_suggest").val();
-                apartment.direction_instruction = $("#direction_instruction").val();
-                apartment.cuisine_suggest = $("#cuisine_suggest").val();
-                apartment.regulation= $("#regulation").val();
-                apartment.phone = $("#phone").val();
-                apartment.fax = $("#fax").val();
-                apartment.area = $("#area").val();
-                apartment.amount_bathroom = $("#amount_bathroom").val();
-                apartment.amount_bedroom = $("#amount_bedroom").val();
-                apartment.star_standard = $("#star_standard").val();
-                apartment.conveniences = ckebox_value;
-                apartment.cancel_policy = cancel_policy;
-                apartment.latitude = lat;
-                apartment.longitude = lng;
-                apartment.travelfrom = $("#travelfrom").val();
-                apartment.apartment_type = apartment_type;
-                apartment.price = $("#price").val();
-                apartment.price_promotion = $("#price_promotion").val();
-                apartment.min_day = $("#min_day").val();
-                apartment.max_day = $("#max_day").val();
-                apartment.surcharge_per_person = $("#surcharge_per_person").val();
-                apartment.check_in_time = $("#check_in_time").val();
-                apartment.check_out_time = $("#check_in_time").val();
+                //for (var i = 0; i < files.length; i++) {
+                //    file_data.append("fileupload", files[i]);
+                //}
 
                 var form = $('#data')[0];
-                form.append('apartment_type', 4);
+
+             
                 var dataModel = new FormData(form);
 
-                dataModel.append("convenience", ckebox_value);
-                dataModel.append('apartment_type', 4);
-                dataModel.append('cancel_policy', "1");
+                dataModel.append("conveniences", ckebox_value);
+                dataModel.append("apartment_type", apartment_type);
+                dataModel.append("cancel_policy", cancel_policy);
+                dataModel.append("latitude", lat);
+                dataModel.append("longitude", lng);
 
                 $.ajax({
                     type: "POST",
@@ -390,22 +370,52 @@
             });
         });
 
-        $("form#data").submit(function (e) {
-            e.preventDefault();
-            var formData = new FormData(this);
+        //var apartment = new Object();
+                //apartment.name = $("#name").val(); //Reading text box values using Jquery
+                //apartment.amount_bed = $("#amount_bed").val();
+                //apartment.amount_sofa = $("#amount_sofa").val();
+                //apartment.capacity_standard = $("#capacity_standard").val();
+                //apartment.capacity_max = $("#capacity_max").val();
+                //apartment.relax_suggest = $("#relax_suggest").val();
+                //apartment.direction_instruction = $("#direction_instruction").val();
+                //apartment.cuisine_suggest = $("#cuisine_suggest").val();
+                //apartment.regulation= $("#regulation").val();
+                //apartment.phone = $("#phone").val();
+                //apartment.fax = $("#fax").val();
+                //apartment.area = $("#area").val();
+                //apartment.amount_bathroom = $("#amount_bathroom").val();
+                //apartment.amount_bedroom = $("#amount_bedroom").val();
+                //apartment.star_standard = $("#star_standard").val();
+                //apartment.conveniences = ckebox_value;
+                //apartment.cancel_policy = cancel_policy;
+                //apartment.latitude = lat;
+                //apartment.longitude = lng;
+                //apartment.travelfrom = $("#travelfrom").val();
+                //apartment.apartment_type = apartment_type;
+                //apartment.price = $("#price").val();
+                //apartment.price_promotion = $("#price_promotion").val();
+                //apartment.min_day = $("#min_day").val();
+                //apartment.max_day = $("#max_day").val();
+                //apartment.surcharge_per_person = $("#surcharge_per_person").val();
+                //apartment.check_in_time = $("#check_in_time").val();
+                //apartment.check_out_time = $("#check_in_time").val();
 
-            $.ajax({
-                url: window.location.pathname,
-                type: 'POST',
-                data: formData,
-                success: function (data) {
-                    alert(data)
-                },
-                cache: false,
-                contentType: false,
-                processData: false
-            });
-        });
+        //$("form#data").submit(function (e) {
+        //    e.preventDefault();
+        //    var formData = new FormData(this);
+
+        //    $.ajax({
+        //        url: window.location.pathname,
+        //        type: 'POST',
+        //        data: formData,
+        //        success: function (data) {
+        //            alert(data)
+        //        },
+        //        cache: false,
+        //        contentType: false,
+        //        processData: false
+        //    });
+        //});
 
     </script>
     <script type="text/javascript">

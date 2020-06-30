@@ -5,7 +5,7 @@ using System.Web;
 
 namespace CMSDiamondStay.Models
 {
-    public class Apartments
+    public class ApartmentsViewModel
     {
         public string name { get; set; }
         public int amount_bed { get; set; }
@@ -20,19 +20,20 @@ namespace CMSDiamondStay.Models
         public string fax { get; set; }
         public float area { get; set; }
         public int amount_bathroom { get; set; }
-         public int amount_bedroom { get; set; }
+        public int amount_bedroom { get; set; }
         public int star_standard { get; set; }
         public List<int> conveniences { get; set; }
         public int cancel_policy { get; set; }
         public float latitude { get; set; }
         public float longitude { get; set; }
 
-        public string travelfrom { get; set; }
-        //public string detail_address { get; set; }
-        //public string village_address { get; set; }
-        //public string district_address { get; set; }
-        //public string province_address { get; set; }
+        //public string travelfrom { get; set; }
+        public string detail_address { get; set; }
+        public string village_address { get; set; }
+        public string district_address { get; set; }
+        public string province_address { get; set; }
         public int apartment_type { get; set; }
+        public List<string> gallery { get; set; }
 
         public float price { get; set; }
         public float price_promotion { get; set; }
