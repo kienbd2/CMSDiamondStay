@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -115,22 +116,32 @@ namespace CMSDiamondStay.Controllers
                     client.BaseAddress = new Uri("http://35.197.153.19:12345/");
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
                     //HTTP POST
-                    var response = client.PostAsync("manager/apartments", new StringContent(
+                    Task task = Task.Run(async () =>
+                    {
+                        var response = await client.PostAsync("manager/apartments", new StringContent(
        new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/json"));
-
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    var EmpResponse = await response.Content.ReadAsStringAsync();
 
                     //var result = postTask.Result;
-                    if (response.Result.IsSuccessStatusCode)
+                    if (response.IsSuccessStatusCode)
                     {
-                        TempData["message"] = "Create Success";
-                        return RedirectToAction("Index", "Home");
+                            TempData["message"] = "Create Success";
+                            return RedirectToAction("Index", "Home");
                     }
+                    else
+                    {
+                            TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
+                        return RedirectToAction("CreateApartment", "Home");
+                    }
+                    });
+                    task.Wait();
 
                 }
             }
 
-            ModelState.AddModelError("", "Identifiant ou mot de passe invalide");
-            return Json("error-model-wrong");
+            
+            return View();
 
 
         }
