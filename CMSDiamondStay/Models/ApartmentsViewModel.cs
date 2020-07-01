@@ -7,6 +7,7 @@ namespace CMSDiamondStay.Models
 {
     public class ApartmentsViewModel
     {
+        public string id { get; set; }
         public string name { get; set; }
         public int amount_bed { get; set; }
         public int amount_sofa { get; set; }
@@ -33,7 +34,9 @@ namespace CMSDiamondStay.Models
         public string district_address { get; set; }
         public string province_address { get; set; }
         public int apartment_type { get; set; }
+        public string type { get; set; }
         public List<string> gallery { get; set; }
+        public string thumb { get; set; }
 
         public float price { get; set; }
         public float price_promotion { get; set; }

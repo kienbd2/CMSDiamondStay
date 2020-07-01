@@ -187,6 +187,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApartmentController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConvenienceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -5369,6 +5370,9 @@
     <Content Include="Views\User\Index3Async.cshtml" />
     <Content Include="Views\Convenience\Index.cshtml" />
     <Content Include="Views\Convenience\create.cshtml" />
+    <Content Include="Views\Apartment\CreateApartment.cshtml" />
+    <Content Include="Views\Apartment\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutAparment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

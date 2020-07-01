@@ -13,11 +13,13 @@ interface JQueryAutocompleteOptions {
     delimiter?: any;
     zIndex?: number;
     type?: string;
-
+    noCache?: boolean;
     onSearchStart? (query: string): void;
-    onSearchComplete? (query: string): void;
+    onSearchComplete?(query: string): void;
+    tabDisabled?: boolean;
     paramName?: string;
-    transformResult? (response: any, originalQuery: string): AutocompleteSuggestion[];
+    transformResult?(response: any, originalQuery: string): AutocompleteSuggestion[];
+    autoSelectFirst?: boolean;
     appendTo: any;
     dataType: string;
 }

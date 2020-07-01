@@ -1,6 +1,8 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using CMSDiamondStay.Models;
+using Microsoft.Ajax.Utilities;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,31 +17,79 @@ using System.Web.Script.Serialization;
 
 namespace CMSDiamondStay.Controllers
 {
-    public class HomeController : BaseController
+    public class ApartmentController : BaseController
     {
-        public ActionResult Index()
+        string Baseurl = "http://35.197.153.19:12345";
+        public ActionResult Index(int? size, int? page, string searchString)
         {
+            List<ApartmentsViewModel> apartments = new List<ApartmentsViewModel>();
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "6", Value = "6" });
+            items.Add(new SelectListItem { Text = "9", Value = "9" });
+            items.Add(new SelectListItem { Text = "12", Value = "12" });
+            items.Add(new SelectListItem { Text = "15", Value = "15" });
+            items.Add(new SelectListItem { Text = "18", Value = "18" });
+            items.Add(new SelectListItem { Text = "30", Value = "30" });
+            ViewBag.CurrentFilter = searchString;
+
             if (Session["Authent"] != null)
             {
-                return View();
+                using (var client = new HttpClient())
+                {
+                    //Passing service base url  
+                    client.BaseAddress = new Uri(Baseurl);
+
+                    client.DefaultRequestHeaders.Clear();
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                    //Define request data format  
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    Task task = Task.Run(async () =>
+                    {
+                        HttpResponseMessage Res = await client.GetAsync($"/manager/apartments");
+                        //if (!searchString.IsNullOrWhiteSpace())
+                        //{
+                        //    Res = await client.GetAsync($"/admin/users?page=1&key={searchString}");
+                        //}
+                        if (Res.IsSuccessStatusCode)
+                        {
+                            //Storing the response details recieved from web api   
+                            var EmpResponse = Res.Content.ReadAsStringAsync().Result;
+                            JavaScriptSerializer serializer = new JavaScriptSerializer();
+                            var jsonObject = serializer.Deserialize<dynamic>(EmpResponse)["data"]["data"];
+                            foreach (var item in jsonObject)
+                            {
+                                apartments.Add(new ApartmentsViewModel()
+                                {
+                                    id = Convert.ToString(item["id"]),
+                                    name = Convert.ToString(item["name"]),
+                                    price = float.Parse(item["price"]),
+                                    price_promotion = float.Parse(item["price_promotion"]),
+                                    amount_bed =Convert.ToInt32(item["amount_bed"]),
+                                    amount_sofa = Convert.ToInt32(item["amount_sofa"]),
+                                    amount_bedroom = Convert.ToInt32(item["amount_bedroom"]),
+                                    capacity_max = Convert.ToInt32(item["capacity_max"]),
+                                    district_address = Convert.ToString(item["district"]),
+                                    type = Convert.ToString(item["type"]),
+                                    thumb = Convert.ToString(item["province"][0]),
+                                });
+                            }
+
+                        }
+
+                    });
+                    task.Wait();
+                }
+
             }
-            return RedirectToAction("Login", "Account");
-
+            ViewBag.size = items; // ViewBag DropDownList
+            ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
+            page = page ?? 1;
+            int pageSize = (size ?? 6);
+            int pageNumber = (page ?? 1);
+            return View(apartments.ToPagedList(pageNumber, pageSize));
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        // GET: Apartment
         public ActionResult CreateApartment()
         {
             if (Session["Authent"] != null)
@@ -117,33 +167,32 @@ namespace CMSDiamondStay.Controllers
                     client.BaseAddress = new Uri("http://35.197.153.19:12345/");
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
                     //HTTP POST
-                    
-                        var response = await client.PostAsync("manager/apartments", new StringContent(
-       new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/json"));
+
+                    var response = await client.PostAsync("manager/apartments", new StringContent(
+   new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/json"));
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
                     var EmpResponse = await response.Content.ReadAsStringAsync();
 
                     //var result = postTask.Result;
                     if (response.IsSuccessStatusCode)
                     {
-                            TempData["message"] = "Create Success";
-                            return RedirectToAction("Index", "Home");
+                        TempData["message"] = "Create Success";
+                        return RedirectToAction("Index", "Apartment");
                     }
                     else
                     {
-                            TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
+                        TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
                         return RedirectToAction("CreateApartment", "Home");
                     }
-                   
+
 
                 }
             }
 
-            
+
             return View();
 
 
         }
     }
-
 }
