@@ -6,7 +6,18 @@
     Layout = "~/Views/Shared/_LayoutAparment.cshtml";
 
 }
+@if (TempData["message"] != null)
+{
+    if (TempData["message"] as string == "Create Success")
+    {
+        <p class="alert alert-success">@TempData["message"]</p>
+    }
+    else
+    {
+        <p class="alert alert-danger">@TempData["message"]</p>
+    }
 
+}
 <div class="right_col" role="main">
     <div class="">
         <h3 style="text-align: center;">Danh sách căn hộ hiện có</h3>

@@ -182,7 +182,7 @@ namespace CMSDiamondStay.Controllers
                     else
                     {
                         TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
-                        return RedirectToAction("CreateApartment", "Home");
+                        return RedirectToAction("CreateApartment", "Apartment");
                     }
 
 

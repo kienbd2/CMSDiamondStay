@@ -541,7 +541,18 @@
             }
         };
     </script>
+    <script>
+        $(function () {
 
+            setTimeout(function () {
+                if ($(".alert").is(":visible")) {
+                    //you may add animate.css class for fancy fadeout
+                    $(".alert").fadeOut("fast");
+                }
+            }, 2000)
+
+        });
+    </script>
 
     <script>
         var source, destination;
@@ -690,7 +701,7 @@
 
     <script>
 
-                //CKEDITOR.replace("description");
+                    //CKEDITOR.replace("description");
 
     </script>
 }
