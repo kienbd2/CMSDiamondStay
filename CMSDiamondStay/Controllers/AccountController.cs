@@ -14,6 +14,7 @@ using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Collections.Generic;
 
 namespace CMSDiamondStay.Controllers
 {
@@ -90,22 +91,25 @@ namespace CMSDiamondStay.Controllers
                         new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
                
                 
-                
                 var EmpResponse = await response.Content.ReadAsStringAsync();
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
-                var authori = response.Headers.GetValues("Authorization").FirstOrDefault();
-                
+               
+                int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
                 int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
-
+               
+                //var roleUser = serializer.Deserialize<dynamic>(user)["data"]["data"];
                 if (code != 200)
                 {
                     TempData["error"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
                     return RedirectToAction("Login");
                 }
                 //var result = postTask.Result;
-                if (response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode&& status == 1)
                 {
+                    var user = response.Headers.GetValues("role").FirstOrDefault();
+                    var authori = response.Headers.GetValues("Authorization").FirstOrDefault();
                     Session.Add("Authent", authori);
+                    Session.Add("role", Convert.ToInt32(user));
                     return RedirectToAction("Index","Home");
                 }
                 return View();
@@ -186,12 +190,13 @@ namespace CMSDiamondStay.Controllers
                 var EmpResponse = await response.Content.ReadAsStringAsync();
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
-                if(code != 200)
+                int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
+                if (code != 200)
                 {
                     TempData["error"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
                     return RedirectToAction("Login");
                 }
-                if (response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode&&status==1)
                 {
                     return RedirectToAction("Index","Home");
                 }

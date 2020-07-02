@@ -46,11 +46,11 @@ namespace CMSDiamondStay.Controllers
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     Task task = Task.Run(async () =>
                     {
-                        HttpResponseMessage Res = await client.GetAsync($"/manager/apartments");
-                        //if (!searchString.IsNullOrWhiteSpace())
-                        //{
-                        //    Res = await client.GetAsync($"/admin/users?page=1&key={searchString}");
-                        //}
+                        HttpResponseMessage Res = await client.GetAsync($"/manager/apartments/?page=1&limit=30");
+                        if (!searchString.IsNullOrWhiteSpace())
+                        {
+                            Res = await client.GetAsync($"/manager/apartments/?page=1&limit=30&key={searchString}");
+                        }
                         if (Res.IsSuccessStatusCode)
                         {
                             //Storing the response details recieved from web api   
@@ -65,13 +65,15 @@ namespace CMSDiamondStay.Controllers
                                     name = Convert.ToString(item["name"]),
                                     price = float.Parse(item["price"]),
                                     price_promotion = float.Parse(item["price_promotion"]),
-                                    amount_bed =Convert.ToInt32(item["amount_bed"]),
+                                    amount_bed = Convert.ToInt32(item["amount_bed"]),
                                     amount_sofa = Convert.ToInt32(item["amount_sofa"]),
                                     amount_bedroom = Convert.ToInt32(item["amount_bedroom"]),
                                     capacity_max = Convert.ToInt32(item["capacity_max"]),
+                                    village_address = Convert.ToString(item["village"]),
                                     district_address = Convert.ToString(item["district"]),
+                                    province_address = Convert.ToString(item["province"]),
                                     type = Convert.ToString(item["type"]),
-                                    thumb = Convert.ToString(item["province"][0]),
+                                    thumb = Convert.ToString(item["thumb"]),
                                 });
                             }
 
@@ -104,6 +106,11 @@ namespace CMSDiamondStay.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> Create(Apartments apartments)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(apartments);
+            }
+
             var lstImage = new List<string>();
             HttpFileCollectionBase files = Request.Files;
             for (int i = 0; i < files.Count; i++)
@@ -159,39 +166,30 @@ namespace CMSDiamondStay.Controllers
             apartment.description = apartments.description;
             apartment.gallery = lstImage;
 
-            if (Session["Authent"] != null)
+
+
+            using (var client = new HttpClient())
             {
+                client.BaseAddress = new Uri("http://35.197.153.19:12345/");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                //HTTP POST
 
-                using (var client = new HttpClient())
+                var response = await client.PostAsync("manager/apartments", new StringContent(
+new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/json"));
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var EmpResponse = await response.Content.ReadAsStringAsync();
+
+                //var result = postTask.Result;
+                if (response.IsSuccessStatusCode)
                 {
-                    client.BaseAddress = new Uri("http://35.197.153.19:12345/");
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
-                    //HTTP POST
-
-                    var response = await client.PostAsync("manager/apartments", new StringContent(
-   new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/json"));
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    var EmpResponse = await response.Content.ReadAsStringAsync();
-
-                    //var result = postTask.Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        TempData["message"] = "Create Success";
-                        return RedirectToAction("Index", "Apartment");
-                    }
-                    else
-                    {
-                        TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
-                        return RedirectToAction("CreateApartment", "Apartment");
-                    }
-
-
+                    
+                    
+                    TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
+                    return Json(new { mess = TempData["message"], url = Url.Action("Index") });
+                    
                 }
+                return View();
             }
-
-
-            return View();
-
 
         }
     }

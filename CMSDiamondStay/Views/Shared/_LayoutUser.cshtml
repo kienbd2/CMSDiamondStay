@@ -161,32 +161,39 @@
                             <div class="title_left">
                                 <h3>Contacts Design</h3>
                             </div>
-                           
+
 
                             <div class="title_right">
-                                <div class="col-md-5 col-sm-5  form-group pull-right top_search">
-                                    <div class="input-group">
-                                        @using (Html.BeginForm("Index", "User", FormMethod.Get))
-                                        {
-                                            
-                                                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string,null, new {@class= "form-control", @placeholder = "Search for..." })
-                                        <span class="input-group-btn">
-                                            <input type="submit" value="Search" />
-                                        </span>
+                                <div class="col-md-7 col-sm-7  form-group pull-right top_search">
 
-                                            }
-
+                                    @using (Html.BeginForm("Index", "User", FormMethod.Get))
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-7 col-sm-7 ">
+                                                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "form-control", @placeholder = "Search for..." })
+                                            </div>
                                            
-</div>
+                                            <div class="col-md-5 col-sm-5 ">
+                                                <input class="btn btn-primary input-group-btn" type="submit" value="Search" />
+                                            </div>
+                                            
+                                        </div>
+
+
+
+                                    }
+
+
+
                                 </div>
                             </div>
                         </div>
 
                         <div class="clearfix"></div>
 
-                                    @RenderBody()
+                        @RenderBody()
 
-                              
+
 
                     </div>
                 </div>
@@ -201,7 +208,7 @@
                 <!-- /footer content -->
             </div>
         </div>
-      
+
     </div>
     <!-- jQuery -->
     <script src="~/App_Themes/CMS/vendors/jquery/dist/jquery.min.js"></script>

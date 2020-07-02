@@ -65,8 +65,8 @@
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Mô tả</label>
                                 <div class="col-md-6 col-sm-6">
                                     @*@Html.TextAreaFor(m => m.description, new { @class = "form-control", @placeholder = "Mô tả căn hộ của bạn" })*@
-                                    <textarea class="form-control" data-validate-length-range="255" data-validate-words="2" name="description" id="description"
-                                              placeholder="Mô tả căn hộ của bạn" required></textarea>
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="description" id="description"
+                                              placeholder="Mô tả căn hộ của bạn" required/>
                                 </div>
                             </div>
                             <div class="field item form-group">
@@ -108,7 +108,7 @@
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Hướng dẫn</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="direction_instruction" id="direction_instruction"
-                                           placeholder="Hướng đẫn khách sử dụng căn hộ hiệu quả." required="required" />
+                                           placeholder="Hướng dẫn đường đi từ trạm xe bus, hoặc sân bay" required="required" />
                                 </div>
                             </div>
 
@@ -116,7 +116,7 @@
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Ấm thực</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="cuisine_suggest" id="cuisine_suggest"
-                                           placeholder="Món ngon." required="required" />
+                                           placeholder="Đề xuất ẩm thực trong khu vực." required="required" />
                                 </div>
                             </div>
 
@@ -132,13 +132,6 @@
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="phone" id="phone"
                                            placeholder="Số điện thoại liên hệ với chủ căn hộ." required="required" />
-                                </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Fax</label>
-                                <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="fax" id="fax"
-                                           placeholder="Số Fax" required="required" />
                                 </div>
                             </div>
 
@@ -248,10 +241,10 @@
                             </div>
 
                             <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Tăng giá</label>
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Giá khuyến mãi</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="price_promotion" id="price_promotion"
-                                           placeholder="Tăng giá" required="required" />
+                                           placeholder="Giá khuyến mãi" required="required" />
                                 </div>
                             </div>
 
@@ -260,7 +253,7 @@
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Phụ phí mỗi người</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="surcharge_per_person" id="surcharge_per_person"
-                                           placeholder="Phụ phí mỗi người" required="required" />
+                                           placeholder="Phụ phí mỗi người( là phụ phí tăng thêm vượt sứa chứa tiêu chuẩn)" required="required" />
                                 </div>
                             </div>
 
@@ -323,48 +316,48 @@
 
     <script>
         $(document).ready(function () {
+            var lat, lng;
+            google.maps.event.addListener(map, 'click', function (event) {
+                lat = event.latLng.lat();
+                lng = event.latLng.lng();
+            });
             $("#data").validate({
                 rules: {
                     name: "required",
-                    amount_bed: "required",
                     check_in_time: "required",
                     amount_bed: {
-                        rerequired: true,
-                        number: true,
-                        min: 0
+                        required: true,
+                        number:true
+                       
+                        
                     }, amount_sofa: {
-                        rerequired: true,
+                        required: true,
                         number: true,
                         min: 0
                     }
                     , capacity_standard: {
-                        rerequired: true,
+                        required: true,
                         number: true,
                         min: 0
                     }
                     , capacity_max: {
-                        rerequired: true,
+                        required: true,
                         number: true,
-                        max: 5
+                        min: 0
                     },
                     relax_suggest: "required",
                     fileupload: "required",
                     description: {
-                        required: function () {
-                            CKEDITOR.instances.cktext.updateElement();
-                        },
-
+                        required: true,
                         minlength: 200
                     }
                 },
                 messages: {
                     name: "Vui lòng nhập tên phòng",
-                    amount_bed: "Vui lòng nhập tên",
                     check_in_time: "Vui Lòng Nhập thời gian check in",
                     amount_bed: {
                         required: "Vui lòng nhập số giường",
-                        number: "Vui lòng nhập số lượng dưới dạng giá trị số",
-                        min: "Số lượng không được nhỏ hơn 0"
+                       number: "Vui lòng nhập số lượng dưới dạng giá trị số"
                     },
                     amount_sofa: {
                         required: "Vui lòng nhập số sofa",
@@ -390,11 +383,12 @@
                         required: "Vui lòng nhập mô tả",
                         minlength: "Mô tả căn hộ, ít nhất 200 ký tự"
                     },
+                    submitHandler: function (form) {
+                        form.submit();
+                    }
                 }
 
             });
-
-            var lat, lng;
             var apartment_type = $('#apartment_type option:selected').val();
             var cancel_policy = $('#cancel_policy option:selected').val();
             var ckebox_value = $("input[name=conveniences]:checked").map(function () {
@@ -402,36 +396,40 @@
                     return $(this).val();
                 }
             }).get();
-            //function will be called on button click having id btnsave
+            $(document).on('submit', '#data', function (e) {
 
-            $("#btnSave").click(function () {
-                //var files = $("#fileupload").get(0).files;
-                //var file_data = new FormData();
-                //for (var i = 0; i < files.length; i++) {
-                //    file_data.append("fileupload", files[i]);
-                //}
-                var form = $('#data')[0];
+                e.preventDefault();
 
-                var dataModel = new FormData(form);
-                dataModel.append("conveniences", ckebox_value);
-                dataModel.append("apartment_type", apartment_type);
-                dataModel.append("cancel_policy", cancel_policy);
-                dataModel.append("latitude", lat);
-                dataModel.append("longitude", lng);
-                $.ajax({
-                    type: "POST",
-                    enctype: 'multipart/form-data',
-                    url: "/Apartment/Create",
-                    data: dataModel,
-                    contentType: false, // Not to set any content header
-                    processData: false, // Not to process data
-                    success: function (result, status, xhr) {
-                        alert(result);
-                    },
-                    error: function (xhr, status, error) {
-                        alert(status);
-                    }
-                });
+               
+                //function will be called on button click having id btnsave
+
+
+                if ($("#data").valid()) {
+                    var form = $('#data')[0];
+
+                    var dataModel = new FormData(form);
+                    dataModel.append("conveniences", ckebox_value);
+                    dataModel.append("apartment_type", apartment_type);
+                    dataModel.append("cancel_policy", cancel_policy);
+                    dataModel.append("latitude", lat);
+                    dataModel.append("longitude", lng);
+                    $.ajax({
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        url: "/Apartment/Create",
+                        data: dataModel,
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        success: function (response) {
+                            alert(response.mess);
+                            window.location.href = response.url;
+                           
+                        },
+                        error: function (xhr, status, error) {
+                            alert(status);
+                        }
+                    });
+                }
                 //$.ajax({
                 //    type: "POST",
                 //    url: "/Home/Create",
@@ -446,15 +444,15 @@
                 //        alert(status);
                 //    }
                 //});
+
+
+
             });
-            google.maps.event.addListener(map, 'click', function (event) {
-                lat = event.latLng.lat();
-                lng = event.latLng.lng();
-            });
+          
 
 
         });
-
+        
         //var apartment = new Object();
         //apartment.name = $("#name").val(); //Reading text box values using Jquery
         //apartment.amount_bed = $("#amount_bed").val();
@@ -504,9 +502,11 @@
 
     </script>
     <script>
-        $(document).ready(function () {
+       
+       
 
-        });
+          
+        
     </script>
     <script type="text/javascript">
         window.onload = function () {
@@ -541,18 +541,7 @@
             }
         };
     </script>
-    <script>
-        $(function () {
 
-            setTimeout(function () {
-                if ($(".alert").is(":visible")) {
-                    //you may add animate.css class for fancy fadeout
-                    $(".alert").fadeOut("fast");
-                }
-            }, 2000)
-
-        });
-    </script>
 
     <script>
         var source, destination;
@@ -701,7 +690,7 @@
 
     <script>
 
-                    //CKEDITOR.replace("description");
+                //CKEDITOR.replace("description");
 
     </script>
 }

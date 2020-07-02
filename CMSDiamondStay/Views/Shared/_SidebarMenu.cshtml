@@ -55,14 +55,18 @@
                     <li><a href="other_charts.html">Other Charts</a></li>
                 </ul>
             </li>
-            <li>
-                <a><i class="fa fa-user"></i>Quản Lý Người Dùng <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                    <li>@Html.ActionLink("Chủ Khách Sạn", "Index", "User")</li>
-                    <li><a href="profile.html">Người Dùng Cuối</a></li>
-                </ul>
+            @if (Convert.ToInt32(Session["role"]) == 2)
+            {
+                <li>
+                    <a><i class="fa fa-user"></i>Quản Lý Người Dùng <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li>@Html.ActionLink("Chủ Khách Sạn", "Index", "User")</li>
+                        <li><a href="profile.html">Người Dùng Cuối</a></li>
+                    </ul>
 
-            </li>
+                </li>
+            }
+
         </ul>
     </div>
     <div class="menu_section">

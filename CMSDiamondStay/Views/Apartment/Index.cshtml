@@ -12,75 +12,127 @@
     {
         <p class="alert alert-success">@TempData["message"]</p>
     }
-    else
-    {
-        <p class="alert alert-danger">@TempData["message"]</p>
-    }
-
 }
-<div class="right_col" role="main">
-    <div class="">
-        <h3 style="text-align: center;">Danh sách căn hộ hiện có</h3>
-        <div class="clearfix"></div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12 ">
-                <div class="x_panel">
-                    <div class="x_content">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="card-box table-responsive">
+<div class="right_col">
+    <div class="x_panel">
+        <div class="x_content">
 
 
-                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Tên căn hộ</th>
-                                                <th>Loại căn hộ</th>
-                                                <th>Ghế Sofa</th>
-                                                <th>Phòng ngủ</th>
-                                                <th>Giá tiền</th>
-                                                <th>Địa chỉ</th>
-                                                <th> Image</th>
-                                                <th>Fax</th>
-                                                <th>Action</th>
-                                                <th>Deactive</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in Model)
-                                            {
+
+            <div class="clearfix"></div>
+            <h3 style="text-align: center;">Danh sách căn hộ hiện có</h3>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 ">
+                    <div class="x_panel">
+                        <div class="x_content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card-box table-responsive">
+
+
+                                        <div class="row">
+                                            <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 text-left">
+                                                @using (Html.BeginForm("Index", "Apartment", FormMethod.Get))
+                                                {
+                                                    <p>
+                                                        Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.size, new { @onchange = "this.form.submit();" })
+                                                    </p>
+                                                }
+                                            </div>
+
+                                            <div class="col-md-10 col-sm-10 col-xs-10 col-sm-10 input-group float-right">
+
+                                                @using (Html.BeginForm("Index", "Apartment", FormMethod.Get))
+                                                {
+
+                                                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "", @placeholder = "Search for..." })
+                                                    <span class="input-group-btn">
+                                                        <input type="submit" value="Search" />
+                                                    </span>
+
+                                                }
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                            <thead>
                                                 <tr>
-                                                    <td>@item.name</td>
-                                                    <td>@item.type</td>
-                                                    <td>@item.amount_sofa</td>
-                                                    <td>@item.amount_bed</td>
-                                                    <td>@item.price</td>
-                                                    <td>@item.village_address+@item.district_address</td>
-                                                    <td>@item.thumb</td>
-                                                    <td>2360</td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
-                                                        <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                                    </td>
-                                                    <td>
-                                                        <label class="switch">
-                                                            <input type="checkbox" checked>
-                                                            <span class="slider round"></span>
-                                                        </label>
-                                                    </td>
+                                                    <th>Tên căn hộ</th>
+                                                    <th>Loại căn hộ</th>
+                                                    <th>Ghế Sofa</th>
+                                                    <th>Phòng ngủ</th>
+                                                    <th>Giá tiền</th>
+                                                    <th>Địa chỉ</th>
+                                                    <th> Image</th>
+                                                   
+                                                    <th>Action</th>
+                                                    <th>Deactive</th>
                                                 </tr>
-                                            }
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td>@item.name</td>
+                                                        <td>@item.type</td>
+                                                        <td>@item.amount_sofa</td>
+                                                        <td>@item.amount_bed</td>
+                                                        <td>@item.price</td>
+                                                        <td>@item.village_address, @item.district_address</td>
+                                                        <td><img src="@item.thumb" alt="Girl in a jacket" width="120" height="130"></td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+                                                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                                        </td>
+                                                        <td>
+                                                            <label class="switch">
+                                                                <input type="checkbox" checked>
+                                                                <span class="slider round"></span>
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                }
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
 
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+
+            <div class="col-md-12 col-sm-12  text-center">
+
+                @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, size = ViewBag.currentSize, sortOrder = ViewBag.CurrentSort, SearchString = ViewBag.CurrentFilter }),
+                    new PagedListRenderOptions()
+                    {
+                        LiElementClasses = new List<string> { "btn btn-success" }
+                    }
+                )
+
+
+
+            </div>
+            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 text-right">
+                Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+            </div>
+
         </div>
     </div>
+
+
+
+
 </div>
