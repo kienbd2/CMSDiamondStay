@@ -5373,6 +5373,8 @@
     <Content Include="Views\Apartment\CreateApartment.cshtml" />
     <Content Include="Views\Apartment\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutAparment.cshtml" />
+    <Content Include="Views\Shared\_PartialLogin.cshtml" />
+    <Content Include="Views\Shared\_top_navigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -69,7 +69,7 @@ namespace CMSDiamondStay.Controllers
 
         //
         // POST: /Account/Login
-     
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model)
@@ -87,16 +87,16 @@ namespace CMSDiamondStay.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 //HTTP POST
-                var response =await  client.PostAsync("users/login", new StringContent(
+                var response = await client.PostAsync("users/login", new StringContent(
                         new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
-               
-                
+
+
                 var EmpResponse = await response.Content.ReadAsStringAsync();
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
-               
+
                 int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
                 int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
-               
+
                 //var roleUser = serializer.Deserialize<dynamic>(user)["data"]["data"];
                 if (code != 200)
                 {
@@ -104,13 +104,13 @@ namespace CMSDiamondStay.Controllers
                     return RedirectToAction("Login");
                 }
                 //var result = postTask.Result;
-                if (response.IsSuccessStatusCode&& status == 1)
+                if (response.IsSuccessStatusCode && status == 1)
                 {
                     var user = response.Headers.GetValues("role").FirstOrDefault();
                     var authori = response.Headers.GetValues("Authorization").FirstOrDefault();
                     Session.Add("Authent", authori);
                     Session.Add("role", Convert.ToInt32(user));
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 return View();
             }
@@ -166,12 +166,12 @@ namespace CMSDiamondStay.Controllers
         //{
         //    return View();
         //}
-        
+
         //
         // POST: /Account/Register
         [HttpPost]
-      
-        public async Task<ActionResult> Register( RegisterViewModel model)
+
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
             using (var client = new HttpClient())
             {
@@ -180,7 +180,7 @@ namespace CMSDiamondStay.Controllers
                 client.DefaultRequestHeaders.Clear();
                 //Define request data format  
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-              
+
 
                 //HTTP POST
                 var response = await client.PostAsync("users", new StringContent(
@@ -196,9 +196,9 @@ namespace CMSDiamondStay.Controllers
                     TempData["error"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
                     return RedirectToAction("Login");
                 }
-                if (response.IsSuccessStatusCode&&status==1)
+                if (response.IsSuccessStatusCode && status == 1)
                 {
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 return View();
             }
@@ -419,12 +419,14 @@ namespace CMSDiamondStay.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            if (Session["Authent"]!=null){
+                Session.Remove("Authent");
+            }
+            Session.Clear();
+            return RedirectToAction("Login", "Account");
         }
 
         //

@@ -30,13 +30,16 @@ namespace CMSDiamondStay
                      "~/App_Themes/CMS/vendors/bootstrap/dist/css/bootstrap.min.css",
                      "~/App_Themes/CMS/vendors/font-awesome/css/font-awesome.min.css",
                     "~/App_Themes/CMS/vendors/nprogress/nprogress.css",
-                    "~/App_Themes/CMS/vendors/iCheck/skins/flat/green.css",
-                    "~/App_Themes/CMS/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css",
-                    "~/App_Themes/CMS/vendors/jqvmap/dist/jqvmap.min.css",
-                    "~/App_Themes/CMS/vendors/bootstrap-daterangepicker/daterangepicker.css",
-                    "~/App_Themes/CMS/build/css/custom.min.css"
+                    "~/App_Themes/CMS/vendors/iCheck/skins/flat/green.css"
 
                      ));
+            bundles.Add(new StyleBundle("~/Index2/css").Include(
+                   "~/App_Themes/CMS/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css",
+                   "~/App_Themes/CMS/vendors/jqvmap/dist/jqvmap.min.css",
+                   "~/App_Themes/CMS/vendors/bootstrap-daterangepicker/daterangepicker.css",
+                   "~/App_Themes/CMS/build/css/custom.min.css"
+
+                    ));
             bundles.Add(new ScriptBundle("~/Index/jquery").Include(
                        "~/App_Themes/CMS/vendors/jquery/dist/jquery.min.js",
                        "~/App_Themes/CMS/vendors/bootstrap/dist/js/bootstrap.bundle.min.js",
