@@ -1,6 +1,7 @@
 ﻿@model CMSDiamondStay.Models.Apartments
 @{
     ViewBag.Title = "CreateApartment";
+
 }
 
 <style type="text/css">
@@ -66,7 +67,7 @@
                                 <div class="col-md-6 col-sm-6">
                                     @*@Html.TextAreaFor(m => m.description, new { @class = "form-control", @placeholder = "Mô tả căn hộ của bạn" })*@
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="description" id="description"
-                                              placeholder="Mô tả căn hộ của bạn" required/>
+                                           placeholder="Mô tả căn hộ của bạn" required />
                                 </div>
                             </div>
                             <div class="field item form-group">
@@ -108,7 +109,7 @@
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Hướng dẫn</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="direction_instruction" id="direction_instruction"
-                                           placeholder="Hướng dẫn đường đi từ trạm xe bus, hoặc sân bay" required="required" />
+                                           placeholder="Hướng dẫn đường đi từ trạm xe bus, hoặc sân bay" />
                                 </div>
                             </div>
 
@@ -116,7 +117,7 @@
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Ấm thực</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="cuisine_suggest" id="cuisine_suggest"
-                                           placeholder="Đề xuất ẩm thực trong khu vực." required="required" />
+                                           placeholder="Đề xuất ẩm thực trong khu vực." />
                                 </div>
                             </div>
 
@@ -309,14 +310,16 @@
 
     </div>
 </div><!-- /.docs-toggles -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 @section scripts{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAWX9wvYc5A0RwrT_pMQfV9uw_YxIela_0" type="text/javascript"></script>
 
     <script>
         $(document).ready(function () {
-            var lat, lng;
+            var lat = 0;
+            var lng = 0;
             google.maps.event.addListener(map, 'click', function (event) {
                 lat = event.latLng.lat();
                 lng = event.latLng.lng();
@@ -327,9 +330,9 @@
                     check_in_time: "required",
                     amount_bed: {
                         required: true,
-                        number:true
-                       
-                        
+                        number: true,
+                        min: 0
+
                     }, amount_sofa: {
                         required: true,
                         number: true,
@@ -350,14 +353,75 @@
                     description: {
                         required: true,
                         minlength: 200
+                    },
+                    regulation: "required",
+                    phone: {
+                        required: true,
+                        number: true,
+                        maxlength: 10
+                    },
+                    area: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    amount_bathroom: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    amount_bedroom: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    star_standard: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    price: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    price_promotion: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    surcharge_per_person: {
+                        required: true,
+                    },
+                    min_day: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    max_day: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    check_out_time: {
+                        required: true,
+                    },
+                    check_in_time: {
+                        required: true,
+                    },
+                    travelfrom: {
+                        required: true,
                     }
+
+
                 },
                 messages: {
                     name: "Vui lòng nhập tên phòng",
                     check_in_time: "Vui Lòng Nhập thời gian check in",
                     amount_bed: {
                         required: "Vui lòng nhập số giường",
-                       number: "Vui lòng nhập số lượng dưới dạng giá trị số"
+                        number: "Vui lòng nhập số lượng dưới dạng giá trị số",
+                        min: "Số lượng không được nhỏ hơn 0"
                     },
                     amount_sofa: {
                         required: "Vui lòng nhập số sofa",
@@ -383,6 +447,65 @@
                         required: "Vui lòng nhập mô tả",
                         minlength: "Mô tả căn hộ, ít nhất 200 ký tự"
                     },
+                    regulation: {
+                        required: "Vui lòng nhập quy định căn hộ"
+                    },
+                    phone: {
+                        required: "Vui lòng nhập số điện thoại",
+                        number: "Vui lòng nhập số phone đúng định dạng"
+                    },
+                    area: {
+                        required: "Vui lòng nhập diện tích phòng",
+                        number: "Vui lòng nhập diện tích phòng đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    amount_bathroom: {
+                        required: "Vui lòng nhập số lượng phòng tắm",
+                        number: "Vui lòng nhập số lượng phòng tắm đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    amount_bedroom: {
+                        required: "Vui lòng nhập số lượng phòng ngủ",
+                        number: "Vui lòng nhập số lượng phòng ngủ đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    star_standard: {
+                        required: "Vui lòng nhập tiêu chuẩn sao",
+                        number: "Vui lòng nhập tiêu chuẩn đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    price: {
+                        required: "Vui lòng nhập giá phòng",
+                        number: "Vui lòng nhập giá phòng đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    price_promotion: {
+                        required: "Vui lòng nhập giá khuyến mại",
+                        number: "Vui lòng nhập giá khuyến mại đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    surcharge_per_person: {
+                        required: "Vui lòng nhập giá khuyến mại",
+                    },
+                    min_day: {
+                        required: "Vui lòng nhập ngày tối thiểu",
+                        number: "Vui lòng nhập ngày tối thiểu đúng định dạng",
+                        min: "Số ngày không nhỏ hơn 0"
+                    },
+                    max_day: {
+                        required: "Vui lòng nhập ngày tối đa",
+                        number: "Vui lòng nhập ngày tối đa đúng định dạng",
+                        min: "Số ngày không nhỏ hơn 0"
+                    },
+                    check_in_time: {
+                        required: "Vui lòng nhập check in time ",
+                    },
+                    check_out_time: {
+                        required: "Vui lòng nhập check out time ",
+                    },
+                    travelfrom: {
+                        required: "Vui lòng nhập vị trí ",
+                    },
                     submitHandler: function (form) {
                         form.submit();
                     }
@@ -399,8 +522,11 @@
             $(document).on('submit', '#data', function (e) {
 
                 e.preventDefault();
+                if (lat == 0 || lng == 0) {
+                    alert("Vui lòng pick bản đồ");
+                }
 
-               
+
                 //function will be called on button click having id btnsave
 
 
@@ -423,10 +549,10 @@
                         success: function (response) {
                             alert(response.mess);
                             window.location.href = response.url;
-                           
+
                         },
-                        error: function (xhr, status, error) {
-                            alert(status);
+                        error: function (response) {
+                            alert(response.mess);
                         }
                     });
                 }
@@ -448,11 +574,11 @@
 
 
             });
-          
+
 
 
         });
-        
+
         //var apartment = new Object();
         //apartment.name = $("#name").val(); //Reading text box values using Jquery
         //apartment.amount_bed = $("#amount_bed").val();
@@ -502,11 +628,11 @@
 
     </script>
     <script>
-       
-       
 
-          
-        
+
+
+
+
     </script>
     <script type="text/javascript">
         window.onload = function () {
@@ -690,7 +816,7 @@
 
     <script>
 
-                //CKEDITOR.replace("description");
+                                        //CKEDITOR.replace("description");
 
     </script>
 }

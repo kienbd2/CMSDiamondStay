@@ -4,34 +4,103 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    @Scripts.Render("~/CreateApartment/css")
+
+    <!-- Bootstrap -->
+    <link href="~/App_Themes/CMS/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/App_Themes/CMS/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="~/App_Themes/CMS/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="~/App_Themes/CMS/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- bootstrap-datetimepicker -->
+    <link href="~/App_Themes/CMS/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <!-- Ion.RangeSlider -->
+    <link href="~/App_Themes/CMS/vendors/normalize-css/normalize.css" rel="stylesheet">
+    <link href="~/App_Themes/CMS/vendors/ion.rangeSlider/css/ion.rangeSlider.css" rel="stylesheet">
+    <link href="~/App_Themes/CMS/vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <!-- Bootstrap Colorpicker -->
+    <link href="~/App_Themes/CMS/vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+    <link href="~/App_Themes/CMS/vendors/cropper/dist/cropper.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="~/App_Themes/CMS/build/css/custom.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="nav-md">
-        @RenderBody()
-    </div>
+        <div class="container body">
+            <div class="main_container">
+                <div class="col-md-3 left_col">
+                    <div class="left_col scroll-view">
+                        <div class="navbar nav_title" style="border: 0;">
+                            <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+                        </div>
 
-    <script src="https:/ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="~/App_Themes/CMS/vendors/validator/multifield.js"></script>
-    <script src="~/App_Themes/CMS/vendors/validator/validator.js"></script>
+                        <div class="clearfix"></div>
+
+
+
+                        <!-- sidebar menu -->
+                        @Html.Partial("_SidebarMenu")
+                        <!-- /sidebar menu -->
+                        <!-- /menu footer buttons -->
+                        @Html.Partial("_Partiallogin")
+                        <!-- /menu footer buttons -->
+                    </div>
+                </div>
+
+                <!-- top navigation -->
+                @Html.Partial("_top_navigation")
+                <!-- /top navigation -->
+                <!-- page content -->
+
+
+                @RenderBody()
+
+
+
+
+                <!-- /page content -->
+                <!-- footer content -->
+                <footer>
+                    <div class="pull-right">
+                        Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </footer>
+                <!-- /footer content -->
+            </div>
+        </div>
+
+    </div>
+    @RenderSection("scripts", required: false)
+    <
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    
 
     <script>
-    var validator = new FormValidator({ "events": ['blur', 'input', 'change'] }, document.forms[0]);
-    
-    document.forms[0].onsubmit = function (e) {
-      var submit = true,
-        validatorResult = validator.checkAll(this);
-      console.log(validatorResult);
-      return !!validatorResult.valid;
-    };
-    document.forms[0].onreset = function (e) {
-      validator.reset();
-    };
-    $('.toggleValidationTooltips').change(function () {
-      validator.settings.alerts = !this.checked;
-      if (this.checked)
-        $('form .alert').remove();
-    }).prop('checked', false);</script>
+        // initialize a validator instance from the "FormValidator" constructor.
+        // A "<form>" element is optionally passed as an argument, but is not a must
+        var validator = new FormValidator({ "events": ['blur', 'input', 'change'] }, document.forms[0]);
+        // on form "submit" event
+        document.forms[0].onsubmit = function (e) {
+            var submit = true,
+                validatorResult = validator.checkAll(this);
+            console.log(validatorResult);
+            return !!validatorResult.valid;
+        };
+        // on form "reset" event
+        document.forms[0].onreset = function (e) {
+            validator.reset();
+        };
+        // stuff related ONLY for this demo page:
+        $('.toggleValidationTooltips').change(function () {
+            validator.settings.alerts = !this.checked;
+            if (this.checked)
+                $('form .alert').remove();
+        }).prop('checked', false);
+    </script>
 
     <!-- jQuery -->
     <script src="~/App_Themes/CMS/vendors/jquery/dist/jquery.min.js"></script>
@@ -61,35 +130,38 @@
     <!-- Custom Theme Scripts -->
     <script src="~/App_Themes/CMS/build/js/custom.min.js"></script>
     <!-- Multiple image preview before upload with FileUpload control using JavaScript -->
-    <script type="text/javascript">window.onload = function () {
-          var fileUpload = document.getElementById("fileupload");
-          fileUpload.onchange = function () {
-              if (typeof (FileReader) != "undefined") {
-                  var dvPreview = document.getElementById("dvPreview");
-                  dvPreview.innerHTML = "";
-                  var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
-                  for (var i = 0; i < fileUpload.files.length; i++) {
-                      var file = fileUpload.files[i];
-                      if (regex.test(file.name.toLowerCase())) {
-                          var reader = new FileReader();
-                          reader.onload = function (e) {
-                              var img = document.createElement("IMG");
-                              img.height = "100";
-                              img.width = "100";
-                              img.src = e.target.result;
-                              dvPreview.appendChild(img);
-                          }
-                          reader.readAsDataURL(file);
-                      } else {
-                          alert(file.name + " is not a valid image file.");
-                          dvPreview.innerHTML = "";
-                          return false;
-                      }
-                  }
-              } else {
-                  alert("This browser does not support HTML5 FileReader.");
-              }
-          }
-      };</script>
+    <script type="text/javascript">
+        window.onload = function () {
+            var fileUpload = document.getElementById("fileupload");
+            fileUpload.onchange = function () {
+                if (typeof (FileReader) != "undefined") {
+                    var dvPreview = document.getElementById("dvPreview");
+                    dvPreview.innerHTML = "";
+                    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                    for (var i = 0; i < fileUpload.files.length; i++) {
+                        var file = fileUpload.files[i];
+                        if (regex.test(file.name.toLowerCase())) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var img = document.createElement("IMG");
+                                img.height = "100";
+                                img.width = "100";
+                                img.src = e.target.result;
+                                dvPreview.appendChild(img);
+                            }
+                            reader.readAsDataURL(file);
+                        } else {
+                            alert(file.name + " is not a valid image file.");
+                            dvPreview.innerHTML = "";
+                            return false;
+                        }
+                    }
+                } else {
+                    alert("This browser does not support HTML5 FileReader.");
+                }
+            }
+        };
+    </script>
+
 </body>
 </html>

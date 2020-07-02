@@ -59,13 +59,17 @@ namespace CMSDiamondStay
                         "~/App_Themes/CMS/vendors/flot-spline/js/jquery.flot.spline.min.js",
                         "~/App_Themes/CMS/vendors/flot.curvedlines/curvedLines.js",
                         "~/App_Themes/CMS/vendors/DateJS/build/date.js",
-                        "~/App_Themes/CMS/vendors/jqvmap/dist/jquery.vmap.js",
-                        "~/App_Themes/CMS/vendors/jqvmap/dist/maps/jquery.vmap.world.js",
-                        "~/App_Themes/CMS/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js",
-                         "~/App_Themes/CMS/vendors/moment/min/moment.min.js",
-                          "~/App_Themes/CMS/vendors/bootstrap-daterangepicker/daterangepicker.js",
-                          "~/App_Themes/CMS/build/js/custom.min.js"
+                        "~/App_Themes/CMS/vendors/jqvmap/dist/jquery.vmap.js"
+                       
                        ));
+            bundles.Add(new ScriptBundle("~/Index2/jquery").Include(
+                     
+                       "~/App_Themes/CMS/vendors/jqvmap/dist/maps/jquery.vmap.world.js",
+                       "~/App_Themes/CMS/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js",
+                        "~/App_Themes/CMS/vendors/moment/min/moment.min.js",
+                         "~/App_Themes/CMS/vendors/bootstrap-daterangepicker/daterangepicker.js",
+                         "~/App_Themes/CMS/build/js/custom.min.js"
+                      ));
 
             bundles.Add(new StyleBundle("~/CreateApartment/css").Include(
                     "~/App_Themes/CMS/vendors/bootstrap/dist/css/bootstrap.min.css",

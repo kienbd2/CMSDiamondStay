@@ -108,7 +108,7 @@ namespace CMSDiamondStay.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(apartments);
+                return Json(new { mess = "Not valid" });
             }
 
             var lstImage = new List<string>();
@@ -188,7 +188,7 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
                     return Json(new { mess = TempData["message"], url = Url.Action("Index") });
                     
                 }
-                return View();
+                return Json(new { mess = TempData["message"] });
             }
 
         }
