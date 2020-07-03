@@ -63,7 +63,7 @@
                             <div class="field item form-group">
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Email</label>
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="email" id="email"
+                                    <input class="form-control" type="email" data-validate-length-range="255" data-validate-words="2" name="email" id="email"
                                            placeholder="Vui lòng nhập Email" required />
                                 </div>
                             </div>
@@ -169,8 +169,13 @@
                             contentType: false, // Not to set any content header
                             processData: false, // Not to process data
                             success: function (response) {
-                                alert(response.mess);
-                                window.location.href = response.url;
+                                if (response.result) {
+                                    alert(response.mess);
+                                    window.location.href = response.url;
+                                }
+                                else {
+                                    alert(response.mess);
+                                }
 
                             },
                             error: function (response) {

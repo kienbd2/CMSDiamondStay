@@ -108,14 +108,14 @@ namespace CMSDiamondStay.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(new { mess = "Not valid" });
+                return Json(new { result = false, mess = "Not valid" });
             }
 
             var lstImage = new List<string>();
             HttpFileCollectionBase files = Request.Files;
             if (files.Count > 5)
             {
-                return Json(new { mess = "Không up lớn hơn 5 ảnh", url = Url.Action("Index", "Apartment") });
+                return Json(new { result = false, mess = "Không up lớn hơn 5 ảnh", url = Url.Action("Index", "Apartment") });
             }
 
             Task task = Task.Run(async () =>
@@ -141,7 +141,7 @@ namespace CMSDiamondStay.Controllers
 
             if (lstImage.Count <= 0)
             {
-                return Json(new { mess = "Chưa up ảnh hoặc up ảnh không thành công", url = Url.Action("Index", "Apartment") });
+                return Json(new { result = false, mess = "Chưa up ảnh hoặc up ảnh không thành công", url = Url.Action("Index", "Apartment") });
             }
 
             var apartment = new ApartmentsViewModel();
@@ -168,7 +168,7 @@ namespace CMSDiamondStay.Controllers
             string[] arrListStr = apartments.travelfrom.Split(',');
             if (arrListStr.Count() < 4)
             {
-                return Json(new { mess = $"Địa chỉ của bạn nhập là {apartments.travelfrom} không đúng định dạng VD: số 50 Cầu Giấy, Dịch Vọng, Cầu Giấy, Hà Nội. Xin vui lòng nhập lại", url = Url.Action("CreateApartment", "Apartment") });
+                return Json(new { result = false, mess = $"Địa chỉ của bạn nhập là {apartments.travelfrom} không đúng định dạng VD: số 50 Cầu Giấy, Dịch Vọng, Cầu Giấy, Hà Nội. Xin vui lòng nhập lại", url = Url.Action("CreateApartment", "Apartment") });
             }
             apartment.detail_address = arrListStr[0];
             apartment.village_address = arrListStr[1];
@@ -203,10 +203,10 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
                 if (response.IsSuccessStatusCode && code == 1)
                 {
                     //TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
-                    return Json(new { mess = serializer.Deserialize<dynamic>(EmpResponse)["message"], url = Url.Action("Index","Apartment") });
+                    return Json(new { result = true, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"], url = Url.Action("Index","Apartment") });
 
                 }
-                return Json(new { mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                return Json(new { result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
             }
 
         }

@@ -15,7 +15,7 @@ namespace CMSDiamondStay.Models
         public DateTime modifiedTime { get; set; }
         public bool first_time { get; set; }
         public int role { get; set; }
-
+        public string password { get; set; }
         public int main_balance { get; set; }
     }
 }

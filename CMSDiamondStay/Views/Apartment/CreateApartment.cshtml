@@ -3,8 +3,8 @@
     ViewBag.Title = "CreateApartment";
 
 }
-
-<style type="text/css">
+    <link href="~/App_Themes/CMS/build/css/custom.css" rel="stylesheet" />
+    <style type="text/css">
     #map {
         width: 100%;
         height: 400px;
@@ -14,7 +14,9 @@
     label.error {
         color: red;
     }
-</style>
+
+    </style>
+  
 @if (TempData["message"] != null)
 {
     if (TempData["message"] as string == "Create Success")
@@ -65,9 +67,7 @@
                             <div class="field item form-group">
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Mô tả</label>
                                 <div class="col-md-6 col-sm-6">
-                                    @*@Html.TextAreaFor(m => m.description, new { @class = "form-control", @placeholder = "Mô tả căn hộ của bạn" })*@
-                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="description" id="description"
-                                           placeholder="Mô tả căn hộ của bạn" required />
+                                    @Html.TextAreaFor(m => m.description, new { @class = "form-control", @id = "descriptionid", @placeholder = "Mô tả căn hộ của bạn" })
                                 </div>
                             </div>
                             <div class="field item form-group">
@@ -172,14 +172,14 @@
 
                             <div class="field item form-group">
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Các tiện ích</label>
-                                <p style="padding: 5px;" class="col-md-6 col-sm-6 ">
+                                <p style="padding: 6px;" class="col-md-6 col-sm-6 auto-apply ">
                                     @foreach (var convenience in ViewBag.convenience)
-                                        {
-                                            <input id="@convenience.id" type="checkbox" name="conveniences" value="@convenience.id" class="flat" />
-                                            <label for="@convenience.id" class="flat"> @convenience.name</label>
-                                        }
-                                    
-                                   
+                                    {
+                                        <input id="@convenience.id" style="width: 35px; height: 25px;" type="checkbox" name="conveniences" value="@convenience.id" class="" />
+                                        <label for="@convenience.id" class="flat"> @convenience.name</label>
+                                    }
+
+
                                 </p>
 
 
@@ -189,7 +189,7 @@
                                 <label class="control-label col-md-3 col-sm-3 label-align">Chính sách hủy</label>
                                 <div class="col-md-6 col-sm-6 ">
                                     <select class="form-control" id="cancel_policy" name="cancel_policy">
-                                        <option value="0" >Thường</option>
+                                        <option value="0">Thường</option>
                                         <option value="1" selected>Linh Hoạt</option>
                                         <option value="2">Nghiêm Ngặt</option>
                                     </select>
@@ -291,7 +291,15 @@
                                            placeholder="check out time" type="time" required="required" />
                                 </div>
                             </div>
-
+                            
+                            <div class=" field item form-group">
+                                <div class="col-md-6 offset-md-3">
+                                    <div id="message"> </div>
+                                    @*<label id="mess" class="col-form-label col-md-3 col-sm-3 "></label>*@
+                                </div>
+                                
+                            </div>
+                            
 
                             <div class="ln_solid">
                                 <div class="form-group">
@@ -320,7 +328,7 @@
         var lat = 0;
         var lng = 0;
         $(document).ready(function () {
-           
+
             google.maps.event.addListener(map, 'click', function (event) {
                 lat = event.latLng.lat();
                 lng = event.latLng.lng();
@@ -381,7 +389,8 @@
                     star_standard: {
                         required: true,
                         number: true,
-                        min: 0
+                        min: 1,
+                        max:5
                     },
                     price: {
                         required: true,
@@ -474,7 +483,8 @@
                     star_standard: {
                         required: "Vui lòng nhập tiêu chuẩn sao",
                         number: "Vui lòng nhập tiêu chuẩn đúng định dạng",
-                        min: "Số lượng không được nhỏ hơn 0"
+                        min: "Số lượng không được nhỏ hơn 1",
+                        max: "Số lượng không lớn hơn 5"
                     },
                     price: {
                         required: "Vui lòng nhập giá phòng",
@@ -526,14 +536,14 @@
                 var diachi = $('#travelfrom').val();
                 var diachiDtail = diachi.split(",");
                 e.preventDefault();
-               
+
                 if (lat == 0 || lng == 0) {
                     alert("Vui lòng pick bản đồ");
                 }
                 else if (diachiDtail.length < 4) {
                     alert("Địa chỉ của bạn nhập là" + diachi + " không đúng định dạng VD: số 50 Cầu Giấy, Dịch Vọng, Cầu Giấy, Hà Nội. Xin vui lòng nhập lại");
                 }
-                else if (fileUpload.files.length>5) {
+                else if (fileUpload.files.length > 5) {
                     alert("Vui lòng không up lớn hơn 5 file");
                 }
                 else {
@@ -542,6 +552,7 @@
 
                     if ($("#data").valid()) {
                         var form = $('#data')[0];
+                        $("#message").addClass("loader");
 
                         var dataModel = new FormData(form);
                         dataModel.append("conveniences", ckebox_value);
@@ -557,8 +568,15 @@
                             contentType: false, // Not to set any content header
                             processData: false, // Not to process data
                             success: function (response) {
-                                alert(response.mess);
-                                window.location.href = response.url;
+                                if (response.result) {
+                                    alert(response.mess);
+                                    window.location.href = response.url;
+                                }
+                                else {
+                                    alert(response.mess);
+                                    $("#message").remove("loader");
+                                }
+
 
                             },
                             error: function (response) {
@@ -567,7 +585,7 @@
                         });
                     }
                 }
-                
+
                 //$.ajax({
                 //    type: "POST",
                 //    url: "/Home/Create",
@@ -834,7 +852,7 @@
 
     <script>
 
-                                        //CKEDITOR.replace("description");
+        CKEDITOR.replace("descriptionid");
 
     </script>
 }

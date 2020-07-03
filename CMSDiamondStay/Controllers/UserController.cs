@@ -97,9 +97,9 @@ namespace CMSDiamondStay.Controllers
             return RedirectToAction("Login", "Account");
         }
         [HttpPost]
-        public async Task<ActionResult> Create(RegisterViewModel model)
+        public async Task<ActionResult> Create(User model)
         {
-            if (Session["Authent"] != null&&Convert.ToInt32(Session["role"]) == 2)
+            if (Session["Authent"] != null && Convert.ToInt32(Session["role"])==2)
             {
                 using (var client = new HttpClient())
                 {
@@ -107,8 +107,10 @@ namespace CMSDiamondStay.Controllers
 
                     client.DefaultRequestHeaders.Clear();
                     //Define request data format  
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    
 
                     //HTTP POST
                     var response = await client.PostAsync("/admin/users/create", new StringContent(
@@ -121,17 +123,17 @@ namespace CMSDiamondStay.Controllers
                     int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
                     if (code != 200)
                     {
-                        return Json(new { mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                        return Json(new {result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"], url = Url.Action("Index", "User") });
                     }
                     if (response.IsSuccessStatusCode && status == 1)
                     {
-                        return Json(new { mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                        return Json(new { result = true, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"], url = Url.Action("Index", "User") });
                     }
 
-                    return View();
+                    return Json(new { result = false, mess = "error create user" });
                 }
             }
-            return RedirectToAction("Login", "Account");
+             return Json(new { mess = "Không đủ quyền", url = Url.Action("Index", "User") });
 
         }
 
