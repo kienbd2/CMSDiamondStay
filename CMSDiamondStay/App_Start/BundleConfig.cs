@@ -28,7 +28,6 @@ namespace CMSDiamondStay
 
             bundles.Add(new StyleBundle("~/Index/css").Include(
                      "~/App_Themes/CMS/vendors/bootstrap/dist/css/bootstrap.min.css",
-                     "~/App_Themes/CMS/vendors/font-awesome/css/font-awesome.min.css",
                     "~/App_Themes/CMS/vendors/nprogress/nprogress.css",
                     "~/App_Themes/CMS/vendors/iCheck/skins/flat/green.css"
 

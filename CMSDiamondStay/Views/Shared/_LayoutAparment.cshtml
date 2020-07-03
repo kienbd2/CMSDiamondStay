@@ -4,8 +4,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-
     <!-- Bootstrap -->
+    <link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <link href="~/App_Themes/CMS/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="~/App_Themes/CMS/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -20,11 +20,10 @@
     <link href="~/App_Themes/CMS/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
     <link href="~/App_Themes/CMS/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="~/App_Themes/CMS/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="~/App_Themes/CMS/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/App_Themes/CMS/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
     <!-- bootstrap-wysiwyg -->
-    <link href="~/App_Themes/CMS/vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="~/App_Themes/CMS/vendors/google-code-prettify/bin/prettify.min.css">
+  
     <!-- Select2 -->
     <link href="~/App_Themes/CMS/vendors/select2/dist/css/select2.min.css" rel="stylesheet">
     <!-- Switchery -->
@@ -33,10 +32,13 @@
     <link href="~/App_Themes/CMS/vendors/starrr/dist/starrr.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="~/App_Themes/CMS/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
+    <link href="~/App_Themes/CMS/vendors/normalize-css/normalize.css" rel="stylesheet">
+    <link href="~/App_Themes/CMS/vendors/ion.rangeSlider/css/ion.rangeSlider.css" rel="stylesheet">
+    <link href="~/App_Themes/CMS/vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="~/App_Themes/CMS/build/css/custom.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="~/App_Themes/CMS/vendors/deactive-switch/deactive-switch.css">
+    <link href="~/App_Themes/CMS/vendors/deactive-switch/deactive-switch.css" rel="stylesheet">
+
 </head>
 <body>
     <div class="nav-md">
@@ -85,7 +87,7 @@
         </div>
 
     </div>
-    @RenderSection("scripts", required: false)
+
     <!-- jQuery -->
     <!-- jQuery -->
     <script src="~/App_Themes/CMS/vendors/jquery/dist/jquery.min.js"></script>
@@ -101,10 +103,16 @@
     <script src="~/App_Themes/CMS/vendors/iCheck/icheck.min.js"></script>
 
     <!-- Datatables -->
-    
+
+
+    <script src="~/App_Themes/CMS/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+
+    <script src="~/App_Themes/CMS/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="~/App_Themes/CMS/vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="~/App_Themes/CMS/vendors/pdfmake/build/vfs_fonts.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="~/App_Themes/CMS/build/js/custom.min.js"></script>
-
+    @RenderSection("scripts", required: false)
 </body>
 </html>

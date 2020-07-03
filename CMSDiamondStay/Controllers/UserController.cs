@@ -11,6 +11,7 @@ using PagedList;
 using System.Threading.Tasks;
 using System.Web.WebPages;
 using Microsoft.Ajax.Utilities;
+using System.Text;
 
 namespace CMSDiamondStay.Controllers
 {
@@ -47,75 +48,8 @@ namespace CMSDiamondStay.Controllers
                         HttpResponseMessage Res = await client.GetAsync($"/admin/users?page=1");
                         if (!searchString.IsNullOrWhiteSpace())
                         {
-                             Res = await client.GetAsync($"/admin/users?page=1&key={searchString}");
+                            Res = await client.GetAsync($"/admin/users?page=1&key={searchString}");
                         }
-                    if (Res.IsSuccessStatusCode)
-                    {
-                        //Storing the response details recieved from web api   
-                        var EmpResponse = Res.Content.ReadAsStringAsync().Result;
-                        JavaScriptSerializer serializer = new JavaScriptSerializer();
-                        var jsonObject = serializer.Deserialize<dynamic>(EmpResponse)["data"]["data"];
-                        foreach (var item in jsonObject)
-                        {
-                            students.Add(new User()
-                            {
-                                user_id = item["user_id"],
-                                first_name = item["first_name"],
-                                last_name = item["last_name"],
-                                email = item["email"],
-                                is_activated = item["is_activated"],
-                                modifiedTime = DateTime.Parse(item["modifiedTime"]),
-                                first_time = item["first_time"],
-                                role = item["role"],
-                                main_balance = item["main_balance"],
-                            });
-                        }
-
-                    }
-
-                    });
-                    task.Wait();
-                }
-
-            }
-            ViewBag.size = items; // ViewBag DropDownList
-            ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
-            page = page ?? 1;
-            int pageSize = (size ?? 6);
-            int pageNumber = (page ?? 1);
-            return View(students.ToPagedList(pageNumber, pageSize));
-        }
-        public ActionResult Index2()
-        {
-            return View();
-        }
-        public async Task<ActionResult> Index3Async(int? size, int? page)
-        {
-            List<User> students = new List<User>();
-            List<SelectListItem> items = new List<SelectListItem>();
-                items.Add(new SelectListItem { Text = "5", Value = "5" });
-                items.Add(new SelectListItem { Text = "10", Value = "10" });
-                items.Add(new SelectListItem { Text = "20", Value = "20" });
-                items.Add(new SelectListItem { Text = "25", Value = "25" });
-                items.Add(new SelectListItem { Text = "50", Value = "50" });
-                items.Add(new SelectListItem { Text = "100", Value = "100" });
-                items.Add(new SelectListItem { Text = "200", Value = "200" });
-            if (Session["Authent"] != null)
-            {
-                
-
-                using (var client = new HttpClient())
-                {
-                    //Passing service base url  
-                    client.BaseAddress = new Uri(Baseurl);
-
-                    client.DefaultRequestHeaders.Clear();
-
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
-                    //Define request data format  
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    
-                        HttpResponseMessage Res = await client.GetAsync("/admin/users?page=1");
                         if (Res.IsSuccessStatusCode)
                         {
                             //Storing the response details recieved from web api   
@@ -139,18 +73,73 @@ namespace CMSDiamondStay.Controllers
                             }
 
                         }
-                   
 
+                    });
+                    task.Wait();
                 }
 
             }
             ViewBag.size = items; // ViewBag DropDownList
             ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
             page = page ?? 1;
-            int pageSize = (size ?? 5);
+            int pageSize = (size ?? 6);
             int pageNumber = (page ?? 1);
             return View(students.ToPagedList(pageNumber, pageSize));
         }
+
+        public ActionResult Create()
+        {
+
+            if (Session["Authent"] != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
+        }
+        [HttpPost]
+        public async Task<ActionResult> Create(RegisterViewModel model)
+        {
+            if (Session["Authent"] != null&&Convert.ToInt32(Session["role"]) == 2)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Baseurl);
+
+                    client.DefaultRequestHeaders.Clear();
+                    //Define request data format  
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                    //HTTP POST
+                    var response = await client.PostAsync("/admin/users/create", new StringContent(
+   new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
+
+                    //HttpResponseMessage Res = await client.GetAsync("/users");
+                    var EmpResponse = await response.Content.ReadAsStringAsync();
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
+                    int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
+                    if (code != 200)
+                    {
+                        return Json(new { mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                    }
+                    if (response.IsSuccessStatusCode && status == 1)
+                    {
+                        return Json(new { mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                    }
+
+                    return View();
+                }
+            }
+            return RedirectToAction("Login", "Account");
+
+        }
+
+        public ActionResult Index2()
+        {
+            return View();
+        }
+
 
         public PartialViewResult GetPagingAsync(int? page)
         {
@@ -202,7 +191,7 @@ namespace CMSDiamondStay.Controllers
 
                 }
 
-            
+
                 int pagenumber = (page ?? 1);
 
                 return PartialView("_PartialViewUser", students.ToPagedList(pagenumber, pageSize));

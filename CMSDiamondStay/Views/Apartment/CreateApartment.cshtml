@@ -173,13 +173,13 @@
                             <div class="field item form-group">
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Các tiện ích</label>
                                 <p style="padding: 5px;" class="col-md-6 col-sm-6 ">
-                                    @*@foreach (var convenience in ViewBag.convenience)
+                                    @foreach (var convenience in ViewBag.convenience)
                                         {
                                             <input id="@convenience.id" type="checkbox" name="conveniences" value="@convenience.id" class="flat" />
                                             <label for="@convenience.id" class="flat"> @convenience.name</label>
-                                        }*@
-                                    <input id="1" type="checkbox" name="conveniences" value="1" class="flat" />
-                                    <label for="1" class="flat"> Hướng biển</label>
+                                        }
+                                    
+                                   
                                 </p>
 
 
@@ -189,8 +189,8 @@
                                 <label class="control-label col-md-3 col-sm-3 label-align">Chính sách hủy</label>
                                 <div class="col-md-6 col-sm-6 ">
                                     <select class="form-control" id="cancel_policy" name="cancel_policy">
-                                        <option value="0">Thường</option>
-                                        <option value="1">Linh Hoạt</option>
+                                        <option value="0" >Thường</option>
+                                        <option value="1" selected>Linh Hoạt</option>
                                         <option value="2">Nghiêm Ngặt</option>
                                     </select>
                                 </div>
@@ -317,9 +317,10 @@
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAWX9wvYc5A0RwrT_pMQfV9uw_YxIela_0" type="text/javascript"></script>
 
     <script>
+        var lat = 0;
+        var lng = 0;
         $(document).ready(function () {
-            var lat = 0;
-            var lng = 0;
+           
             google.maps.event.addListener(map, 'click', function (event) {
                 lat = event.latLng.lat();
                 lng = event.latLng.lng();
@@ -349,7 +350,9 @@
                         min: 0
                     },
                     relax_suggest: "required",
-                    fileupload: "required",
+                    fileupload: {
+                        required: true,
+                    },
                     description: {
                         required: true,
                         minlength: 200
@@ -440,8 +443,7 @@
                     },
                     relax_suggest: "thư giãn đề nghị",
                     fileupload: {
-                        required: "Vui lòng tải file",
-                        max: "Số lượng không được lớn hơn 5"
+                        required: "Vui lòng tải file"
                     },
                     description: {
                         required: "Vui lòng nhập mô tả",
@@ -519,43 +521,53 @@
                     return $(this).val();
                 }
             }).get();
+            var fileUpload = document.getElementById("fileupload");
             $(document).on('submit', '#data', function (e) {
-
+                var diachi = $('#travelfrom').val();
+                var diachiDtail = diachi.split(",");
                 e.preventDefault();
+               
                 if (lat == 0 || lng == 0) {
                     alert("Vui lòng pick bản đồ");
                 }
-
-
-                //function will be called on button click having id btnsave
-
-
-                if ($("#data").valid()) {
-                    var form = $('#data')[0];
-
-                    var dataModel = new FormData(form);
-                    dataModel.append("conveniences", ckebox_value);
-                    dataModel.append("apartment_type", apartment_type);
-                    dataModel.append("cancel_policy", cancel_policy);
-                    dataModel.append("latitude", lat);
-                    dataModel.append("longitude", lng);
-                    $.ajax({
-                        type: "POST",
-                        enctype: 'multipart/form-data',
-                        url: "/Apartment/Create",
-                        data: dataModel,
-                        contentType: false, // Not to set any content header
-                        processData: false, // Not to process data
-                        success: function (response) {
-                            alert(response.mess);
-                            window.location.href = response.url;
-
-                        },
-                        error: function (response) {
-                            alert(response.mess);
-                        }
-                    });
+                else if (diachiDtail.length < 4) {
+                    alert("Địa chỉ của bạn nhập là" + diachi + " không đúng định dạng VD: số 50 Cầu Giấy, Dịch Vọng, Cầu Giấy, Hà Nội. Xin vui lòng nhập lại");
                 }
+                else if (fileUpload.files.length>5) {
+                    alert("Vui lòng không up lớn hơn 5 file");
+                }
+                else {
+                    //function will be called on button click having id btnsave
+
+
+                    if ($("#data").valid()) {
+                        var form = $('#data')[0];
+
+                        var dataModel = new FormData(form);
+                        dataModel.append("conveniences", ckebox_value);
+                        dataModel.append("apartment_type", apartment_type);
+                        dataModel.append("cancel_policy", cancel_policy);
+                        dataModel.append("latitude", lat);
+                        dataModel.append("longitude", lng);
+                        $.ajax({
+                            type: "POST",
+                            enctype: 'multipart/form-data',
+                            url: "/Apartment/Create",
+                            data: dataModel,
+                            contentType: false, // Not to set any content header
+                            processData: false, // Not to process data
+                            success: function (response) {
+                                alert(response.mess);
+                                window.location.href = response.url;
+
+                            },
+                            error: function (response) {
+                                alert(response.mess);
+                            }
+                        });
+                    }
+                }
+                
                 //$.ajax({
                 //    type: "POST",
                 //    url: "/Home/Create",
@@ -655,7 +667,13 @@
                                 dvPreview.appendChild(img);
                             }
                             reader.readAsDataURL(file);
-                        } else {
+                        }
+                        else if (file.size > 2000) {
+                            alert(file.name + " có số lượng size lớn hơn 2000px");
+                            dvPreview.innerHTML = "";
+                            return false;
+                        }
+                        else {
                             alert(file.name + " is not a valid image file.");
                             dvPreview.innerHTML = "";
                             return false;

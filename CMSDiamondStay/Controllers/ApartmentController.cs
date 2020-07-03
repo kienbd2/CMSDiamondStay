@@ -46,7 +46,7 @@ namespace CMSDiamondStay.Controllers
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     Task task = Task.Run(async () =>
                     {
-                        HttpResponseMessage Res = await client.GetAsync($"/manager/apartments/?page=1&limit=30");
+                        HttpResponseMessage Res = await client.GetAsync($"/manager/apartments/?page=1&limit=100");
                         if (!searchString.IsNullOrWhiteSpace())
                         {
                             Res = await client.GetAsync($"/manager/apartments/?page=1&limit=30&key={searchString}");
@@ -113,22 +113,37 @@ namespace CMSDiamondStay.Controllers
 
             var lstImage = new List<string>();
             HttpFileCollectionBase files = Request.Files;
-            for (int i = 0; i < files.Count; i++)
+            if (files.Count > 5)
             {
-                HttpPostedFileBase file = files[i];
-                Account account = new Account("dev2020", "247996535991499", "9jI_5YjJaseBKUrY929sUtt0Fy0");
-
-                string path = Path.Combine(Server.MapPath("Images"), Path.GetFileName(file.FileName));
-
-                Cloudinary cloudinary = new Cloudinary(account);
-                var uploadParams = new ImageUploadParams()
-                {
-                    File = new FileDescription(path, file.InputStream),
-                };
-                var uploadResult = cloudinary.Upload(uploadParams);
-                lstImage.Add(uploadResult.SecureUrl.ToString());
-
+                return Json(new { mess = "Không up lớn hơn 5 ảnh", url = Url.Action("Index", "Apartment") });
             }
+
+            Task task = Task.Run(async () =>
+            {
+                for (int i = 0; i < files.Count; i++)
+                {
+                    HttpPostedFileBase file = files[i];
+                    Account account = new Account("dev2020", "247996535991499", "9jI_5YjJaseBKUrY929sUtt0Fy0");
+
+                    string path = Path.Combine(Server.MapPath("Images"), Path.GetFileName(file.FileName));
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(path, file.InputStream),
+                    };
+                    var uploadResult = await cloudinary.UploadAsync(uploadParams);
+                    lstImage.Add(uploadResult.SecureUrl.ToString());
+                }
+            });
+            task.Wait();
+
+
+
+            if (lstImage.Count <= 0)
+            {
+                return Json(new { mess = "Chưa up ảnh hoặc up ảnh không thành công", url = Url.Action("Index", "Apartment") });
+            }
+
             var apartment = new ApartmentsViewModel();
             apartment.name = apartments.name; //Reading text box values using Jquery
             apartment.amount_bed = apartments.amount_bed;
@@ -151,6 +166,10 @@ namespace CMSDiamondStay.Controllers
             apartment.latitude = apartments.latitude;
             apartment.longitude = apartments.longitude;
             string[] arrListStr = apartments.travelfrom.Split(',');
+            if (arrListStr.Count() < 4)
+            {
+                return Json(new { mess = $"Địa chỉ của bạn nhập là {apartments.travelfrom} không đúng định dạng VD: số 50 Cầu Giấy, Dịch Vọng, Cầu Giấy, Hà Nội. Xin vui lòng nhập lại", url = Url.Action("CreateApartment", "Apartment") });
+            }
             apartment.detail_address = arrListStr[0];
             apartment.village_address = arrListStr[1];
             apartment.district_address = arrListStr[2];
@@ -168,27 +187,26 @@ namespace CMSDiamondStay.Controllers
 
 
 
+
+
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://35.197.153.19:12345/");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
                 //HTTP POST
-
                 var response = await client.PostAsync("manager/apartments", new StringContent(
 new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/json"));
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 var EmpResponse = await response.Content.ReadAsStringAsync();
-
+                int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
                 //var result = postTask.Result;
-                if (response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode && code == 1)
                 {
-                    
-                    
-                    TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
-                    return Json(new { mess = TempData["message"], url = Url.Action("Index") });
-                    
+                    //TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
+                    return Json(new { mess = serializer.Deserialize<dynamic>(EmpResponse)["message"], url = Url.Action("Index","Apartment") });
+
                 }
-                return Json(new { mess = TempData["message"] });
+                return Json(new { mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
             }
 
         }

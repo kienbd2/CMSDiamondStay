@@ -5367,7 +5367,6 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\_PartialViewUser.cshtml" />
     <Content Include="Views\User\Index2.cshtml" />
-    <Content Include="Views\User\Index3Async.cshtml" />
     <Content Include="Views\Convenience\Index.cshtml" />
     <Content Include="Views\Convenience\create.cshtml" />
     <Content Include="Views\Apartment\CreateApartment.cshtml" />
@@ -5375,6 +5374,7 @@
     <Content Include="Views\Shared\_LayoutAparment.cshtml" />
     <Content Include="Views\Shared\_PartialLogin.cshtml" />
     <Content Include="Views\Shared\_top_navigation.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
