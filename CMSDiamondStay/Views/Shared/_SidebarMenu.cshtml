@@ -39,10 +39,17 @@
                 </ul>
             </li>
             <li>
-                <a><i class="fa fa-table"></i> Quản lý dịch vụ <span class="fa fa-chevron-down"></span></a>
+                <a><i class="fa fa-table"></i> Quản Lý Booking<span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li> @Html.ActionLink("Các dịch vụ", "Index", "Convenience") </li>
-                    <li> @Html.ActionLink("Thêm dịch vụ mới", "Create", "Convenience") </li>
+                    <li> @Html.ActionLink("Tất Cả Booking", "Index", "Booking") </li>
+                </ul>
+            </li>
+
+            <li>
+                <a><i class="fa fa-fire"></i> Chi <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="CampaignsList.html">Các chiến dịch</a></li>
+                    <li><a href="AddCampaigns.html">Thêm mới chiến dịch</a></li>
                 </ul>
             </li>
             <li>
@@ -55,6 +62,7 @@
                     <li><a href="other_charts.html">Other Charts</a></li>
                 </ul>
             </li>
+
             @if (Convert.ToInt32(Session["role"]) == 2)
             {
                 <li>

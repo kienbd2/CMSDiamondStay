@@ -104,7 +104,6 @@ namespace CMSDiamondStay.Controllers
                     return RedirectToAction("Login");
                 }
                 //var result = postTask.Result;
-
                 if (response.IsSuccessStatusCode && status == 1)
                 {
                     var user = response.Headers.GetValues("role").FirstOrDefault();

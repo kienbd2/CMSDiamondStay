@@ -9,7 +9,8 @@
         <div class="x_panel">
             <div class="x_content">
                 <div class="col-md-12 col-sm-12  text-center">
-
+                    <div>
+                    </div>
                     <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 text-left">
                         @using (Html.BeginForm("Index", "User", FormMethod.Get))
                         {
@@ -18,9 +19,21 @@
                             </p>
                         }
                     </div>
-                    <div class="col-md-10 col-lg-10 col-xs-10 col-sm-10 text-right">
-                        Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+                    <div class="col-md-3 col-sm-3 col-xs-3 col-sm-3 input-group float-right">
+
+                        @using (Html.BeginForm("Index", "User", FormMethod.Get))
+                        {
+
+                            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "", @placeholder = "Search for..." })
+                            <span class="input-group-btn ">
+                                <input type="submit" value="Search" />
+                            </span>
+
+                        }
+
                     </div>
+
 
                 </div>
 
@@ -62,7 +75,7 @@
                                         </i> <i class="fa fa-comments-o"></i>
                                     </button>
                                     <button type="button" class="btn btn-default btn-sm">
-                                       @Html.ActionLink("View Profile", "Edit", "", new { id = item.user_id }, new { @class = "fa fa-user" }) 
+                                        @Html.ActionLink("View Profile", "Edit", "", new { id = item.user_id }, new { @class = "fa fa-user" })
                                     </button>
                                 </div>
                             </div>
@@ -73,17 +86,20 @@
                 }
 
                 <div class="col-md-12 col-sm-12  text-center">
-                   
-                        @Html.PagedListPager(Model ,page => Url.Action("Index",
-                        new { page, size = ViewBag.currentSize, sortOrder = ViewBag.CurrentSort, SearchString = ViewBag.CurrentFilter }),
-                            new PagedListRenderOptions()
-                            {
-                                LiElementClasses = new List<string> { "btn btn-success" }
-                            }
-                        )
-                   
-                   
 
+                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                    new { page, size = ViewBag.currentSize, sortOrder = ViewBag.CurrentSort, SearchString = ViewBag.CurrentFilter }),
+                        new PagedListRenderOptions()
+                        {
+                            LiElementClasses = new List<string> { "btn btn-success" }
+                        }
+                    )
+
+
+
+                </div>
+                <div class="col-md-10 col-lg-10 col-xs-10 col-sm-10 text-right">
+                    Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
                 </div>
 
             </div>

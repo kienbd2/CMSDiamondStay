@@ -115,8 +115,9 @@
 
     </div>
 </div><!-- /.docs-toggles -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 @section scripts{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAWX9wvYc5A0RwrT_pMQfV9uw_YxIela_0" type="text/javascript"></script>
 
@@ -136,12 +137,12 @@
                     email: "Vui Lòng Nhập email",
                     password: "Vui Lòng Nhập email",
                     confirmpassword: "Vui Lòng Nhập confirm password"
-                    
+
                 }
 
             });
 
-           
+
             var role = $('#role option:selected').val();
             $(document).on('submit', '#UserData', function (e) {
                 var fass = $('#password').val();
@@ -160,7 +161,7 @@
 
                         var dataModel = new FormData(form);
                         dataModel.append("role", role);
-                       
+
                         $.ajax({
                             type: "POST",
                             enctype: 'multipart/form-data',
@@ -206,9 +207,9 @@
 
         });
 
-      </script>
+    </script>
 
-  
+
 }
 
 

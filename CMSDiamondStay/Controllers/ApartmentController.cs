@@ -24,12 +24,12 @@ namespace CMSDiamondStay.Controllers
         {
             List<ApartmentsViewModel> apartments = new List<ApartmentsViewModel>();
             List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem { Text = "6", Value = "6" });
-            items.Add(new SelectListItem { Text = "9", Value = "9" });
-            items.Add(new SelectListItem { Text = "12", Value = "12" });
+            items.Add(new SelectListItem { Text = "10", Value = "10" });
             items.Add(new SelectListItem { Text = "15", Value = "15" });
-            items.Add(new SelectListItem { Text = "18", Value = "18" });
+            items.Add(new SelectListItem { Text = "20", Value = "20" });
+            items.Add(new SelectListItem { Text = "25", Value = "25" });
             items.Add(new SelectListItem { Text = "30", Value = "30" });
+            items.Add(new SelectListItem { Text = "35", Value = "35" });
             ViewBag.CurrentFilter = searchString;
 
             if (Session["Authent"] != null)

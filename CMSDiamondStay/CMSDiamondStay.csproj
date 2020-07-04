@@ -189,6 +189,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApartmentController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\ConvenienceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Apartments.cs" />
     <Compile Include="Models\ApartmentsViewModel.cs" />
+    <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\ConvenienceViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -5375,6 +5377,7 @@
     <Content Include="Views\Shared\_PartialLogin.cshtml" />
     <Content Include="Views\Shared\_top_navigation.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\Booking\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
