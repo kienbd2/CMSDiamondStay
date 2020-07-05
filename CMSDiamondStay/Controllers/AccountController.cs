@@ -96,7 +96,10 @@ namespace CMSDiamondStay.Controllers
 
                 int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
                 int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
-
+             
+                var jsonObject = serializer.Deserialize<dynamic>(EmpResponse)["data"];
+                var userName = jsonObject["last_name"];
+                Session.Add("userName", userName);
                 //var roleUser = serializer.Deserialize<dynamic>(user)["data"]["data"];
                 if (code != 200)
                 {
@@ -232,25 +235,38 @@ namespace CMSDiamondStay.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
-                }
-
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                return View(model);
             }
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+                client.DefaultRequestHeaders.Clear();
+                //Define request data format  
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                //HTTP POST
+                var response = await client.PostAsync("users/reset-password-request", new StringContent(
+                        new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
+
+
+                var EmpResponse = await response.Content.ReadAsStringAsync();
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+                int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
+                
+                //var result = postTask.Result;
+                if (response.IsSuccessStatusCode && status == 1)
+                {
+                    TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
+                    return RedirectToAction("ForgotPassword");
+                }
+                TempData["error"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
+                return View();
+            }
         }
 
         //
