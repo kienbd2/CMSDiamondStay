@@ -83,7 +83,7 @@ namespace CMSDiamondStay.Controllers
             ViewBag.size = items; // ViewBag DropDownList
             ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
             page = page ?? 1;
-            int pageSize = (size ?? 6);
+            int pageSize = (size ?? 10);
             int pageNumber = (page ?? 1);
             return View(bookings.ToPagedList(pageNumber, pageSize));
             

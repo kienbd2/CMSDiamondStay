@@ -5378,6 +5378,8 @@
     <Content Include="Views\Shared\_top_navigation.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\Booking\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutForgetPassWord.cshtml" />
+    <Content Include="Views\User\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -33,7 +33,7 @@ namespace CMSDiamondStay.Controllers
             items.Add(new SelectListItem { Text = "200", Value = "200" });
             if (Session["Authent"] != null)
             {
-               
+
 
                 using (var client = new HttpClient())
                 {
@@ -67,47 +67,62 @@ namespace CMSDiamondStay.Controllers
 
                     }
                 }
-                
-              
+                ViewBag.size = items; // ViewBag DropDownList
+                ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
+                page = page ?? 1;
+                int pageSize = (size ?? 5);
+                int pageNumber = (page ?? 1);
+                return View(students.ToPagedList(pageNumber, pageSize));
+
+
             }
-            ViewBag.size = items; // ViewBag DropDownList
-            ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
-            page = page ?? 1;
-            int pageSize = (size ?? 5);
-            int pageNumber = (page ?? 1);
-            return View(students.ToPagedList(pageNumber, pageSize));
+
+            return RedirectToAction("Login", "Account");
         }
 
 
         public ActionResult create()
         {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult create(ConvenienceViewModel model)
-        {
             if (Session["Authent"] != null)
             {
-               
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri("http://35.197.153.19:12345/");
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
-                    //HTTP POST
-                    var response = client.PostAsync("admin/convenience", new StringContent(
-       new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
-
-                   
-                    //var result = postTask.Result;
-                    if (response.Result.IsSuccessStatusCode)
-                    {
-                        TempData["message"] = "Create Success";
-                        return RedirectToAction("Index", "Convenience");
-                    }
-                    
-                }
+                return View();
             }
-            return View();
+            return RedirectToAction("Login", "Account");
+        }
+        [HttpPost]
+        public async Task<ActionResult> create(ConvenienceViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (Session["Authent"] != null)
+                {
+
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri("http://35.197.153.19:12345/");
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                        //HTTP POST
+
+
+
+                        var response = await client.PostAsync("admin/convenience", new StringContent(
+    new JavaScriptSerializer().Serialize(model), Encoding.UTF8, "application/json"));
+                        JavaScriptSerializer serializer = new JavaScriptSerializer();
+                        var EmpResponse = await response.Content.ReadAsStringAsync();
+                        int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
+                        //var result = postTask.Result;
+                        if (response.IsSuccessStatusCode && code==1)
+                        {
+                            TempData["message"] = "Create Success";
+                            return RedirectToAction("Index", "Convenience");
+                        }
+
+                    }
+                }
+                return RedirectToAction("Login", "Account");
+            }
+            return View(model);
+           
         }
     }
 }

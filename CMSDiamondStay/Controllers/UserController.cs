@@ -21,6 +21,8 @@ namespace CMSDiamondStay.Controllers
         // GET: User
         public ActionResult Index(int? size, int? page, string searchString)
         {
+          
+            
             List<User> students = new List<User>();
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "6", Value = "6" });
@@ -77,14 +79,16 @@ namespace CMSDiamondStay.Controllers
                     });
                     task.Wait();
                 }
+                ViewBag.size = items; // ViewBag DropDownList
+                ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
+                page = page ?? 1;
+                int pageSize = (size ?? 6);
+                int pageNumber = (page ?? 1);
+                return View(students.ToPagedList(pageNumber, pageSize));
 
             }
-            ViewBag.size = items; // ViewBag DropDownList
-            ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
-            page = page ?? 1;
-            int pageSize = (size ?? 6);
-            int pageNumber = (page ?? 1);
-            return View(students.ToPagedList(pageNumber, pageSize));
+            return RedirectToAction("Login", "Account");
+           
         }
 
         public ActionResult Create()
@@ -140,6 +144,47 @@ namespace CMSDiamondStay.Controllers
         public ActionResult Index2()
         {
             return View();
+        }
+
+        public async Task<ActionResult> Detail(string id)
+        {
+            if (Session["Authent"] != null)
+            {
+                var user = new User();
+                using (var client = new HttpClient())
+                {
+                    //Passing service base url  
+                    client.BaseAddress = new Uri(Baseurl);
+
+                    client.DefaultRequestHeaders.Clear();
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                    //Define request data format  
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    
+                        HttpResponseMessage Res = await client.GetAsync($"admin/users/{id}");
+
+                        if (Res.IsSuccessStatusCode)
+                        {
+                            //Storing the response details recieved from web api   
+                            var EmpResponse = Res.Content.ReadAsStringAsync().Result;
+                            JavaScriptSerializer serializer = new JavaScriptSerializer();
+                            var item = serializer.Deserialize<dynamic>(EmpResponse)["data"];
+
+                            user.user_id = item["user_id"];
+                            user.first_name = item["first_name"];
+                            user.last_name = item["last_name"];
+                            user.email = item["email"];
+                            user.is_activated = item["is_activated"];
+                            user.first_time = item["first_time"];
+                            user.role = item["role"];
+                            user.main_balance = item["main_balance"];
+                        return View(user);
+                    }
+                }
+
+            }
+            return RedirectToAction("Login", "Account");
         }
 
 

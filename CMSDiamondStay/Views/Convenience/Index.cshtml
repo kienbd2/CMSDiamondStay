@@ -4,14 +4,15 @@
     ViewBag.Title = "Index";
 }
 
-@if (TempData["message"] != null)
-{
-    <h2 class="alert alert-success">@TempData["error"]</h2>
-}
+
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", "", new { @class = "btn btn-primary" })
 </p>
+@if (TempData["message"] != null)
+{
+    <p class="alert alert-success">@TempData["message"]</p>
+}
 <table class="table">
     <tr>
         <th>
@@ -75,7 +76,7 @@
         });
     </script>
 
-    
+
 
 }
 

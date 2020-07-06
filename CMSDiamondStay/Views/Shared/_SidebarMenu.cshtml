@@ -5,7 +5,7 @@
     </div>
     <div class="profile_info">
         <span>Welcome,</span>
-        <h2>John Doe</h2>
+        <h2>@Session["userName"]</h2>
     </div>
 </div>
 <!-- /menu profile quick info -->
@@ -46,10 +46,10 @@
             </li>
 
             <li>
-                <a><i class="fa fa-fire"></i> Chi <span class="fa fa-chevron-down"></span></a>
+                <a><i class="fa fa-fire"></i> Quản Lý Tiện Ích <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="CampaignsList.html">Các chiến dịch</a></li>
-                    <li><a href="AddCampaigns.html">Thêm mới chiến dịch</a></li>
+                    <li> @Html.ActionLink("Các tiện ích", "Index", "Convenience") </li>
+                    <li> @Html.ActionLink("Thêm mới tiện ích", "Create", "Convenience") </li>
                 </ul>
             </li>
             <li>
