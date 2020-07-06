@@ -186,7 +186,45 @@ namespace CMSDiamondStay.Controllers
             }
             return RedirectToAction("Login", "Account");
         }
+        public async Task<JsonResult> ChangeStatus(string id, int active)
+        {
+            if (Session["Authent"] != null )
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Baseurl);
 
+                    client.DefaultRequestHeaders.Clear();
+                    //Define request data format  
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                    //HTTP POST
+                    var response = await client.PostAsync("admin/users/toggle-active", new StringContent(
+   new JavaScriptSerializer().Serialize(id), Encoding.UTF8, "application/json"));
+
+                    //HttpResponseMessage Res = await client.GetAsync("/users");
+                    var EmpResponse = await response.Content.ReadAsStringAsync();
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
+                    int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
+                    if (code != 200)
+                    {
+                        return Json(new { result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"]});
+                    }
+                    if (response.IsSuccessStatusCode && status == 1)
+                    {
+                        return Json(new { result = true, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                    }
+
+                    return Json(new { result = false, mess = "error create user" });
+                }
+            }
+            return Json(new { result = false, mess = "ko co quyen" });
+
+        }
 
         public PartialViewResult GetPagingAsync(int? page)
         {

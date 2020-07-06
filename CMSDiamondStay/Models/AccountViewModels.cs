@@ -110,6 +110,6 @@ namespace CMSDiamondStay.Models
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
-        public string Email { get; set; }
+        public string email { get; set; }
     }
 }

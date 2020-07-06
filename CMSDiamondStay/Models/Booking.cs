@@ -15,8 +15,8 @@ namespace CMSDiamondStay.Models
         public string apartment_name { get; set; }
         public string apartment_thumb { get; set; }
         public string apartment_type { get; set; }
-        public string check_in { get; set; }
-        public string check_out { get; set; }
+        public DateTime check_in { get; set; }
+        public DateTime check_out { get; set; }
         public int status { get; set; }
         public string amount { get; set; }
     }

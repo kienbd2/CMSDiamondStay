@@ -78,13 +78,14 @@
 
                         @if (Model.is_activated)
                         {
-                            <button class="btn btn-success">  Active</button>
+                            <button class="btn btn-success btn-active" data-id="@Model.user_id">  Active</button>
                         }
                         else
                         {
-                            <button class="btn btn-danger">Not Active</button>
+                            <button class="btn btn-danger btn-active" data-id="@Model.user_id">Not Active</button>
 
                         }
+                        @*<a href="#" class="btn-active" data-id="@Model.user_id">@Html.Raw(Model.is_activated ? "<button class="btn btn-success">  Active</button>" : '<button class="btn btn-danger">Not Active</button>')</a>*@
 
 
 
@@ -201,4 +202,44 @@
         </div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var user = {
+            init: function () {
+                user.registerEvents();
+            },
+            registerEvents: function () {
+                $('.btn-active').off('click').on('click', function (e) {
+                    e.preventDefault();
+                    var btn = $(this);
+                    var id = btn.data('id');
+                    var active;
+                    if (@Model.is_activated== true) {
+                        active = 0;
+                    }
+                    else {
+                        active = 1;
+                    }
+                    $.ajax({
+                        url: "/User/ChangeStatus",
+                        data: { id: id, active: active  },
+                        dataType: "json",
+                        type: "POST",
+                        success: function (response) {
+                            console.log(response);
+                            if (response.status == true) {
+                                btn.text('Kích hoạt');
+                            }
+                            else {
+                                btn.text('Khoá');
+                            }
+                        }
+                    });
+                });
+            }
+        }
+        user.init();
+    });
+</script>
 

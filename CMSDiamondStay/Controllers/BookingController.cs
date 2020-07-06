@@ -66,8 +66,8 @@ namespace CMSDiamondStay.Controllers
                                     apartment_name = Convert.ToString(item["apartment_name"]),
                                     apartment_thumb = Convert.ToString(item["apartment_thumb"]),
                                     apartment_type = Convert.ToString(item["apartment_type"]),
-                                    check_in = Convert.ToString(item["check_in"]),
-                                    check_out = Convert.ToString(item["check_out"]),
+                                    check_in = DateTime.Parse(item["check_in"]),
+                                    check_out = DateTime.Parse(item["check_out"]),
                                     status = Convert.ToInt32(item["status"]),
                                     amount = Convert.ToString(item["amount"]),
                                 });

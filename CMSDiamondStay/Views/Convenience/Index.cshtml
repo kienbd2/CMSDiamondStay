@@ -4,6 +4,19 @@
     ViewBag.Title = "Index";
 }
 
+<div class="row">
+    <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+        @using (Html.BeginForm("Index", "Convenience", FormMethod.Get))
+        {
+            <p>
+                Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.size, new { @onchange = "this.form.submit();" })
+            </p>
+        }
+    </div>
+    <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 text-right">
+        Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+    </div>
+</div>
 
 
 <p>
@@ -43,23 +56,14 @@
 
 </table>
 <br />
-<div class="row">
-    <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
-        @using (Html.BeginForm("Index", "Convenience", FormMethod.Get))
-        {
-            <p>
-                Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.size, new { @onchange = "this.form.submit();" })
-            </p>
-        }
-    </div>
-    <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 text-right">
-        Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
-    </div>
-</div>
 
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, size = ViewBag.currentSize, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    new { page, size = ViewBag.currentSize, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }),
+     new PagedListRenderOptions()
+     {
+         LiElementClasses = new List<string> { "btn btn-success" }
+     })
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
