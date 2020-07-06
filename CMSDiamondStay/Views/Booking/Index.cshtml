@@ -33,7 +33,7 @@
 
                                         <div class="row">
                                             <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 text-left">
-                                                @using (Html.BeginForm("Index", "Apartment", FormMethod.Get))
+                                                @using (Html.BeginForm("Index", "Booking", FormMethod.Get))
                                                 {
                                                     <p>
                                                         Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.size, new { @onchange = "this.form.submit();" })
@@ -43,7 +43,7 @@
 
                                             <div class="col-md-10 col-sm-10 col-xs-10 col-sm-10 input-group float-right">
 
-                                                @using (Html.BeginForm("Index", "Apartment", FormMethod.Get))
+                                                @using (Html.BeginForm("Index", "Booking", FormMethod.Get))
                                                 {
 
                                                     @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "", @placeholder = "Search for..." })
