@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Web.WebPages;
 using Microsoft.Ajax.Utilities;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace CMSDiamondStay.Controllers
 {
@@ -21,8 +22,8 @@ namespace CMSDiamondStay.Controllers
         // GET: User
         public ActionResult Index(int? size, int? page, string searchString)
         {
-          
-            
+
+
             List<User> students = new List<User>();
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "6", Value = "6" });
@@ -88,7 +89,7 @@ namespace CMSDiamondStay.Controllers
 
             }
             return RedirectToAction("Login", "Account");
-           
+
         }
 
         public ActionResult Create()
@@ -103,7 +104,7 @@ namespace CMSDiamondStay.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(User model)
         {
-            if (Session["Authent"] != null && Convert.ToInt32(Session["role"])==2)
+            if (Session["Authent"] != null && Convert.ToInt32(Session["role"]) == 2)
             {
                 using (var client = new HttpClient())
                 {
@@ -114,7 +115,7 @@ namespace CMSDiamondStay.Controllers
 
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    
+
 
                     //HTTP POST
                     var response = await client.PostAsync("/admin/users/create", new StringContent(
@@ -127,7 +128,7 @@ namespace CMSDiamondStay.Controllers
                     int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
                     if (code != 200)
                     {
-                        return Json(new {result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"], url = Url.Action("Index", "User") });
+                        return Json(new { result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"], url = Url.Action("Index", "User") });
                     }
                     if (response.IsSuccessStatusCode && status == 1)
                     {
@@ -137,7 +138,7 @@ namespace CMSDiamondStay.Controllers
                     return Json(new { result = false, mess = "error create user" });
                 }
             }
-             return Json(new { mess = "Không đủ quyền", url = Url.Action("Index", "User") });
+            return Json(new { mess = "Không đủ quyền", url = Url.Action("Index", "User") });
 
         }
 
@@ -161,30 +162,35 @@ namespace CMSDiamondStay.Controllers
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
                     //Define request data format  
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    
-                        HttpResponseMessage Res = await client.GetAsync($"admin/users/{id}");
 
-                        if (Res.IsSuccessStatusCode)
-                        {
-                            //Storing the response details recieved from web api   
-                            var EmpResponse = Res.Content.ReadAsStringAsync().Result;
-                            JavaScriptSerializer serializer = new JavaScriptSerializer();
-                            var item = serializer.Deserialize<dynamic>(EmpResponse)["data"];
+                    HttpResponseMessage Res = await client.GetAsync($"admin/users/{id}");
 
-                            user.user_id = item["user_id"];
-                            user.first_name = item["first_name"];
-                            user.last_name = item["last_name"];
-                            user.email = item["email"];
-                            user.is_activated = item["is_activated"];
-                            user.first_time = item["first_time"];
-                            user.role = item["role"];
-                            user.main_balance = item["main_balance"];
+                    if (Res.IsSuccessStatusCode)
+                    {
+                        //Storing the response details recieved from web api   
+                        var EmpResponse = Res.Content.ReadAsStringAsync().Result;
+                        JavaScriptSerializer serializer = new JavaScriptSerializer();
+                        var item = serializer.Deserialize<dynamic>(EmpResponse)["data"];
+
+                        user.user_id = item["user_id"];
+                        user.first_name = item["first_name"];
+                        user.last_name = item["last_name"];
+                        user.email = item["email"];
+                        user.is_activated = item["is_activated"];
+                        user.first_time = item["first_time"];
+                        user.role = item["role"];
+                        user.main_balance = item["main_balance"];
                         return View(user);
                     }
                 }
 
             }
             return RedirectToAction("Login", "Account");
+        }
+        public class activeUser
+        {
+            public long user_id { get; set; }
+            public bool status_active { get; set; }
         }
         public async Task<JsonResult> ChangeStatus(string id, int active)
         {
@@ -200,10 +206,19 @@ namespace CMSDiamondStay.Controllers
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-
+                    var userActive = new activeUser();
+                    userActive.user_id = long.Parse(id);
+                    if (active == 0)
+                    {
+                        userActive.status_active = false;
+                    }
+                    else
+                    {
+                        userActive.status_active = true;
+                    }
                     //HTTP POST
                     var response = await client.PostAsync("admin/users/toggle-active", new StringContent(
-   new JavaScriptSerializer().Serialize(id), Encoding.UTF8, "application/json"));
+   new JavaScriptSerializer().Serialize(userActive), Encoding.UTF8, "application/json"));
 
                     //HttpResponseMessage Res = await client.GetAsync("/users");
                     var EmpResponse = await response.Content.ReadAsStringAsync();

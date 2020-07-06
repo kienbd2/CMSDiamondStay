@@ -215,7 +215,7 @@
                     var btn = $(this);
                     var id = btn.data('id');
                     var active;
-                    if (@Model.is_activated== true) {
+                    if ("@Model.is_activated.ToString()" == "True") {
                         active = 0;
                     }
                     else {
@@ -227,9 +227,8 @@
                         dataType: "json",
                         type: "POST",
                         success: function (response) {
-                            console.log(response);
-                            if (response.status == true) {
-                                btn.text('Kích hoạt');
+                            if (response.result == true) {
+                                alert(response.mess)
                             }
                             else {
                                 btn.text('Khoá');
