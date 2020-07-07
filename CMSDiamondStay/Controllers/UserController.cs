@@ -231,7 +231,7 @@ namespace CMSDiamondStay.Controllers
                     }
                     if (response.IsSuccessStatusCode && status == 1)
                     {
-                        return Json(new { result = true, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                        return Json(new { result = true , mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
                     }
 
                     return Json(new { result = false, mess = "error create user" });

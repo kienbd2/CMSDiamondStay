@@ -70,34 +70,31 @@
                                     @Html.TextAreaFor(m => m.description, new { @class = "form-control", @id = "descriptionid", @placeholder = "Mô tả căn hộ của bạn" })
                                 </div>
                             </div>
+
                             <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Số Lượng Giường</label>
-                                <div class="col-md-6 col-sm-6">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Số Lượng Giường, Sofa</label>
+                                <div class="col-md-3 col-sm-3">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_bed"
                                            placeholder="Số Lượng Giường (Chiếc)" required id="amount_bed" />
                                 </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Số Lượng Sofa</label>
-                                <div class="col-md-6 col-sm-6">
+                                <div class="col-md-3 col-sm-3">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_sofa"
                                            placeholder="Số Lượng Sofa (Chiếc)" required="required" id="amount_sofa" />
                                 </div>
                             </div>
+
                             <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Sức chứa tiêu chuẩn</label>
-                                <div class="col-md-6 col-sm-6">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Sức chứa tiêu chuẩn, tối đa</label>
+                                <div class="col-md-3 col-sm-3">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="capacity_standard"
                                            placeholder="Số lượng người cùng ở tiêu chuẩn." required="required" id="capacity_standard" />
                                 </div>
-                            </div>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Sức chứa tối đa</label>
-                                <div class="col-md-6 col-sm-6">
+                                <div class="col-md-3 col-sm-3">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="capacity_max" id="capacity_max"
                                            placeholder="Số lượng người cùng ở tối đa." required="required" />
                                 </div>
                             </div>
+                         
                             <div class="field item form-group">
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Nơi vui chơi giải trí đề xuất</label>
                                 <div class="col-md-6 col-sm-6">
@@ -145,20 +142,17 @@
                             </div>
 
                             <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Số lượng phòng tắm</label>
-                                <div class="col-md-6 col-sm-6">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Số lượng phòng tắm, phòng ngủ</label>
+                                <div class="col-md-3 col-sm-3">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_bathroom" id="amount_bathroom"
-                                           placeholder="Có bao nhiêu phòng tắm trong căn hộ của bạn ?" required="required" />
+                                           placeholder="Số lượng phòng tắm trong căn hộ" required="required" />
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_bedroom" id="amount_bedroom"
+                                           placeholder="Số lượng phòng ngủ trong căn hộ" required="required" />
                                 </div>
                             </div>
 
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Số lượng phòng ngủ</label>
-                                <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_bedroom" id="amount_bedroom"
-                                           placeholder="Có bao nhiêu phòng ngủ trong căn hộ của bạn ?" required="required" />
-                                </div>
-                            </div>
 
                             <div class="field item form-group">
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Tiêu Chuẩn Sao</label>
@@ -175,8 +169,8 @@
                                 <p style="padding: 6px;" class="col-md-6 col-sm-6 auto-apply ">
                                     @foreach (var convenience in ViewBag.convenience)
                                     {
-                                        <input id="@convenience.id" style="width: 35px; height: 25px;" type="checkbox" name="conveniences" value="@convenience.id" class="" />
-                                        <label for="@convenience.id" class="flat"> @convenience.name</label>
+                                        <input id="@convenience.id" style="width: 30px; height: 22px;" type="checkbox" name="conveniences" value="@convenience.id" class="" />
+                                        <label for="@convenience.id" class="flat" style="margin-right:14px"> @convenience.name</label>
                                     }
 
 
@@ -259,38 +253,30 @@
                             </div>
 
                             <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày tối thiểu</label>
-                                <div class="col-md-6 col-sm-6">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày tối thiểu, tối đa</label>
+                                <div class="col-md-3 col-sm-3">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="min_day" id="min_day"
                                            placeholder="Ngày tối thiểu" required="required" />
                                 </div>
-                            </div>
-
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày tối đa</label>
-                                <div class="col-md-6 col-sm-6">
+                                <div class="col-md-3 col-sm-3">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="max_day" id="max_day"
                                            placeholder="Ngày tối đa" required="required" />
                                 </div>
                             </div>
 
 
-
                             <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">check in time</label>
-                                <div class="col-md-6 col-sm-6">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">check in time, out time</label>
+                                <div class="col-md-3 col-sm-3">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="check_in_time" id="check_in_time"
                                            placeholder="check in time" type="time" required />
                                 </div>
-                            </div>
-
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">check out time</label>
-                                <div class="col-md-6 col-sm-6">
+                                <div class="col-md-3 col-sm-3">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="check_out_time" id="check_out_time"
                                            placeholder="check out time" type="time" required="required" />
                                 </div>
                             </div>
+
                             
                             <div class=" field item form-group">
                                 <div class="col-md-6 offset-md-3">
@@ -304,8 +290,9 @@
                             <div class="ln_solid">
                                 <div class="form-group">
                                     <div class="col-md-6 offset-md-3">
-                                        <input type='submit' class="btn btn-primary" id="btnSave" value="Submit" />
-                                        <button type='reset' class="btn btn-success">Reset</button>
+                                        <input type='submit' class="btn btn-primary" id="btnSave" value="Đăng phòng" />
+                                        @Html.ActionLink("Quay lại", "Index",null,new { @class= "btn btn-success" })
+                                       
                                     </div>
                                 </div>
                             </div>

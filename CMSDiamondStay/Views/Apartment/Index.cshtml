@@ -31,29 +31,32 @@
                                     <div class="card-box table-responsive">
 
 
-                                        <div class="row">
+                                        <div class="col-sm-12">
                                             <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 text-left">
                                                 @using (Html.BeginForm("Index", "Apartment", FormMethod.Get))
                                                 {
                                                     <p>
-                                                        Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.size, new { @onchange = "this.form.submit();" })
+                                                        Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.size, new { @onchange = "this.form.submit();", @class = "btn btn-primary" })
                                                     </p>
                                                 }
                                             </div>
+                                            <div class="col-md-2 col-sm-2 col-xs-2 col-sm-3 input-group form-inline float-right">
+                                                @Html.ActionLink("Thêm căn hộ mới", "CreateApartment", null, new { @class = "btn btn-success" })
+                                            </div>
 
-                                            <div class="col-md-10 col-sm-10 col-xs-10 col-sm-10 input-group float-right">
+                                            <div class="col-md-3 col-sm-3 col-xs-3 col-sm-3 input-group  form-group float-right">
 
                                                 @using (Html.BeginForm("Index", "Apartment", FormMethod.Get))
                                                 {
 
-                                                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "", @placeholder = "Search for..." })
-                                                    <span class="input-group-btn">
-                                                        <input type="submit" value="Search" />
-                                                    </span>
+                                                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "form-control", @placeholder = "Search for..." })
+
+                                                    <input type="submit" class="btn btn-primary " value="Search" />
 
                                                 }
 
                                             </div>
+
 
                                         </div>
 
@@ -68,7 +71,7 @@
                                                     <th>Giá tiền</th>
                                                     <th>Địa chỉ</th>
                                                     <th> Image</th>
-                                                   
+
                                                     <th>Action</th>
                                                     <th>Deactive</th>
                                                 </tr>
