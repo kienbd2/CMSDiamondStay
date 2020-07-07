@@ -76,6 +76,9 @@
 
                         <!-- start skills -->
 
+
+                        @*<button class="btn btn-active" data-id="@Model.user_id"> @(Model.is_activated ? "Mở2": "Khóa2")</button>*@
+
                         @if (Model.is_activated)
                         {
                             <button class="btn btn-success btn-active" data-id="@Model.user_id"> Mở</button>
@@ -214,25 +217,30 @@
                     e.preventDefault();
                     var btn = $(this);
                     var id = btn.data('id');
-                    var active;
+                    @*var active;
                     if ("@Model.is_activated.ToString()" == "True") {
                         active = 0;
                     }
                     else {
                         active = 1;
-                    }
+                    }*@
                     $.ajax({
                         url: "/User/ChangeStatus",
-                        data: { id: id, active: active  },
+                        data: { id: id  },
                         dataType: "json",
                         type: "POST",
                         success: function (response) {
-                            if (response.result == true) {
+                            if (response.status == true) {
                                 alert(response.mess);
-                                btn.text()
+                                btn.text("Mở");
+                                btn.removeClass("btn btn-danger");
+                                    btn.addClass("btn btn-success");
                             }
                             else {
-                                btn.text('Khoá');
+                                alert(response.mess);
+                                btn.text("Khóa");
+                                btn.removeClass("btn btn-success");
+                                btn.addClass("btn btn-danger");
                             }
                         }
                     });

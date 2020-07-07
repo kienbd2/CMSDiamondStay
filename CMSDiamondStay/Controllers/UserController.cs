@@ -192,9 +192,9 @@ namespace CMSDiamondStay.Controllers
             public long user_id { get; set; }
             public bool status_active { get; set; }
         }
-        public async Task<JsonResult> ChangeStatus(string id, int active)
+        public async Task<JsonResult> ChangeStatus(string id)
         {
-            if (Session["Authent"] != null )
+            if (Session["Authent"] != null)
             {
                 using (var client = new HttpClient())
                 {
@@ -208,30 +208,27 @@ namespace CMSDiamondStay.Controllers
 
                     var userActive = new activeUser();
                     userActive.user_id = long.Parse(id);
-                    if (active == 0)
-                    {
-                        userActive.status_active = false;
-                    }
-                    else
-                    {
-                        userActive.status_active = true;
-                    }
+
+                    HttpResponseMessage Res = await client.GetAsync($"admin/users/{id}");
+                    var EmpResponse2 = Res.Content.ReadAsStringAsync().Result;
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    var item = serializer.Deserialize<dynamic>(EmpResponse2)["data"];
+                    userActive.status_active = !item["is_activated"];
                     //HTTP POST
                     var response = await client.PostAsync("admin/users/toggle-active", new StringContent(
    new JavaScriptSerializer().Serialize(userActive), Encoding.UTF8, "application/json"));
 
                     //HttpResponseMessage Res = await client.GetAsync("/users");
                     var EmpResponse = await response.Content.ReadAsStringAsync();
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
                     int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
                     int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
                     if (code != 200)
                     {
-                        return Json(new { result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"]});
+                        return Json(new { result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
                     }
                     if (response.IsSuccessStatusCode && status == 1)
                     {
-                        return Json(new { result = true , mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                        return Json(new { result = true, status = userActive.status_active, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
                     }
 
                     return Json(new { result = false, mess = "error create user" });

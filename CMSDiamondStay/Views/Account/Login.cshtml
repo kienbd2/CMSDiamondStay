@@ -15,22 +15,22 @@
 }
 <div class="container w3layouts agileits">
 
-    <div class="login w3layouts agileits">
-        <h2>Đăng Nhập</h2>
+    <div class=" ">
+        <h2>Đăng Nhập hệ thống Diamon Stay</h2>
         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "")
 
-            <div>
-                @Html.TextBoxFor(m => m.email, new { @class = "form-control", @placeholder = "Tên đăng nhập" })
+            <div class="w3layouts agileits">
+                @Html.TextBoxFor(m => m.email, new { @placeholder = "Tên đăng nhập" })
                 @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
             </div>
-            @Html.PasswordFor(m => m.password, new { @class = "form-control", @placeholder = "Mật khẩu" })
-            @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
-
-
-
+            
+            <div class="w3layouts login agileits">
+                @Html.PasswordFor(m => m.password, new { @placeholder = "Mật khẩu" })
+                @Html.ValidationMessageFor(m => m.password, "", new { @class = "text-danger" })
+            </div>
 
             <ul class="tick w3layouts agileits">
                 <li>
@@ -44,7 +44,7 @@
                 </form>
             </div>
         }
-        @Html.ActionLink("Quên mật khẩu? Nhấn vào đây","ForgotPassword","Account")
+        @Html.ActionLink("Quên mật khẩu? Nhấn vào đây", "ForgotPassword", "Account")
         <div class="social-icons w3layouts agileits">
             <p>- Đăng nhập cùng -</p>
             <ul>
@@ -53,14 +53,13 @@
             </ul>
         </div>
         <div class="clear"></div>
+
+        @*@Html.Partial("_PartialRegister")*@
+
+
+        <div class="clear"></div>
+        </div>
     </div>
-
-    @Html.Partial("_PartialRegister")
-
-
-    <div class="clear"></div>
-
-</div>
 
 <div class="footer w3layouts agileits">
     <p> &copy; 2020  Member Login Form. All Rights Reserved | Design by <a href="http://w3layouts.com" target="_blank">Diamond Stay Company</a></p>
