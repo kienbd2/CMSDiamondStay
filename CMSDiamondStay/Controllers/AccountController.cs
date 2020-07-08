@@ -97,15 +97,16 @@ namespace CMSDiamondStay.Controllers
                 int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
                 int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
              
-                var jsonObject = serializer.Deserialize<dynamic>(EmpResponse)["data"];
-                var userName = jsonObject["last_name"];
-                Session.Add("userName", userName);
                 //var roleUser = serializer.Deserialize<dynamic>(user)["data"]["data"];
                 if (code != 200)
                 {
                     TempData["error"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
                     return RedirectToAction("Login");
                 }
+
+                var jsonObject = serializer.Deserialize<dynamic>(EmpResponse)["data"];
+                var userName = jsonObject["last_name"];
+                Session.Add("userName", userName);
                 //var result = postTask.Result;
                 if (response.IsSuccessStatusCode && status == 1)
                 {

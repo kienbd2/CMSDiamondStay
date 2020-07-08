@@ -46,18 +46,18 @@
                     <form class="" action="" id="UserData" method="post" enctype="multipart/form-data">
                         <fieldset>
                             <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">First Name</label>
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Họ</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="first_name" id="first_name"
-                                           placeholder="Vui lòng nhập First Name" required />
+                                           placeholder="Vui lòng nhập họ" required />
                                 </div>
                             </div>
 
                             <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Last Name</label>
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Tên</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="last_name" id="last_name"
-                                           placeholder="Vui lòng nhập Last Name" required />
+                                           placeholder="Vui lòng nhập tên" required />
                                 </div>
                             </div>
                             <div class="field item form-group">
@@ -68,17 +68,17 @@
                                 </div>
                             </div>
                             <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Password</label>
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Mật Khẩu</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" type="password" data-validate-length-range="255" data-validate-words="2" name="password" id="password"
-                                           placeholder="Password" required="required" />
+                                           placeholder="Mật khẩu" required="required" />
                                 </div>
                             </div>
                             <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align">Confirm Password</label>
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Xác nhận mật khẩu</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" type="password" data-validate-length-range="255" data-validate-words="2" name="confirmpassword" id="confirmpassword"
-                                           placeholder="Confirm Password" required="required" />
+                                           placeholder="Xác nhận mật khẩu" required="required" />
                                 </div>
                             </div>
 
@@ -96,8 +96,8 @@
                             <div class="ln_solid">
                                 <div class="form-group">
                                     <div class="col-md-6 offset-md-3">
-                                        <input type='submit' class="btn btn-primary" id="btnSave" value="Submit" />
-                                        <button type='reset' class="btn btn-success">Reset</button>
+                                        <input type='submit' class="btn btn-primary" id="btnSave" value="Tạo tài khoản" />
+                                        @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-success" })
                                     </div>
                                 </div>
                             </div>
@@ -130,11 +130,11 @@
                     confirmpassword: "required",
                 },
                 messages: {
-                    first_name: "Vui lòng nhập first name",
-                    last_name: "Vui lòng nhập last name",
-                    email: "Vui Lòng Nhập email",
-                    password: "Vui Lòng Nhập email",
-                    confirmpassword: "Vui Lòng Nhập confirm password"
+                    first_name: "Vui lòng nhập họ",
+                    last_name: "Vui lòng nhập tên",
+                    email: "Vui lòng nhập email",
+                    password: "Vui lòng nhập email",
+                    confirmpassword: "Vui lòng nhập xác nhận mật khẩu"
 
                 }
 

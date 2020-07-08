@@ -72,7 +72,7 @@
                                                     <th> Image</th>
 
                                                     <th>Action</th>
-                                                    <th>Deactive</th>
+                                                    @*<th>Deactive</th>*@
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -89,15 +89,24 @@
                                                     <td>@item.code</td>
                                                     <td><img src="@item.apartment_thumb" alt="Girl in a jacket" width:auto height="130"></td>
                                                     <td>
-                                                        <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
-                                                        <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
+                                                        @if (item.status == 5)
+                                                        {
+                                                            <a href="#" class="btn btn-warning btn-xs"> Chờ xác nhận thanh toán </a>
+                                                            <a href="#" class="btn btn-danger btn-xs"> Đã thanh toán</a>
+                                                            <a href="#" class="btn btn-success btn-xs">Chưa thanh toán</a>
+                                                        }
+                                                        @if (item.status == 3)
+                                                        {
+                                                            <a href="#" class="btn btn-primary btn-xs"> Đã thanh toán </a>
+                                                        }
+
                                                     </td>
-                                                    <td>
+                                                    @*<td>
                                                         <label class="switch">
                                                             <input type="checkbox" checked>
                                                             <span class="slider round"></span>
                                                         </label>
-                                                    </td>
+                                                    </td>*@
                                                 </tr>
                                                 }
 

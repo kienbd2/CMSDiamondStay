@@ -53,40 +53,44 @@ namespace CMSDiamondStay.Controllers
                             //Storing the response details recieved from web api   
                             var EmpResponse = Res.Content.ReadAsStringAsync().Result;
                             JavaScriptSerializer serializer = new JavaScriptSerializer();
-                            var jsonObject = serializer.Deserialize<dynamic>(EmpResponse)["data"]["data"];
-                            foreach (var item in jsonObject)
+                            int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
+                            if (code == 200)
                             {
-                                bookings.Add(new Booking()
+                                var jsonObject = serializer.Deserialize<dynamic>(EmpResponse)["data"]["data"];
+                                foreach (var item in jsonObject)
                                 {
-                                    id = Convert.ToString(item["id"]),
-                                    user_id = Convert.ToString(item["user_id"]),
-                                    user_name = Convert.ToString(item["user_name"]),
-                                    code = Convert.ToString(item["code"]),
-                                    apartment_id = Convert.ToString(item["apartment_id"]),
-                                    apartment_name = Convert.ToString(item["apartment_name"]),
-                                    apartment_thumb = Convert.ToString(item["apartment_thumb"]),
-                                    apartment_type = Convert.ToString(item["apartment_type"]),
-                                    check_in = DateTime.Parse(item["check_in"]),
-                                    check_out = DateTime.Parse(item["check_out"]),
-                                    status = Convert.ToInt32(item["status"]),
-                                    amount = Convert.ToString(item["amount"]),
-                                });
+                                    bookings.Add(new Booking()
+                                    {
+                                        id = Convert.ToString(item["id"]),
+                                        user_id = Convert.ToString(item["user_id"]),
+                                        user_name = Convert.ToString(item["user_name"]),
+                                        code = Convert.ToString(item["code"]),
+                                        apartment_id = Convert.ToString(item["apartment_id"]),
+                                        apartment_name = Convert.ToString(item["apartment_name"]),
+                                        apartment_thumb = Convert.ToString(item["apartment_thumb"]),
+                                        apartment_type = Convert.ToString(item["apartment_type"]),
+                                        check_in = DateTime.Parse(item["check_in"]),
+                                        check_out = DateTime.Parse(item["check_out"]),
+                                        status = Convert.ToInt32(item["status"]),
+                                        amount = Convert.ToString(item["amount"]),
+                                    });
+                                }
                             }
-
                         }
 
                     });
                     task.Wait();
                 }
 
+                ViewBag.size = items; // ViewBag DropDownList
+                ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
+                page = page ?? 1;
+                int pageSize = (size ?? 10);
+                int pageNumber = (page ?? 1);
+                return View(bookings.ToPagedList(pageNumber, pageSize));
             }
-            ViewBag.size = items; // ViewBag DropDownList
-            ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
-            page = page ?? 1;
-            int pageSize = (size ?? 10);
-            int pageNumber = (page ?? 1);
-            return View(bookings.ToPagedList(pageNumber, pageSize));
-            
+            return RedirectToAction("Login", "Account");
+
         }
     }
 }

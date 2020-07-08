@@ -84,7 +84,7 @@ h1 {
 
 .login {
     width: 45%;
-    float: left;
+    margin: 0px auto;
     text-align: left;
     padding-right: 40px;
 }
@@ -107,7 +107,7 @@ h1 {
 
 h2 {
     font-size: 35px;
-    text-align: left;
+    text-align: center;
     color: #FFF;
     font-weight: 100;
     margin-bottom: 20px;
@@ -229,7 +229,7 @@ input[type="text"], input[type="password"] {
 }
 
 .send-button input[type="submit"] {
-    width: 60%;
+    width: 100%;
     padding: 10px 0;
     font-size: 16px;
     font-weight: 100;
@@ -271,13 +271,10 @@ input[type="text"], input[type="password"] {
 
 .register {
     width: 44%;
-    float: left;
-    border-left: 1px solid #DDD;
     padding-left: 40px;
     text-align: left;
+    margin: 0px auto;
 }
-
-
 
 .register p {
     color: #CCC;
@@ -552,6 +549,3 @@ input[type="text"], input[type="password"] {
 
 
 /*--- Responsive Code ---*/
-.ip-forget {
-    margin-top: 30px; font-size: 16px; font-weight: 100; cursor: pointer; border: 1px solid rgba(238, 238, 238, 0.41);
-}
