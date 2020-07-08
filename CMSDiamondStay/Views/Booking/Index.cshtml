@@ -78,36 +78,34 @@
                                             <tbody>
                                                 @foreach (var item in Model)
                                                 {
-                                                <tr>
-                                                    <td>@item.id</td>
-                                                    <td>@item.user_name</td>
-                                                    <td>@item.apartment_name</td>
-                                                    <td>@item.apartment_type</td>
-                                                    <td>@item.check_in.ToString("dd/MM/yyyy")</td>
-                                                    <td>@item.check_out.ToString("dd/MM/yyyy")</td>
-                                                    <td>@item.amount đ</td>
-                                                    <td>@item.code</td>
-                                                    <td><img src="@item.apartment_thumb" alt="Girl in a jacket" width:auto height="130"></td>
-                                                    <td>
-                                                        @if (item.status == 5)
-                                                        {
-                                                            <a href="#" class="btn btn-warning btn-xs"> Chờ xác nhận thanh toán </a>
-                                                            <a href="#" class="btn btn-danger btn-xs"> Đã thanh toán</a>
-                                                            <a href="#" class="btn btn-success btn-xs">Chưa thanh toán</a>
-                                                        }
-                                                        @if (item.status == 3)
-                                                        {
-                                                            <a href="#" class="btn btn-primary btn-xs"> Đã thanh toán </a>
-                                                        }
+                                                    <tr>
+                                                        <td>@item.id</td>
+                                                        <td>@item.user_name</td>
+                                                        <td>@item.apartment_name</td>
+                                                        <td>@item.apartment_type</td>
+                                                        <td>@item.check_in.ToString("dd/MM/yyyy")</td>
+                                                        <td>@item.check_out.ToString("dd/MM/yyyy")</td>
+                                                        <td>@item.amount đ</td>
+                                                        <td>@item.code</td>
+                                                        <td><img src="@item.apartment_thumb" alt="Girl in a jacket" width:auto height="130"></td>
+                                                        <td>
+                                                            @if (item.status == 5)
+                                                            {
+                                                                <a href="#" class="btn btn-warning btn-xs btn-active" data-toggle="modal" data-id="@item.id" data-code="@item.code" data-target="#exampleModalCenter"> Chờ xác nhận thanh toán </a>
+                                                            }
+                                                            @if (item.status == 3)
+                                                            {
+                                                                <a href="#" class="btn btn-primary btn-xs"> Đã thanh toán </a>
+                                                            }
 
-                                                    </td>
-                                                    @*<td>
+                                                        </td>
+                                                        @*<td>
                                                         <label class="switch">
                                                             <input type="checkbox" checked>
                                                             <span class="slider round"></span>
                                                         </label>
                                                     </td>*@
-                                                </tr>
+                                                    </tr>
                                                 }
 
                                             </tbody>
@@ -122,6 +120,23 @@
                 </div>
             </div>
 
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success btn-active2">Đã thanh toán</button>
+                            <button type="button" class="btn btn-danger">Chưa thanh toán</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 
@@ -149,3 +164,54 @@
 
 
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var user = {
+            init: function () {
+                user.registerEvents();
+            },
+            registerEvents: function () {
+                $('.btn-active').off('click').on('click', function (e) {
+                    e.preventDefault();
+                    var btn = $(this);
+                    var id = btn.data('id');
+                    var code = btn.data('code');
+                    $('.btn-active2').off('click').on('click', function (e) {
+
+                        e.preventDefault();
+                        $.ajax({
+                            url: "/Booking/ChangeStatus",
+                            data: { id: id, code: code, active: false },
+                            dataType: "json",
+                            type: "POST",
+                            success: function (response) {
+                                if (response.status == true) {
+                                    alert(response.mess);
+                                    btn.text("Mở");
+                                    btn.removeClass("btn btn-danger");
+                                    btn.addClass("btn btn-success");
+                                }
+                                else {
+                                    alert(response.mess);
+                                    btn.text("Khóa");
+                                    btn.removeClass("btn btn-success");
+                                    btn.addClass("btn btn-danger");
+                                }
+                            }
+                        });
+                    });
+                    @*var active;
+                    if ("@Model.is_activated.ToString()" == "True") {
+                        active = 0;
+                    }
+                    else {
+                        active = 1;
+                    }*@
+                    
+                });
+            }
+        }
+        user.init();
+    });
+</script>

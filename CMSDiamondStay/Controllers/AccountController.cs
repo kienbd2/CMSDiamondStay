@@ -100,13 +100,16 @@ namespace CMSDiamondStay.Controllers
                 //var roleUser = serializer.Deserialize<dynamic>(user)["data"]["data"];
                 if (code != 200)
                 {
-                    TempData["error"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
+                    TempData["error"] = "Đăng nhập thất bại, vui lòng liên hệ quản trị viên";
                     return RedirectToAction("Login");
                 }
 
                 var jsonObject = serializer.Deserialize<dynamic>(EmpResponse)["data"];
                 var userName = jsonObject["last_name"];
+                
                 Session.Add("userName", userName);
+                //var image = jsonObject["avatar"];
+                //Session.Add("image", image);
                 //var result = postTask.Result;
                 if (response.IsSuccessStatusCode && status == 1)
                 {

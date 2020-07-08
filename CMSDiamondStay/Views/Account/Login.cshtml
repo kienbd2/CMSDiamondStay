@@ -4,9 +4,9 @@
     ViewBag.Title = "Log in";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-
-<h1>DIAMOND STAY MEMBER LOGIN FORM</h1>
+<h1 style="color:aliceblue">DIAMOND STAY CMS PORTAL</h1>
 @if (TempData["error"] != null)
 {
     <p class="alert alert-danger">@TempData["error"]</p>
@@ -14,7 +14,7 @@
 <div class="container w3layouts agileits">
 
     <div class="login w3layouts agileits">
-        <h2>Đăng Nhập hệ thống Diamon Stay</h2>
+        <h2 style="color:aliceblue">Đăng Nhập </h2>
         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
         {
             @Html.AntiForgeryToken()
@@ -43,15 +43,7 @@
             </div>
         }
         @Html.ActionLink("Quên mật khẩu? Nhấn vào đây", "ForgotPassword", "Account")
-        <div class="social-icons w3layouts agileits">
-            <p>- Đăng nhập cùng -</p>
-            <ul>
-                <li><a href="#"><span class="icons w3layouts agileits"></span><span class="text w3layouts agileits">Facebook</span></a></li>
-                <li class="ggp aits"><a href="#"><span class="icons agileits"></span><span class="text w3layouts agileits">Google+</span></a></li>
-                <li class="ggp aits"><a href="#"><span class="icons agileits"></span><span class="text w3layouts agileits">Google+</span></a></li>
-            </ul>
-        </div>
-        <div class="clear"></div>
+
 
         @*@Html.Partial("_PartialRegister")*@
 

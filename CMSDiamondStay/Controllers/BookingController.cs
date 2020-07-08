@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -90,6 +91,56 @@ namespace CMSDiamondStay.Controllers
                 return View(bookings.ToPagedList(pageNumber, pageSize));
             }
             return RedirectToAction("Login", "Account");
+
+        }
+        public class activeUser
+        {
+            public long user_id { get; set; }
+            public bool status_active { get; set; }
+        }
+        public async Task<JsonResult> ChangeStatus(string id, string code, bool active)
+        {
+            if (Session["Authent"] != null)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Baseurl);
+
+                    client.DefaultRequestHeaders.Clear();
+                    //Define request data format  
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    var userActive = new activeUser();
+                    userActive.user_id = long.Parse(id);
+
+                    HttpResponseMessage Res = await client.GetAsync($"admin/users/{id}");
+                    var EmpResponse2 = Res.Content.ReadAsStringAsync().Result;
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    var item = serializer.Deserialize<dynamic>(EmpResponse2)["data"];
+                    userActive.status_active = !item["is_activated"];
+                    //HTTP POST
+                    var response = await client.PostAsync("admin/users/toggle-active", new StringContent(
+   new JavaScriptSerializer().Serialize(userActive), Encoding.UTF8, "application/json"));
+
+                    //HttpResponseMessage Res = await client.GetAsync("/users");
+                    var EmpResponse = await response.Content.ReadAsStringAsync();
+                    int code2 = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
+                    int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
+                    if (code2 != 200)
+                    {
+                        return Json(new { result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                    }
+                    if (response.IsSuccessStatusCode && status == 1)
+                    {
+                        return Json(new { result = true, status = userActive.status_active, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                    }
+
+                    return Json(new { result = false, mess = "error create user" });
+                }
+            }
+            return Json(new { result = false, mess = "ko co quyen" });
 
         }
     }
