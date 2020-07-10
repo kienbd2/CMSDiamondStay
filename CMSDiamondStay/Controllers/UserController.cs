@@ -18,7 +18,7 @@ namespace CMSDiamondStay.Controllers
 {
     public class UserController : Controller
     {
-        string Baseurl = "http://35.197.153.19:12345";
+        string Baseurl = "http://35.240.224.17:12345";
         // GET: User
         public ActionResult Index(int? size, int? page, string searchString)
         {

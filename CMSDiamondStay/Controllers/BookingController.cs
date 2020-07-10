@@ -16,7 +16,7 @@ namespace CMSDiamondStay.Controllers
 {
     public class BookingController : Controller
     {
-        string Baseurl = "http://35.197.153.19:12345";
+        string Baseurl = "http://35.240.224.17:12345";
         // GET: Booking
         public ActionResult Index(int? size, int? page, string searchString)
         {
@@ -44,11 +44,26 @@ namespace CMSDiamondStay.Controllers
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     Task task = Task.Run(async () =>
                     {
-                        HttpResponseMessage Res = await client.GetAsync($"/admin/booking/?page=1&limit=100");
-                        if (!searchString.IsNullOrWhiteSpace())
+                        HttpResponseMessage Res = await client.GetAsync(""); 
+                        if (Convert.ToInt32(Session["role"].ToString()) == 2)
                         {
-                            Res = await client.GetAsync($"/admin/booking/?page=1&limit=30&key={searchString}");
+                            Res = await client.GetAsync($"/admin/booking/?page=1&limit=100");
+                            if (!searchString.IsNullOrWhiteSpace())
+                            {
+                                Res = await client.GetAsync($"/admin/booking/?page=1&limit=100&key={searchString}");
+
+                            }
                         }
+                        if (Convert.ToInt32(Session["role"].ToString()) == 1)
+                        {
+                            Res = await client.GetAsync($"/manager/booking/?page=1&limit=100");
+                            if (!searchString.IsNullOrWhiteSpace())
+                            {
+                                Res = await client.GetAsync($"/manager/booking/?page=1&limit=100&key={searchString}");
+
+                            }
+                        }
+
                         if (Res.IsSuccessStatusCode)
                         {
                             //Storing the response details recieved from web api   
@@ -115,13 +130,10 @@ namespace CMSDiamondStay.Controllers
                     var userActive = new activeUser();
                     userActive.user_id = long.Parse(id);
 
-                    HttpResponseMessage Res = await client.GetAsync($"admin/users/{id}");
-                    var EmpResponse2 = Res.Content.ReadAsStringAsync().Result;
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    var item = serializer.Deserialize<dynamic>(EmpResponse2)["data"];
-                    userActive.status_active = !item["is_activated"];
+
                     //HTTP POST
-                    var response = await client.PostAsync("admin/users/toggle-active", new StringContent(
+                    var response = await client.PostAsync($"admin/booking/verify-payment?id={id}&code={code}&paid={active}&type=1", new StringContent(
    new JavaScriptSerializer().Serialize(userActive), Encoding.UTF8, "application/json"));
 
                     //HttpResponseMessage Res = await client.GetAsync("/users");
@@ -134,10 +146,10 @@ namespace CMSDiamondStay.Controllers
                     }
                     if (response.IsSuccessStatusCode && status == 1)
                     {
-                        return Json(new { result = true, status = userActive.status_active, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                        return Json(new { result = true, status = active, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
                     }
 
-                    return Json(new { result = false, mess = "error create user" });
+                    return Json(new { result = false, mess = "Lỗi xác nhận thanh toán" });
                 }
             }
             return Json(new { result = false, mess = "ko co quyen" });

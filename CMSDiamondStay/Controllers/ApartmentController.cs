@@ -19,7 +19,7 @@ namespace CMSDiamondStay.Controllers
 {
     public class ApartmentController : BaseController
     {
-        string Baseurl = "http://35.197.153.19:12345";
+        string Baseurl = "http://35.240.224.17:12345";
         public ActionResult Index(int? size, int? page, string searchString)
         {
             List<ApartmentsViewModel> apartments = new List<ApartmentsViewModel>();
@@ -74,6 +74,7 @@ namespace CMSDiamondStay.Controllers
                                     province_address = Convert.ToString(item["province"]),
                                     type = Convert.ToString(item["type"]),
                                     thumb = Convert.ToString(item["thumb"]),
+                                    is_activated = item["is_activated"]
                                 });
                             }
 
@@ -208,6 +209,53 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
                 }
                 return Json(new { result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
             }
+
+        }
+        public class activePartment
+        {
+            public long apartment_id { get; set; }
+            public bool status_active { get; set; }
+        }
+        public async Task<JsonResult> ChangeStatus(string id, bool active)
+        {
+            if (Session["Authent"] != null)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Baseurl);
+
+                    client.DefaultRequestHeaders.Clear();
+                    //Define request data format  
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    var activePartment = new activePartment();
+                    activePartment.apartment_id = long.Parse(id);
+                    activePartment.status_active = active;
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+                    //HTTP POST
+                    var response = await client.PostAsync("manager/apartments/toggle-active", new StringContent(
+   new JavaScriptSerializer().Serialize(activePartment), Encoding.UTF8, "application/json"));
+
+                    //HttpResponseMessage Res = await client.GetAsync("/users");
+                    var EmpResponse = await response.Content.ReadAsStringAsync();
+                    int code2 = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
+                    int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
+                    if (code2 != 200)
+                    {
+                        return Json(new { result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                    }
+                    if (response.IsSuccessStatusCode && status == 1)
+                    {
+                        return Json(new { result = active, status = active, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                    }
+
+                    return Json(new { result = false, mess = "Lỗi xác nhận thanh toán" });
+                }
+            }
+            return Json(new { result = false, mess = "ko co quyen" });
 
         }
     }

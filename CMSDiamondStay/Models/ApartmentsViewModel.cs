@@ -47,5 +47,6 @@ namespace CMSDiamondStay.Models
 
         public string check_out_time { get; set; }
         public string description { get; set; }
+        public bool is_activated { get; set; }
     }
 }

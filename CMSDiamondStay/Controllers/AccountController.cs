@@ -23,7 +23,7 @@ namespace CMSDiamondStay.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        string Baseurl = "http://35.197.153.19:12345/";
+        string Baseurl = "http://35.240.224.17:12345/";
         public AccountController()
         {
         }

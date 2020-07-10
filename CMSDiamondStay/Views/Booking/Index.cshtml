@@ -95,16 +95,20 @@
                                                             }
                                                             @if (item.status == 3)
                                                             {
-                                                                <a href="#" class="btn btn-primary btn-xs"> Đã thanh toán </a>
+                                                                <a href="#" class="btn btn-success btn-xs"> Đã thanh toán </a>
+                                                            }
+                                                            @if (item.status == 1)
+                                                            {
+                                                                <a href="#" class="btn btn-danger btn-xs"> Chưa thanh toán </a>
                                                             }
 
                                                         </td>
                                                         @*<td>
-                                                        <label class="switch">
-                                                            <input type="checkbox" checked>
-                                                            <span class="slider round"></span>
-                                                        </label>
-                                                    </td>*@
+                                                                <label class="switch">
+                                                                    <input type="checkbox" checked>
+                                                                    <span class="slider round"></span>
+                                                                </label>
+                                                            </td>*@
                                                     </tr>
                                                 }
 
@@ -124,14 +128,14 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLongTitle">Xác nhận booking thanh toán</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success btn-active2">Đã thanh toán</button>
-                            <button type="button" class="btn btn-danger">Chưa thanh toán</button>
+                            <button type="button" class="btn btn-success btn-dathanhtoan">Đã thanh toán</button>
+                            <button type="button" class="btn btn-danger btn-chuathanhtoan">Chưa thanh toán</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -177,29 +181,49 @@
                     var btn = $(this);
                     var id = btn.data('id');
                     var code = btn.data('code');
-                    $('.btn-active2').off('click').on('click', function (e) {
-
+                    $('.btn-dathanhtoan').off('click').on('click', function (e) {
                         e.preventDefault();
-                        $.ajax({
-                            url: "/Booking/ChangeStatus",
-                            data: { id: id, code: code, active: false },
-                            dataType: "json",
-                            type: "POST",
-                            success: function (response) {
-                                if (response.status == true) {
-                                    alert(response.mess);
-                                    btn.text("Mở");
-                                    btn.removeClass("btn btn-danger");
-                                    btn.addClass("btn btn-success");
+                        if(confirm("Bạn có xác nhận booking đã thanh toán")) {
+                            $.ajax({
+                                url: "/Booking/ChangeStatus",
+                                data: { id: id, code: code, active: true },
+                                dataType: "json",
+                                type: "POST",
+                                success: function (response) {
+                                    if (response.status == true) {
+                                        alert("Xác nhận đã thanh toán thành công");
+                                        btn.text("Đã thanh toán");
+                                        btn.removeClass("btn btn-warning");
+                                        btn.addClass("btn btn-success");
+                                        $('#exampleModalCenter').modal('toggle')
+                                    }
+
                                 }
-                                else {
-                                    alert(response.mess);
-                                    btn.text("Khóa");
-                                    btn.removeClass("btn btn-success");
-                                    btn.addClass("btn btn-danger");
+                            });
+                        };
+                        
+                    });
+
+                    $('.btn-chuathanhtoan').off('click').on('click', function (e) {
+                        e.preventDefault();
+                        if (confirm("Bạn có xác nhận booking chưa thanh toán")) {
+                            $.ajax({
+                                url: "/Booking/ChangeStatus",
+                                data: { id: id, code: code, active: false },
+                                dataType: "json",
+                                type: "POST",
+                                success: function (response) {
+                                    if (response.status == false) {
+                                        alert("Xác nhận chưa thanh toán thành công");
+                                        btn.text("Chưa thanh toán");
+                                        btn.removeClass("btn btn-warning");
+                                        btn.addClass("btn btn-danger");
+                                        $('#exampleModalCenter').modal('toggle')
+                                    }
                                 }
-                            }
-                        });
+                            });
+
+                        };
                     });
                     @*var active;
                     if ("@Model.is_activated.ToString()" == "True") {
@@ -208,7 +232,7 @@
                     else {
                         active = 1;
                     }*@
-                    
+
                 });
             }
         }

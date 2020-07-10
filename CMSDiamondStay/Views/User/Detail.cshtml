@@ -224,26 +224,29 @@
                     else {
                         active = 1;
                     }*@
-                    $.ajax({
-                        url: "/User/ChangeStatus",
-                        data: { id: id  },
-                        dataType: "json",
-                        type: "POST",
-                        success: function (response) {
-                            if (response.status == true) {
-                                alert(response.mess);
-                                btn.text("Mở");
-                                btn.removeClass("btn btn-danger");
+                    if (confirm("Bạn có xác nhận thực hiện thao tác")) {
+                        $.ajax({
+                            url: "/User/ChangeStatus",
+                            data: { id: id },
+                            dataType: "json",
+                            type: "POST",
+                            success: function (response) {
+                                if (response.status == true) {
+                                    alert(response.mess);
+                                    btn.text("Mở");
+                                    btn.removeClass("btn btn-danger");
                                     btn.addClass("btn btn-success");
+                                }
+                                else {
+                                    alert(response.mess);
+                                    btn.text("Khóa");
+                                    btn.removeClass("btn btn-success");
+                                    btn.addClass("btn btn-danger");
+                                }
                             }
-                            else {
-                                alert(response.mess);
-                                btn.text("Khóa");
-                                btn.removeClass("btn btn-success");
-                                btn.addClass("btn btn-danger");
-                            }
-                        }
-                    });
+                        });
+                    };
+                    
                 });
             }
         }
