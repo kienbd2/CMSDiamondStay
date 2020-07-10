@@ -155,5 +155,47 @@ namespace CMSDiamondStay.Controllers
             return Json(new { result = false, mess = "ko co quyen" });
 
         }
+        public async Task<JsonResult> ChangeStatusChuKs(string id, string code, bool active)
+        {
+            if (Session["Authent"] != null)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Baseurl);
+
+                    client.DefaultRequestHeaders.Clear();
+                    //Define request data format  
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    var userActive = new activeUser();
+                    userActive.user_id = long.Parse(id);
+
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+                    //HTTP POST
+                    var response = await client.PostAsync($"admin/booking/verify-payment?id={id}&code={code}&paid={active}&type=1", new StringContent(
+   new JavaScriptSerializer().Serialize(userActive), Encoding.UTF8, "application/json"));
+
+                    //HttpResponseMessage Res = await client.GetAsync("/users");
+                    var EmpResponse = await response.Content.ReadAsStringAsync();
+                    int code2 = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["code"]);
+                    int status = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
+                    if (code2 != 200)
+                    {
+                        return Json(new { result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                    }
+                    if (response.IsSuccessStatusCode && status == 1)
+                    {
+                        return Json(new { result = true, status = active, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                    }
+
+                    return Json(new { result = false, mess = "Lỗi xác nhận thanh toán" });
+                }
+            }
+            return Json(new { result = false, mess = "ko co quyen" });
+
+        }
     }
 }

@@ -95,11 +95,24 @@
                                                             }
                                                             @if (item.status == 3)
                                                             {
-                                                                <a href="#" class="btn btn-success btn-xs"> Đã thanh toán </a>
+                                                                <a href="#" class="btn btn-success btn-xs btn-xacnhan" data-id="@item.id" data-code="@item.code"> Đã thanh toán </a>
                                                             }
                                                             @if (item.status == 1)
                                                             {
                                                                 <a href="#" class="btn btn-danger btn-xs"> Chưa thanh toán </a>
+                                                            }
+                                                            @if (item.status == 4)
+                                                            {
+                                                                <a href="#" class="btn btn-dark btn-xs"> Hủy</a>
+
+                                                            }
+                                                            @if (item.status == 2)
+                                                            {
+                                                                <a href="#" class="btn btn-secondary btn-xs"> Hết hạn</a>
+                                                            }
+                                                            @if (item.status == 6)
+                                                            {
+                                                                <a href="#" class="btn btn-info btn-xs">Đã hoàn thành</a>
                                                             }
 
                                                         </td>
@@ -169,7 +182,9 @@
 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
+@if (Convert.ToInt32(Session["role"].ToString()) == 3)
+{
+    <script>
     $(document).ready(function () {
         var user = {
             init: function () {
@@ -201,7 +216,7 @@
                                 }
                             });
                         };
-                        
+
                     });
 
                     $('.btn-chuathanhtoan').off('click').on('click', function (e) {
@@ -238,4 +253,45 @@
         }
         user.init();
     });
-</script>
+    </script>
+}
+@if (Convert.ToInt32(Session["role"].ToString()) == 1)
+{
+    <script>
+    $(document).ready(function () {
+        var user = {
+            init: function () {
+                user.registerEvents();
+            },
+            registerEvents: function () {
+                $('.btn-xacnhan').off('click').on('click', function (e) {
+                    e.preventDefault();
+                    var btn = $(this);
+                    var id = btn.data('id');
+                    var code = btn.data('code');
+                        e.preventDefault();
+                        if(confirm("Bạn có xác nhận hoàn đã thanh toán")) {
+                            $.ajax({
+                                url: "/Booking/ChangeStatusChuKs",
+                                data: { id: id, code: code, active: true },
+                                dataType: "json",
+                                type: "POST",
+                                success: function (response) {
+                                    if (response.status == true) {
+                                        alert("Xác nhận đã thanh toán thành công");
+                                        btn.text("Đã thanh toán");
+                                        btn.removeClass("btn btn-warning");
+                                        btn.addClass("btn btn-success");
+                                        $('#exampleModalCenter').modal('toggle')
+                                    }
+
+                                }
+                            });
+                        };
+                });
+            }
+        }
+        user.init();
+    });
+    </script>
+}
