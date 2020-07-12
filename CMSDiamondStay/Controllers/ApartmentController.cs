@@ -49,7 +49,7 @@ namespace CMSDiamondStay.Controllers
                         HttpResponseMessage Res = await client.GetAsync($"/manager/apartments/?page=1&limit=100");
                         if (!searchString.IsNullOrWhiteSpace())
                         {
-                            Res = await client.GetAsync($"/manager/apartments/?page=1&limit=30&key={searchString}");
+                            Res = await client.GetAsync($"/manager/apartments/?page=1&limit=100&key={searchString}");
                         }
                         if (Res.IsSuccessStatusCode)
                         {
@@ -192,7 +192,7 @@ namespace CMSDiamondStay.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://35.197.153.19:12345/");
+                client.BaseAddress = new Uri(Baseurl);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
                 //HTTP POST
                 var response = await client.PostAsync("manager/apartments", new StringContent(

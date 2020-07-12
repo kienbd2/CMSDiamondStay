@@ -15,7 +15,7 @@ namespace CMSDiamondStay.Controllers
     {
 
 
-        string Baseurl = "http://35.197.153.19:12345";
+        string Baseurl = "http://35.240.224.17:12345";
         public List<ConvenienceViewModel> getAllConvenience()
         {
             List<ConvenienceViewModel> students = new List<ConvenienceViewModel>();

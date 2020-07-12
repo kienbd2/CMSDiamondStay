@@ -14,55 +14,69 @@
 
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section">
-        <h3>CMS</h3>
+      
         <ul class="nav side-menu">
-            <li>@Html.ActionLink("Trang chủ", "Index", "Apartment")</li>
             <li>
-                <a><i class="fa fa-building-o"></i> Quản lý căn hộ <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                    <li>@Html.ActionLink("Danh sách căn hộ", "Index", "Apartment")</li>
-                    <li> @Html.ActionLink("Thêm căn hộ mới", "CreateApartment", "Apartment")</li>
-                </ul>
+                <a href="/Home/Index"><i class="fa fa-home" ></i> Trang chủ</a>
+               
             </li>
-            <li>
-                <a><i class="fa fa-fire"></i> Chiến dịch khuyến mãi <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                    <li><a href="CampaignsList.html">Các chiến dịch</a></li>
-                    <li><a href="AddCampaigns.html">Thêm mới chiến dịch</a></li>
-                </ul>
-            </li>
-            <li>
-                <a><i class="fa fa-table"></i> Quản Lý Booking<span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                    <li> @Html.ActionLink("Tất Cả Booking", "Index", "Booking") </li>
-                </ul>
-            </li>
-            @if (Convert.ToInt32(Session["role"]) == 2)
-            {
+           
+               
+                @if (Convert.ToInt32(Session["role"]) == 1)
+                {
+                    <li>
+                        <a><i class="fa fa-building-o"></i> Quản lý căn hộ <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li>@Html.ActionLink("Danh sách căn hộ", "Index", "Apartment")</li>
+                            <li> @Html.ActionLink("Thêm căn hộ mới", "CreateApartment", "Apartment")</li>
+                        </ul>
+                    </li>
+                }
                 <li>
-                    <a><i class="fa fa-fire"></i> Quản Lý Tiện Ích <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-fire"></i> Chiến dịch khuyến mãi <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li> @Html.ActionLink("Các tiện ích", "Index", "Convenience") </li>
-                        <li> @Html.ActionLink("Thêm mới tiện ích", "Create", "Convenience") </li>
+                        <li><a href="CampaignsList.html">Các chiến dịch</a></li>
+                        <li><a href="AddCampaigns.html">Thêm mới chiến dịch</a></li>
                     </ul>
                 </li>
-            }
-
-            @if (Convert.ToInt32(Session["role"]) == 2)
-            {
                 <li>
-                    <a><i class="fa fa-user"></i>Quản Lý Người Dùng <span class="fa fa-chevron-down"></span></a>
+                    <a><i class="fa fa-table"></i> Quản Lý Booking<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li>@Html.ActionLink("Tạo Tài Khoản", "Create", "User")</li>
-                        <li>@Html.ActionLink("Chủ Khách Sạn", "Index", "User")</li>
-                        <li><a href="profile.html">Người Dùng Cuối</a></li>
+                        <li> @Html.ActionLink("Tất Cả Booking", "Index", "Booking") </li>
+                        @if (Convert.ToInt32(Session["role"]) == 1)
+                        {
+                            <li> @Html.ActionLink("Booking đã hoàn thành", "BookingHoanThanh", "Booking") </li>
+                        }
+
                     </ul>
-
                 </li>
-            }
+                @if (Convert.ToInt32(Session["role"]) == 2)
+                {
+                    <li>
+                        <a><i class="fa fa-fire"></i> Quản Lý Tiện Ích <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li> @Html.ActionLink("Các tiện ích", "Index", "Convenience") </li>
+                            <li> @Html.ActionLink("Thêm mới tiện ích", "Create", "Convenience") </li>
+                        </ul>
+                    </li>
+                }
 
-        </ul>
-    </div>
+                @if (Convert.ToInt32(Session["role"]) == 2)
+                {
+                    <li>
+                        <a><i class="fa fa-user"></i>Quản Lý Người Dùng <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li>@Html.ActionLink("Tạo Tài Khoản", "Create", "User")</li>
+                            <li>@Html.ActionLink("Chủ Khách Sạn", "Index", "User")</li>
+                            <li>@Html.ActionLink("Admin", "Admin", "User")</li>
+
+                        </ul>
+
+                    </li>
+                }
+
+            </ul>
+</div>
 
 
 </div>

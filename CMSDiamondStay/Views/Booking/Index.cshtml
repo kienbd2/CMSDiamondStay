@@ -30,32 +30,32 @@
                                 <div class="col-sm-12">
                                     <div class="card-box table-responsive">
 
-
-                                        <div class="row">
+                                        <div class="">
                                             <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 text-left">
                                                 @using (Html.BeginForm("Index", "Booking", FormMethod.Get))
                                                 {
                                                     <p>
-                                                        Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.size, new { @onchange = "this.form.submit();" })
+                                                        Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.size, new { @onchange = "this.form.submit();", @class = "btn btn-primary" })
                                                     </p>
                                                 }
                                             </div>
 
-                                            <div class="col-md-10 col-sm-10 col-xs-10 col-sm-10 input-group float-right">
+                                            <div class="col-md-7 col-sm-7 col-xs-8 col-sm-8 input-group  form-group float-right">
 
                                                 @using (Html.BeginForm("Index", "Booking", FormMethod.Get))
                                                 {
 
-                                                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "", @placeholder = "Search for..." })
-                                                    <span class="input-group-btn">
-                                                        <input type="submit" value="Search" />
-                                                    </span>
+                                                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "form-control col-md-8", @placeholder = "Search for..." })
+
+                                                    <input type="submit" class="btn btn-primary col-md-3" value="Search" />
 
                                                 }
 
                                             </div>
 
+
                                         </div>
+
 
 
                                         <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
@@ -63,22 +63,22 @@
                                                 <tr>
                                                     <th>Booking Id</th>
                                                     <th>User Name</th>
-                                                    <th>Apartment Name</th>
-                                                    <th>Apartment Type</th>
-                                                    <th>Check In</th>
+                                                    <th>Tên phòng</th>
+                                                    <th>Loại phòng</th>
+                                                    <th>Check in</th>
                                                     <th>Check Out</th>
-                                                    <th>Amount</th>
-                                                    <th>Code</th>
-                                                    <th> Image</th>
+                                                    <th>Tiền</th>
+                                                    <th>Mã</th>
+                                                    <th> Ảnh</th>
 
-                                                    <th>Action</th>
+                                                    <th>Trạng thái</th>
                                                     @*<th>Deactive</th>*@
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach (var item in Model)
                                                 {
-                                                    <tr>
+                                                    <tr id="@item.id">
                                                         <td>@item.id</td>
                                                         <td>@item.user_name</td>
                                                         <td>@item.apartment_name</td>
@@ -87,7 +87,7 @@
                                                         <td>@item.check_out.ToString("dd/MM/yyyy")</td>
                                                         <td>@item.amount đ</td>
                                                         <td>@item.code</td>
-                                                        <td><img src="@item.apartment_thumb" alt="Girl in a jacket" width:auto height="130"></td>
+                                                        <td><img src="@item.apartment_thumb" alt="ảnh đại diện" width:auto height="130"></td>
                                                         <td>
                                                             @if (item.status == 5)
                                                             {
@@ -117,11 +117,11 @@
 
                                                         </td>
                                                         @*<td>
-                                                                <label class="switch">
-                                                                    <input type="checkbox" checked>
-                                                                    <span class="slider round"></span>
-                                                                </label>
-                                                            </td>*@
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </td>*@
                                                     </tr>
                                                 }
 
@@ -136,25 +136,26 @@
                     </div>
                 </div>
             </div>
-
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Xác nhận booking thanh toán</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success btn-dathanhtoan">Đã thanh toán</button>
-                            <button type="button" class="btn btn-danger btn-chuathanhtoan">Chưa thanh toán</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            @if (Convert.ToInt32(Session["role"].ToString()) == 2)
+            {
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Xác nhận booking thanh toán</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success btn-dathanhtoan">Đã thanh toán</button>
+                                <button type="button" class="btn btn-danger btn-chuathanhtoan">Chưa thanh toán</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            }
 
 
             <div class="col-md-12 col-sm-12  text-center">
@@ -182,7 +183,7 @@
 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-@if (Convert.ToInt32(Session["role"].ToString()) == 3)
+@if (Convert.ToInt32(Session["role"].ToString()) == 2)
 {
     <script>
     $(document).ready(function () {
@@ -210,7 +211,7 @@
                                         btn.text("Đã thanh toán");
                                         btn.removeClass("btn btn-warning");
                                         btn.addClass("btn btn-success");
-                                        $('#exampleModalCenter').modal('toggle')
+                                        $('#exampleModalCenter').modal('toggle');
                                     }
 
                                 }
@@ -270,19 +271,16 @@
                     var id = btn.data('id');
                     var code = btn.data('code');
                         e.preventDefault();
-                        if(confirm("Bạn có xác nhận hoàn đã thanh toán")) {
+                        if(confirm("Bạn có xác nhận booking đã hoàn thành")) {
                             $.ajax({
-                                url: "/Booking/ChangeStatusChuKs",
-                                data: { id: id, code: code, active: true },
+                                url: "/Booking/ChangeStatusXacNhanHoanThanh",
+                                data: { id: id, code: code},
                                 dataType: "json",
                                 type: "POST",
                                 success: function (response) {
-                                    if (response.status == true) {
-                                        alert("Xác nhận đã thanh toán thành công");
-                                        btn.text("Đã thanh toán");
-                                        btn.removeClass("btn btn-warning");
-                                        btn.addClass("btn btn-success");
-                                        $('#exampleModalCenter').modal('toggle')
+                                    if (response.result == true) {
+                                        alert("Xác nhận booking hoàn thành thành công");
+                                        $("#" + id).remove();
                                     }
 
                                 }

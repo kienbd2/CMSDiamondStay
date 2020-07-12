@@ -90,6 +90,7 @@ namespace CMSDiamondStay.Controllers
             return RedirectToAction("Login", "Account");
         }
         [HttpPost]
+        [ValidateInput(false)]
         public async Task<ActionResult> create(ConvenienceViewModel model)
         {
             if (ModelState.IsValid)
@@ -99,7 +100,7 @@ namespace CMSDiamondStay.Controllers
 
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri("http://35.197.153.19:12345/");
+                        client.BaseAddress = new Uri(Baseurl);
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
                         //HTTP POST
 

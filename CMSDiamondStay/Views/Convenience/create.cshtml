@@ -43,7 +43,7 @@
         </div>
     </div>*@
 
-    @*<div class="field item form-group">
+@*<div class="field item form-group">
         <label class="col-form-label col-md-3 col-sm-3  label-align">Confirm Password</label>
         <div class="col-md-6 col-sm-6">
             <input class="form-control" type="password" data-validate-length-range="255" data-validate-words="2" name="confirmpassword" id="confirmpassword"
@@ -67,7 +67,7 @@
                             @Html.AntiForgeryToken()
                             <div class="">
                                 <div class="form-horizontal field  form-group">
-                                   
+
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                     <div class="field item form-group">
                                         @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "col-form-label col-md-3 col-sm-3  label-align" })
@@ -87,14 +87,13 @@
                                     <div class="ln_solid">
                                         <div class="form-group">
                                             <div class="col-md-6 offset-md-3">
-                                                <input type='submit' class="btn btn-primary" id="btnSave" value="Submit" />
-                                                <button type='reset' class="btn btn-success">Reset</button>
+                                                <input type='submit' class="btn btn-primary" id="btnSave" value="Tạo" />
                                             </div>
                                         </div>
                                     </div>
-                                  
+
                                 </div>
-                                </div>
+                            </div>
                         }
 
 
@@ -110,5 +109,13 @@
 
 
 <div>
-    @Html.ActionLink("Back to List", "Index", "", new { @class = "btn btn-primary" })
+    @Html.ActionLink("Trở lại", "Index", "", new { @class = "btn btn-primary" })
 </div>
+<script src="~/ckeditor/ckeditor.js"></script>
+
+<script>
+
+    CKEDITOR.replace("description");
+
+</script>
+}

@@ -202,6 +202,8 @@
     <Compile Include="Models\ApartmentsViewModel.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\ConvenienceViewModel.cs" />
+    <Compile Include="Models\DashboardAdmin.cs" />
+    <Compile Include="Models\DashBoardChuKs.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\User.cs" />
@@ -5380,6 +5382,8 @@
     <Content Include="Views\Booking\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutForgetPassWord.cshtml" />
     <Content Include="Views\User\Detail.cshtml" />
+    <Content Include="Views\Booking\BookingHoanThanh.cshtml" />
+    <Content Include="Views\User\Admin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

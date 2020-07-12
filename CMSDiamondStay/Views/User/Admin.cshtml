@@ -1,0 +1,119 @@
+﻿@model PagedList.IPagedList<CMSDiamondStay.Models.User>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_content">
+            <div class="col-md-12 col-sm-12  text-center">
+                <div>
+                </div>
+                <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 text-left">
+                    @using (Html.BeginForm("Admin", "User", FormMethod.Get))
+                    {
+                        <p>
+                            Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.size, new { @onchange = "this.form.submit();" })
+                        </p>
+                    }
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-3 col-sm-3 input-group float-right">
+
+                    @using (Html.BeginForm("Admin", "User", FormMethod.Get))
+                    {
+
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "", @placeholder = "Search for..." })
+                        <span class="input-group-btn ">
+                            <input type="submit" value="Search" />
+                        </span>
+
+                    }
+
+                </div>
+
+
+            </div>
+
+
+            <div class="clearfix"></div>
+            @foreach (var item in Model)
+            {
+
+                <div class="col-md-4 col-sm-4  profile_details">
+                    <div class="well profile_view">
+                        <div class="col-sm-12">
+                            <h4 class="brief"><i>@item.first_name</i></h4>
+                            <div class="left col-sm-7">
+                                <h2>Nicole Pearson</h2>
+                                <p><strong>About: </strong> Web Designer / UI. </p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fa fa-building"></i> Address: </li>
+                                    <li><i class="fa fa-phone"></i> Phone #: </li>
+                                </ul>
+                            </div>
+                            <div class="right col-sm-5 text-center">
+                                <img src="~/App_Themes/CMS/production/images/user.png" alt="" class="img-circle img-fluid">
+                            </div>
+                        </div>
+                        <div class=" bottom text-center">
+                            <div class=" col-sm-6 emphasis">
+                                <p class="ratings">
+                                    <a>4.0</a>
+                                    <a href="#"><span class="fa fa-star"></span></a>
+                                    <a href="#"><span class="fa fa-star"></span></a>
+                                    <a href="#"><span class="fa fa-star"></span></a>
+                                    <a href="#"><span class="fa fa-star"></span></a>
+                                    <a href="#"><span class="fa fa-star-o"></span></a>
+                                </p>
+                            </div>
+                            <div class=" col-sm-6 emphasis">
+                                <button type="button" class="btn btn-success btn-sm">
+                                    <i class="fa fa-user">
+                                    </i> <i class="fa fa-comments-o"></i>
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm">
+                                    @Html.ActionLink("View Profile", "Detail", "User", new { id = item.user_id }, new { @class = "fa fa-user" })
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+
+            <div class="col-md-12 col-sm-12  text-center">
+
+                @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, size = ViewBag.currentSize, sortOrder = ViewBag.CurrentSort, SearchString = ViewBag.CurrentFilter }),
+                    new PagedListRenderOptions()
+                    {
+                        LiElementClasses = new List<string> { "btn btn-success" }
+                    }
+                )
+
+
+
+            </div>
+            <div class="col-md-10 col-lg-10 col-xs-10 col-sm-10 text-right">
+                Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+

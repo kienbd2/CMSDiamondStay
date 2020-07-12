@@ -10,10 +10,10 @@ namespace CMSDiamondStay.Models
     {
         public int id { get; set; }
         [Required]
-        [Display(Name = "Name")]
+        [Display(Name = "Tên tiện ích")]
         public string name { get; set; }
         [Required]
-        [Display(Name = "Description")]
+        [Display(Name = "Mô tả")]
         public string description { get; set; }
     }
 }

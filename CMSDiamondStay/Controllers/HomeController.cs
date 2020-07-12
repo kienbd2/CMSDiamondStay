@@ -17,10 +17,70 @@ namespace CMSDiamondStay.Controllers
 {
     public class HomeController : BaseController
     {
+        string Baseurl = "http://35.240.224.17:12345";
         public ActionResult Index()
         {
             if (Session["Authent"] != null)
             {
+                DashboardAdmin dtoAdmin = new DashboardAdmin();
+                DashBoardChuKs dtoChuKs = new DashBoardChuKs();
+
+                using (var client = new HttpClient())
+                {
+                    //Passing service base url  
+                    client.BaseAddress = new Uri(Baseurl);
+
+                    client.DefaultRequestHeaders.Clear();
+
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                    //Define request data format  
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    Task task = Task.Run(async () =>
+                    {
+                        HttpResponseMessage Res = await client.GetAsync($"/manager/dashboard/info");
+
+                        if (Res.IsSuccessStatusCode)
+                        {
+                            //Storing the response details recieved from web api   
+                            var EmpResponse = Res.Content.ReadAsStringAsync().Result;
+                            JavaScriptSerializer serializer = new JavaScriptSerializer();
+                            var jsonObject = serializer.Deserialize<dynamic>(EmpResponse)["data"];
+                            if (Convert.ToInt32(Session["role"]) == 2)
+                            {
+                                dtoAdmin.total_user = jsonObject["total_user"];
+                                dtoAdmin.total = jsonObject["total"];
+                                dtoAdmin.total_month = jsonObject["total_month"];
+                                dtoAdmin.total_apartment = jsonObject["total_apartment"];
+                                dtoAdmin.total_booking = jsonObject["total_booking"];
+                                dtoAdmin.total_booking_finish = jsonObject["total_booking_finish"];
+                            }
+
+                            if (Convert.ToInt32(Session["role"]) == 1)
+                            {
+
+                                dtoChuKs.total_good_review = jsonObject["total_good_review"];
+                                dtoChuKs.total_review = jsonObject["total_review"];
+                                dtoChuKs.total_apartment_rented = jsonObject["total_apartment_rented"];
+                                dtoChuKs.total = jsonObject["total"];
+                                dtoChuKs.total_month = jsonObject["total_month"];
+                                dtoChuKs.total_apartment = jsonObject["total_apartment"];
+                                dtoChuKs.total_booking = jsonObject["total_booking"];
+                                dtoChuKs.total_booking_finish = jsonObject["total_booking_finish"];
+                                  
+                            }
+                        }
+
+                    });
+                    task.Wait();
+                    if (Convert.ToInt32(Session["role"]) == 1)
+                    {
+                        return View(dtoChuKs);
+                    }
+                    if (Convert.ToInt32(Session["role"]) == 2)
+                    {
+                        return View(dtoAdmin);
+                    }
+                }
                 return View();
             }
             return RedirectToAction("Login", "Account");
@@ -117,29 +177,29 @@ namespace CMSDiamondStay.Controllers
                     client.BaseAddress = new Uri("http://35.197.153.19:12345/");
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
                     //HTTP POST
-                    
-                        var response = await client.PostAsync("manager/apartments", new StringContent(
-       new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/json"));
+
+                    var response = await client.PostAsync("manager/apartments", new StringContent(
+   new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/json"));
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
                     var EmpResponse = await response.Content.ReadAsStringAsync();
 
                     //var result = postTask.Result;
                     if (response.IsSuccessStatusCode)
                     {
-                            TempData["message"] = "Create Success";
-                            return RedirectToAction("Index", "Home");
+                        TempData["message"] = "Create Success";
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {
-                            TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
+                        TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
                         return RedirectToAction("CreateApartment", "Home");
                     }
-                   
+
 
                 }
             }
 
-            
+
             return View();
 
 
