@@ -1,5 +1,4 @@
-﻿
-@model PagedList.IPagedList<CMSDiamondStay.Models.ApartmentsViewModel>
+﻿@model PagedList.IPagedList<CMSDiamondStay.Models.ApartmentsViewModel>
 @using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
@@ -40,7 +39,7 @@
                                                     </p>
                                                 }
                                             </div>
-                                            <div >
+                                            <div>
                                                 @Html.ActionLink("Thêm căn hộ mới", "CreateApartment", null, new { @class = "btn btn-success col-md-2 col-sm-2 col-xs-2 col-sm-3 input-group form-inline float-right " })
                                             </div>
 
@@ -176,17 +175,19 @@
                                     btn.text("Mở");
                                     btn.removeClass("btn btn-danger");
                                     btn.addClass("btn btn-success");
+                                    status = "false";
                                 }
                                 else {
                                     alert("Khóa phòng thành công");
                                     btn.text("Khóa");
                                     btn.removeClass("btn btn-success");
                                     btn.addClass("btn btn-danger");
+                                    status = "true";
                                 }
                             }
                         });
                     };
-                    
+
                 });
             }
         }
