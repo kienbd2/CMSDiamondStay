@@ -175,14 +175,14 @@
                                     btn.text("Mở");
                                     btn.removeClass("btn btn-danger");
                                     btn.addClass("btn btn-success");
-                                    status = "false";
+                                    btn.data('status',"false");
                                 }
                                 else {
                                     alert("Khóa phòng thành công");
                                     btn.text("Khóa");
                                     btn.removeClass("btn btn-success");
                                     btn.addClass("btn btn-danger");
-                                    status = "true";
+                                    btn.data('status',"true");
                                 }
                             }
                         });
