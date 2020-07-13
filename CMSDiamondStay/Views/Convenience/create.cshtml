@@ -80,7 +80,8 @@
                                     <div class="field item form-group">
                                         @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "col-form-label col-md-3 col-sm-3  label-align" })
                                         <div class="col-md-6 col-sm-6">
-                                            @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.TextAreaFor(m => m.description, new { @class = "form-control", @id = "descriptionid", @placeholder = "Mô tả căn hộ của bạn" })
+                                            
                                             @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -115,7 +116,7 @@
 
 <script>
 
-    CKEDITOR.replace("description");
+    CKEDITOR.replace("descriptionid");
 
 </script>
 }

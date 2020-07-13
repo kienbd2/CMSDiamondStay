@@ -74,7 +74,7 @@ namespace CMSDiamondStay.Controllers
                     task.Wait();
                     if (Convert.ToInt32(Session["role"]) == 1)
                     {
-                        return View(dtoChuKs);
+                        return View("HomeChuKs",dtoChuKs);
                     }
                     if (Convert.ToInt32(Session["role"]) == 2)
                     {
@@ -86,7 +86,11 @@ namespace CMSDiamondStay.Controllers
             return RedirectToAction("Login", "Account");
 
         }
+        public ActionResult HomeChuKs(DashBoardChuKs dtoChuKs)
+        {
 
+            return View(dtoChuKs);
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

@@ -4249,6 +4249,23 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="ckeditor\CHANGES.md" />
+    <Content Include="ckeditor\LICENSE.md" />
+    <Content Include="ckeditor\plugins\scayt\CHANGELOG.md" />
+    <Content Include="ckeditor\plugins\scayt\LICENSE.md" />
+    <Content Include="ckeditor\plugins\scayt\README.md" />
+    <Content Include="ckeditor\plugins\wsc\LICENSE.md" />
+    <Content Include="ckeditor\plugins\wsc\README.md" />
+    <Content Include="ckeditor\README.md" />
+    <Content Include="ckeditor\samples\old\assets\posteddata.php" />
+    <Content Include="ckeditor\samples\old\htmlwriter\assets\outputforflash\outputforflash.fla" />
+    <Content Include="ckeditor\samples\old\sample_posteddata.php" />
+    <Content Include="ckeditor\samples\toolbarconfigurator\font\config.json" />
+    <Content Include="ckeditor\samples\toolbarconfigurator\font\fontello.eot" />
+    <Content Include="ckeditor\samples\toolbarconfigurator\font\fontello.ttf" />
+    <Content Include="ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
+    <Content Include="ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
+    <Content Include="ckeditor\skins\moono-lisa\readme.md" />
     <Content Include="App_Themes\CMS\vendors\animate.css\.bower.json" />
     <Content Include="App_Themes\CMS\vendors\animate.css\animate-config.json" />
     <Content Include="App_Themes\CMS\vendors\animate.css\bower.json" />
@@ -5297,23 +5314,6 @@
     <Content Include="App_Themes\CMS\vendors\validator\.gitignore" />
     <Content Include="App_Themes\CMS\vendors\validator\package.json" />
     <Content Include="App_Themes\CMS\vendors\validator\README.md" />
-    <Content Include="ckeditor\CHANGES.md" />
-    <Content Include="ckeditor\LICENSE.md" />
-    <Content Include="ckeditor\plugins\scayt\CHANGELOG.md" />
-    <Content Include="ckeditor\plugins\scayt\LICENSE.md" />
-    <Content Include="ckeditor\plugins\scayt\README.md" />
-    <Content Include="ckeditor\plugins\wsc\LICENSE.md" />
-    <Content Include="ckeditor\plugins\wsc\README.md" />
-    <Content Include="ckeditor\README.md" />
-    <Content Include="ckeditor\samples\old\assets\posteddata.php" />
-    <Content Include="ckeditor\samples\old\htmlwriter\assets\outputforflash\outputforflash.fla" />
-    <Content Include="ckeditor\samples\old\sample_posteddata.php" />
-    <Content Include="ckeditor\samples\toolbarconfigurator\font\config.json" />
-    <Content Include="ckeditor\samples\toolbarconfigurator\font\fontello.eot" />
-    <Content Include="ckeditor\samples\toolbarconfigurator\font\fontello.ttf" />
-    <Content Include="ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
-    <Content Include="ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
-    <Content Include="ckeditor\skins\moono-lisa\readme.md" />
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -5384,6 +5384,7 @@
     <Content Include="Views\User\Detail.cshtml" />
     <Content Include="Views\Booking\BookingHoanThanh.cshtml" />
     <Content Include="Views\User\Admin.cshtml" />
+    <Content Include="Views\Home\HomeChuKs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -5403,11 +5404,11 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="App_Themes\CMS\vendors\devbridge-autocomplete\src\jquery.autocomplete.d.ts" />
-    <TypeScriptCompile Include="App_Themes\CMS\vendors\moment\moment.d.ts" />
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <TypeScriptCompile Include="App_Themes\CMS\vendors\devbridge-autocomplete\src\jquery.autocomplete.d.ts" />
+    <TypeScriptCompile Include="App_Themes\CMS\vendors\moment\moment.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
