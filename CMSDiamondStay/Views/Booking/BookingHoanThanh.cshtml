@@ -140,7 +140,7 @@
 
             <div class="col-md-12 col-sm-12  text-center">
 
-                @Html.PagedListPager(Model, page => Url.Action("Index",
+                @Html.PagedListPager(Model, page => Url.Action("BookingHoanThanh",
                 new { page, size = ViewBag.currentSize, sortOrder = ViewBag.CurrentSort, SearchString = ViewBag.CurrentFilter }),
                     new PagedListRenderOptions()
                     {
