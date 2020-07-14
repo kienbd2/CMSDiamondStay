@@ -5385,6 +5385,7 @@
     <Content Include="Views\Booking\BookingHoanThanh.cshtml" />
     <Content Include="Views\User\Admin.cshtml" />
     <Content Include="Views\Home\HomeChuKs.cshtml" />
+    <Content Include="Views\Apartment\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

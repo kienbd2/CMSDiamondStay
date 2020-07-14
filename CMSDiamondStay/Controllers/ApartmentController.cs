@@ -204,7 +204,7 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
                 if (response.IsSuccessStatusCode && code == 1)
                 {
                     //TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
-                    return Json(new { result = true, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"], url = Url.Action("Index","Apartment") });
+                    return Json(new { result = true, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"], url = Url.Action("Index", "Apartment") });
 
                 }
                 return Json(new { result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
@@ -257,6 +257,69 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
             }
             return Json(new { result = false, mess = "ko co quyen" });
 
+        }
+
+
+        public async Task<ActionResult> Edit(string id)
+        {
+            var apartment = new ApartmentsViewModel();
+            using (var client = new HttpClient())
+            {
+                //Passing service base url  
+                client.BaseAddress = new Uri(Baseurl);
+
+                client.DefaultRequestHeaders.Clear();
+
+                //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                //Define request data format  
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage Res = await client.GetAsync($"/client/apartment/{id}");
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    //Storing the response details recieved from web api   
+                    var EmpResponse = Res.Content.ReadAsStringAsync().Result;
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    var item = serializer.Deserialize<dynamic>(EmpResponse)["data"];
+
+                    apartment.name = item["name"]; //Reading text box values using Jquery
+                    apartment.amount_bed = item["amount_bed"];
+                    apartment.amount_sofa = item["amount_sofa"];
+                    apartment.capacity_standard = item["capacity_standard"];
+                    apartment.capacity_max = item["capacity_max"];
+                    apartment.relax_suggest = item["relax_suggest"];
+                    apartment.direction_instruction = item["direction_instruction"];
+                    apartment.cuisine_suggest = item["cuisine_suggest"];
+                    apartment.regulation = item["regulation"];
+                    apartment.phone = item["phone"];
+                    apartment.fax = item["fax"];
+                    apartment.area = item["area"];
+                    apartment.amount_bathroom = item["amount_bathroom"];
+                    apartment.amount_bedroom = item["amount_bedroom"];
+                    apartment.star_standard = item["star_standard"];
+                    apartment.conveniences = item["conveniences"];
+                    apartment.cancel_policy = item["cancel_policy"];
+                    apartment.latitude = item["latitude"];
+                    apartment.longitude = item["longitude"];
+                    apartment.detail_address = item["detail_address"];
+                    apartment.village_address = item["village_address"];
+                    apartment.district_address = item["district_address"];
+                    apartment.province_address = item["province_address"];
+                    apartment.apartment_type = item["apartment_type"];
+                    apartment.price = item["price"];
+                    apartment.price_promotion = item["price_promotion"];
+                    apartment.min_day = item["min_day"];
+                    apartment.max_day = item["max_day"];
+                    apartment.surcharge_per_person = item["surcharge_per_person"];
+                    apartment.check_in_time = item["check_in_time"];
+                    apartment.check_out_time = item["check_out_time"];
+                    apartment.description = item["description"];
+                    apartment.gallery = item["gallery"];
+
+                }
+            }
+            return View(apartment);
         }
     }
 }

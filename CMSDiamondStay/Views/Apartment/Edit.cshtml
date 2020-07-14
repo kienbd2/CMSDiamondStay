@@ -1,0 +1,772 @@
+﻿@model CMSDiamondStay.Models.Apartments
+@{
+    ViewBag.Title = "CreateApartment";
+
+}
+<link href="~/App_Themes/CMS/build/css/custom.css" rel="stylesheet" />
+<style type="text/css">
+    #map {
+        width: 100%;
+        height: 400px;
+    }
+
+
+    label.error {
+        color: red;
+    }
+</style>
+
+@if (TempData["message"] != null)
+{
+    if (TempData["message"] as string == "Create Success")
+    {
+        <p class="alert alert-success">@TempData["message"]</p>
+    }
+    else
+    {
+        <p class="alert alert-danger">@TempData["message"]</p>
+    }
+
+}
+<!-- page content -->
+
+<div class="">
+    <h3 style="text-align: center;">Vui lòng nhập thông tin căn hộ của bạn</h3>
+
+    <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12  ">
+            <div class="x_panel">
+                <div class="x_title">
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <form class="" action="" id="data" method="post" enctype="multipart/form-data">
+                        <fieldset>
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Tên căn hộ mới</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" value="@Model.name" data-validate-words="2" name="name" id="name"
+                                           placeholder="Vui lòng nhập tên căn hộ mới." required />
+                                </div>
+                            </div>
+                            <div class="field item form-group">
+                                <label class="control-label col-md-3 col-sm-3 label-align">Chọn loại căn hộ</label>
+                                <div class="col-md-6 col-sm-6 ">
+                                    <select class="form-control" id="apartment_type" name="apartment_type">
+                                        <option value="1">Biệt thự</option>
+                                        <option value="2">Studio</option>
+                                        <option value="3">Chung cư</option>
+                                        <option value="4">Nhà riêng</option>
+                                        <option value="5">Home stay</option>
+                                        <option value="6">Khách sạn</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Mô tả</label>
+                                <div class="col-md-6 col-sm-6">
+                                    @Html.TextAreaFor(m => m.description, new { @class = "form-control", @id = "descriptionid", @placeholder = "Mô tả căn hộ của bạn" })
+                                </div>
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Số Lượng Giường, Sofa</label>
+                                <div class="col-md-3 col-sm-3">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" value="@Model.amount_bed" name="amount_bed"
+                                           placeholder="Số Lượng Giường (Chiếc)" required id="amount_bed" />
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_sofa"
+                                           placeholder="Số Lượng Sofa (Chiếc)" required="required" id="amount_sofa" />
+                                </div>
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Sức chứa tiêu chuẩn, tối đa</label>
+                                <div class="col-md-3 col-sm-3">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="capacity_standard"
+                                           placeholder="Số lượng người cùng ở tiêu chuẩn." required="required" id="capacity_standard" />
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="capacity_max" id="capacity_max"
+                                           placeholder="Số lượng người cùng ở tối đa." required="required" />
+                                </div>
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Nơi vui chơi giải trí đề xuất</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="relax_suggest" id="relax_suggest"
+                                           placeholder="Đề xuất cho khách thuê một vài địa điểm vui chơi." required="required" />
+                                </div>
+                            </div>
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Hướng dẫn</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="direction_instruction" id="direction_instruction"
+                                           placeholder="Hướng dẫn đường đi từ trạm xe bus, hoặc sân bay" />
+                                </div>
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Ấm thực</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="cuisine_suggest" id="cuisine_suggest"
+                                           placeholder="Đề xuất ẩm thực trong khu vực." />
+                                </div>
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Quy định căn hộ</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="regulation" id="regulation"
+                                           placeholder="Quy tắc chung quản lý căn hộ." required="required" />
+                                </div>
+                            </div>
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Số điện thoại liên hệ</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="phone" id="phone"
+                                           placeholder="Số điện thoại liên hệ với chủ căn hộ." required="required" />
+                                </div>
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Diện tích (mét vuông)</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="area" id="area"
+                                           placeholder="Diện tích tính bằng (mét vuông)" required="required" />
+                                </div>
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Số lượng phòng tắm, phòng ngủ</label>
+                                <div class="col-md-3 col-sm-3">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_bathroom" id="amount_bathroom"
+                                           placeholder="Số lượng phòng tắm trong căn hộ" required="required" />
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount_bedroom" id="amount_bedroom"
+                                           placeholder="Số lượng phòng ngủ trong căn hộ" required="required" />
+                                </div>
+                            </div>
+
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Tiêu Chuẩn Sao</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="star_standard" id="star_standard"
+                                           placeholder="Tiêu Chuẩn Sao" required="required" />
+                                </div>
+                            </div>
+
+
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Các tiện ích</label>
+                                <p style="padding: 6px;" class="col-md-6 col-sm-6 auto-apply ">
+                                    @foreach (var convenience in ViewBag.convenience)
+                                    {
+                                        <input id="@convenience.id" style="width: 30px; height: 22px;" type="checkbox" name="conveniences" value="@convenience.id" class="" />
+                                        <label for="@convenience.id" class="flat" style="margin-right:14px"> @convenience.name</label>
+                                    }
+
+
+                                </p>
+
+
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="control-label col-md-3 col-sm-3 label-align">Chính sách hủy</label>
+                                <div class="col-md-6 col-sm-6 ">
+                                    <select class="form-control" id="cancel_policy" name="cancel_policy">
+                                        <option value="0">Thường</option>
+                                        <option value="1" selected>Linh Hoạt</option>
+                                        <option value="2">Nghiêm Ngặt</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Vị trí căn hộ</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="travelfrom" id="travelfrom"
+                                           placeholder="Vị trí căn hộ" required="required" />
+
+                                    <br />
+                                    <div>
+                                        <div id="dvDistance">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" style="" onclick="timDuongDi()">Tìm đường đi</button>
+                                    <div id="map"></div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Hình ảnh</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input id="fileupload" type="file" name="fileupload" multiple="multiple" required />
+                                    <hr />
+                                    <b>Live Preview</b>
+                                    <br />
+                                    <br />
+                                    <div id="dvPreview">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Giá Phòng</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="price" id="price"
+                                           placeholder="Giá Phòng" required="required" />
+                                </div>
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Giá khuyến mãi</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="price_promotion" id="price_promotion"
+                                           placeholder="Giá khuyến mãi" required="required" />
+                                </div>
+                            </div>
+
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Phụ phí mỗi người</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="surcharge_per_person" id="surcharge_per_person"
+                                           placeholder="Phụ phí mỗi người( là phụ phí tăng thêm vượt sứa chứa tiêu chuẩn)" required="required" />
+                                </div>
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày tối thiểu, tối đa</label>
+                                <div class="col-md-3 col-sm-3">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="min_day" id="min_day"
+                                           placeholder="Ngày tối thiểu" required="required" />
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="max_day" id="max_day"
+                                           placeholder="Ngày tối đa" required="required" />
+                                </div>
+                            </div>
+
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Check in time, out time</label>
+                                <div class="col-md-3 col-sm-3">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="check_in_time" id="check_in_time"
+                                           placeholder="check in time" type="time" required />
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="check_out_time" id="check_out_time"
+                                           placeholder="Check out time" type="time" required="required" />
+                                </div>
+                            </div>
+
+
+                            <div class=" field item form-group">
+                                <div class="col-md-6 offset-md-3">
+                                    <div id="message"> </div>
+                                    @*<label id="mess" class="col-form-label col-md-3 col-sm-3 "></label>*@
+                                </div>
+
+                            </div>
+
+
+                            <div class="ln_solid">
+                                <div class="form-group">
+                                    <div class="col-md-6 offset-md-3">
+                                        <input type='submit' class="btn btn-primary" id="btnSave" value="Đăng phòng" />
+                                        @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-success" })
+
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /form input mask -->
+
+    </div>
+</div><!-- /.docs-toggles -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+@section scripts{
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAWX9wvYc5A0RwrT_pMQfV9uw_YxIela_0" type="text/javascript"></script>
+
+    <script>
+        var lat = 0;
+        var lng = 0;
+        $(document).ready(function () {
+
+            google.maps.event.addListener(map, 'click', function (event) {
+                lat = event.latLng.lat();
+                lng = event.latLng.lng();
+            });
+            $("#data").validate({
+                rules: {
+                    name: "required",
+                    check_in_time: "required",
+                    amount_bed: {
+                        required: true,
+                        number: true,
+                        min: 0
+
+                    }, amount_sofa: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    }
+                    , capacity_standard: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    }
+                    , capacity_max: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    relax_suggest: "required",
+                    fileupload: {
+                        required: true,
+                    },
+                    description: {
+                        required: true,
+                        minlength: 200
+                    },
+                    regulation: "required",
+                    phone: {
+                        required: true,
+                        number: true,
+                        maxlength: 10
+                    },
+                    area: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    amount_bathroom: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    amount_bedroom: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    star_standard: {
+                        required: true,
+                        number: true,
+                        min: 1,
+                        max:5
+                    },
+                    price: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    price_promotion: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    surcharge_per_person: {
+                        required: true,
+                    },
+                    min_day: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    max_day: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    check_out_time: {
+                        required: true,
+                    },
+                    check_in_time: {
+                        required: true,
+                    },
+                    travelfrom: {
+                        required: true,
+                    }
+
+
+                },
+                messages: {
+                    name: "Vui lòng nhập tên phòng",
+                    check_in_time: "Vui Lòng Nhập thời gian check in",
+                    amount_bed: {
+                        required: "Vui lòng nhập số giường",
+                        number: "Vui lòng nhập số lượng dưới dạng giá trị số",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    amount_sofa: {
+                        required: "Vui lòng nhập số sofa",
+                        number: "Vui lòng nhập số lượng dưới dạng giá trị số",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    capacity_standard: {
+                        required: "Vui lòng nhập số lượng tiêu chuẩn",
+                        number: "Vui lòng nhập số lượng dưới dạng giá trị số",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    capacity_max: {
+                        required: "Vui lòng nhập số lượng tối đa",
+                        number: "Vui lòng nhập số lượng dưới dạng giá trị số",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    relax_suggest: "thư giãn đề nghị",
+                    fileupload: {
+                        required: "Vui lòng tải file"
+                    },
+                    description: {
+                        required: "Vui lòng nhập mô tả",
+                        minlength: "Mô tả căn hộ, ít nhất 200 ký tự"
+                    },
+                    regulation: {
+                        required: "Vui lòng nhập quy định căn hộ"
+                    },
+                    phone: {
+                        required: "Vui lòng nhập số điện thoại",
+                        number: "Vui lòng nhập số phone đúng định dạng"
+                    },
+                    area: {
+                        required: "Vui lòng nhập diện tích phòng",
+                        number: "Vui lòng nhập diện tích phòng đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    amount_bathroom: {
+                        required: "Vui lòng nhập số lượng phòng tắm",
+                        number: "Vui lòng nhập số lượng phòng tắm đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    amount_bedroom: {
+                        required: "Vui lòng nhập số lượng phòng ngủ",
+                        number: "Vui lòng nhập số lượng phòng ngủ đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    star_standard: {
+                        required: "Vui lòng nhập tiêu chuẩn sao",
+                        number: "Vui lòng nhập tiêu chuẩn đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 1",
+                        max: "Số lượng không lớn hơn 5"
+                    },
+                    price: {
+                        required: "Vui lòng nhập giá phòng",
+                        number: "Vui lòng nhập giá phòng đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    price_promotion: {
+                        required: "Vui lòng nhập giá khuyến mại",
+                        number: "Vui lòng nhập giá khuyến mại đúng định dạng",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    surcharge_per_person: {
+                        required: "Vui lòng nhập giá khuyến mại",
+                    },
+                    min_day: {
+                        required: "Vui lòng nhập ngày tối thiểu",
+                        number: "Vui lòng nhập ngày tối thiểu đúng định dạng",
+                        min: "Số ngày không nhỏ hơn 0"
+                    },
+                    max_day: {
+                        required: "Vui lòng nhập ngày tối đa",
+                        number: "Vui lòng nhập ngày tối đa đúng định dạng",
+                        min: "Số ngày không nhỏ hơn 0"
+                    },
+                    check_in_time: {
+                        required: "Vui lòng nhập check in time ",
+                    },
+                    check_out_time: {
+                        required: "Vui lòng nhập check out time ",
+                    },
+                    travelfrom: {
+                        required: "Vui lòng nhập vị trí ",
+                    },
+                    submitHandler: function (form) {
+                        form.submit();
+                    }
+                }
+
+            });
+            var apartment_type = $('#apartment_type option:selected').val();
+            var cancel_policy = $('#cancel_policy option:selected').val();
+            var ckebox_value = $("input[name=conveniences]:checked").map(function () {
+                if ($(this).val() != 0) {
+                    return $(this).val();
+                }
+            }).get();
+            var fileUpload = document.getElementById("fileupload");
+            $(document).on('submit', '#data', function (e) {
+                var diachi = $('#travelfrom').val();
+                var diachiDtail = diachi.split(",");
+                e.preventDefault();
+
+                if (lat == 0 || lng == 0) {
+                    alert("Vui lòng pick bản đồ");
+                }
+                else if (diachiDtail.length < 4) {
+                    alert("Địa chỉ của bạn nhập là" + diachi + " không đúng định dạng VD: số 50 Cầu Giấy, Dịch Vọng, Cầu Giấy, Hà Nội. Xin vui lòng nhập lại");
+                }
+                else if (fileUpload.files.length > 5) {
+                    alert("Vui lòng không up lớn hơn 5 file");
+                }
+                else {
+                    //function will be called on button click having id btnsave
+
+
+                    if ($("#data").valid()) {
+                        var form = $('#data')[0];
+                        $("#message").addClass("loader");
+
+                        var dataModel = new FormData(form);
+                        dataModel.append("conveniences", ckebox_value);
+                        dataModel.append("apartment_type", apartment_type);
+                        dataModel.append("cancel_policy", cancel_policy);
+                        dataModel.append("latitude", lat);
+                        dataModel.append("longitude", lng);
+                        $.ajax({
+                            type: "POST",
+                            enctype: 'multipart/form-data',
+                            url: "/Apartment/Create",
+                            data: dataModel,
+                            contentType: false, // Not to set any content header
+                            processData: false, // Not to process data
+                            success: function (response) {
+                                if (response.result) {
+                                    alert(response.mess);
+                                    window.location.href = response.url;
+                                }
+                                else {
+                                    alert(response.mess);
+                                    $("#message").remove("loader");
+                                }
+
+
+                            },
+                            error: function (response) {
+                                alert(response.mess);
+                            }
+                        });
+                    }
+                }
+
+            });
+        });
+    </script>
+    <script>
+
+    </script>
+    <script type="text/javascript">
+        window.onload = function () {
+            var fileUpload = document.getElementById("fileupload");
+            fileUpload.onchange = function () {
+                if (typeof (FileReader) != "undefined") {
+                    var dvPreview = document.getElementById("dvPreview");
+                    dvPreview.innerHTML = "";
+                    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                    for (var i = 0; i < fileUpload.files.length; i++) {
+                        var file = fileUpload.files[i];
+                        if (regex.test(file.name.toLowerCase())) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var img = document.createElement("IMG");
+                                img.height = "120";
+                                img.width = "120";
+                                img.setAttribute("style", "margin-right:5px");
+                                img.src = e.target.result;
+                                dvPreview.appendChild(img);
+                            }
+                            reader.readAsDataURL(file);
+                        }
+                        else if (file.size > 2000) {
+                            alert(file.name + " có số lượng size lớn hơn 2000px");
+                            dvPreview.innerHTML = "";
+                            return false;
+                        }
+                        else {
+                            alert(file.name + " is not a valid image file.");
+                            dvPreview.innerHTML = "";
+                            return false;
+                        }
+                    }
+                } else {
+                    alert("This browser does not support HTML5 FileReader.");
+                }
+            }
+        };
+    </script>
+
+
+    <script>
+        var source, destination;
+        var directionsDisplay;
+        var lat, lng;
+        var ba = -1;
+        var directionsService = new google.maps.DirectionsService();
+        var latlng = new google.maps.LatLng(21.028529, 105.782162);
+        // initialise the location of the map on Chichester in England (ref lat and lng)
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: latlng,
+            zoom: 13,
+            mapTypeId: 'roadmap'
+        });
+
+        google.maps.event.addDomListener(window, 'load', function () {
+            new google.maps.places.SearchBox(document.getElementById('travelfrom'));
+            new google.maps.places.SearchBox(document.getElementById('travelto'));
+            directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': true });
+        });
+
+        if (ba < 0) {
+            google.maps.event.addListener(map, 'click', function (event) {
+                if (ba < 0) {
+                    placeMarker(map, event.latLng);
+                    lat = event.latLng.lat();
+                    lng = event.latLng.lng();
+                    ba = 1;
+                }
+
+            });
+        }
+
+
+        function placeMarker(map, location) {
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: 'Latitude: ' + location.lat() +
+                    '<br>Longitude: ' + location.lng()
+            });
+            infowindow.open(map, marker);
+        }
+
+        function GetRoute() {
+
+            directionsDisplay.setMap(map);
+
+            source = document.getElementById("travelfrom").value;
+            destination = document.getElementById("travelto").value;
+
+            var request = {
+                origin: source,
+                destination: destination,
+                travelMode: google.maps.TravelMode.DRIVING
+            };
+
+            directionsService.route(request, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                }
+            });
+
+            //*********DISTANCE AND DURATION**********************//
+            var service = new google.maps.DistanceMatrixService();
+            service.getDistanceMatrix({
+                origins: [source],
+                destinations: [destination],
+                travelMode: google.maps.TravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.METRIC,
+                avoidHighways: false,
+                avoidTolls: false
+            }, function (response, status) {
+
+                if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
+                    var distance = response.rows[0].elements[0].distance.text;
+                    var duration = response.rows[0].elements[0].duration.value;
+                    var dvDistance = document.getElementById("dvDistance");
+                    duration = parseFloat(duration / 60).toFixed(2);
+                    dvDistance.innerHTML = "";
+                    dvDistance.innerHTML += "Distance: " + distance + "<br />";
+                    dvDistance.innerHTML += "Time:" + duration + " min";
+
+                } else {
+                    alert("Unable to find the distance via road.");
+                }
+            });
+        }
+
+
+        function timDuongDi() {
+            var latlng = new google.maps.LatLng(lat, lng); //Vị trí của cửa hàng
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: latlng,
+                zoom: 16
+            });
+            var infoWindow = new google.maps.InfoWindow({ map: map });
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent('Vị trí của bạn');
+                    map.setCenter(pos);
+
+                    var directionsDisplay = new google.maps.DirectionsRenderer({
+                        map: map
+                    });
+                    var request = {
+                        destination: latlng,
+                        origin: pos,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+                    var directionsService = new google.maps.DirectionsService();
+                    directionsService.route(request, function (response, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            // Display the route on the map.
+                            directionsDisplay.setDirections(response);
+                        }
+                    });
+                }, function () {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        }
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+        }
+
+
+    </script>
+    <script src="~/ckeditor/ckeditor.js"></script>
+
+    <script>
+
+        CKEDITOR.replace("descriptionid");
+
+    </script>
+}
