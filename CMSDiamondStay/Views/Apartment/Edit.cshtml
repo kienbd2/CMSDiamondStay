@@ -1,8 +1,10 @@
 ﻿@model CMSDiamondStay.Models.ApartmentsViewModel
 @using System.Collections.Generic;
+@using CMSDiamondStay.Models;
 @{
     ViewBag.Title = "CreateApartment";
-
+    var lstConvenienceTotal = ViewBag.convenience as List<ConvenienceViewModel>;
+    var lstImage = Model.gallery as List<string>;
 }
 <link href="~/App_Themes/CMS/build/css/custom.css" rel="stylesheet" />
 <style type="text/css">
@@ -164,28 +166,35 @@
 
                             @{
                                 var lstConveniences = @Model.conveniences;
+
                             }
 
                             <div class="field item form-group">
                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Các tiện ích</label>
                                 <p style="padding: 6px;" class="col-md-6 col-sm-6 auto-apply ">
-                                    @foreach (var convenience in ViewBag.convenience)
+                                    @if (@lstConveniences != null)
                                     {
-                                        foreach (var item in @lstConveniences)
+
+                                        foreach (var convenience in lstConvenienceTotal)
                                         {
-                                            if (convenience == item)
+
+                                            foreach (var item in @lstConveniences)
                                             {
-                                                <input id="@convenience.id" style="width: 30px; height: 22px;" type="checkbox" name="conveniences" value="@convenience.id" class="" checked />
-                                                <label for="@convenience.id" class="flat" style="margin-right:14px"> @convenience.name</label>
+                                                if (convenience.id == item)
+                                                {
+                                                    <input id="@convenience.id" style="width: 30px; height: 22px;" type="checkbox" name="conveniences" value="@convenience.id" class="" checked />
+                                                    <label for="@convenience.id" class="flat" style="margin-right:14px"> @convenience.name</label>
+                                                }
+                                                else
+                                                {
+                                                    <input id="@convenience.id" style="width: 30px; height: 22px;" type="checkbox" name="conveniences" value="@convenience.id" class="" />
+                                                    <label for="@convenience.id" class="flat" style="margin-right:14px"> @convenience.name</label>
+                                                }
                                             }
-                                            else
-                                            {
-                                                <input id="@convenience.id" style="width: 30px; height: 22px;" type="checkbox" name="conveniences" value="@convenience.id" class="" />
-                                                <label for="@convenience.id" class="flat" style="margin-right:14px"> @convenience.name</label>
-                                            }
+
                                         }
-                                        
                                     }
+
 
 
                                 </p>
@@ -206,7 +215,7 @@
 
                             @{
 
-                                var diachi = Model.detail_address +", " + Model.village_address + ", " + Model.district_address + ", " + Model.province_address;
+                                var diachi = Model.detail_address + ", " + Model.village_address + ", " + Model.district_address + ", " + Model.province_address;
                             }
 
                             <div class="field item form-group">
@@ -304,15 +313,15 @@
                             </div>
 
 
-                            <div class="ln_solid">
-                                <div class="form-group">
-                                    <div class="col-md-6 offset-md-3">
-                                        <input type='submit' class="btn btn-primary" id="btnSave" value="Đăng phòng" />
-                                        @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-success" })
+                            @*<div class="ln_solid">
+                                    <div class="form-group">
+                                        <div class="col-md-6 offset-md-3">
+                                            <input type='submit' class="btn btn-primary" id="btnSave" value="Đăng phòng" />
+                                            @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-success" })
 
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div>*@
                         </fieldset>
                     </form>
                 </div>
@@ -394,7 +403,7 @@
                         required: true,
                         number: true,
                         min: 1,
-                        max:5
+                        max: 5
                     },
                     price: {
                         required: true,
@@ -594,7 +603,20 @@
         });
     </script>
     <script>
+        
+        
+         $('#dvPreview').prepend('<img id="theImg" src="@lstImage[0]"  width="120" height="120" />')
 
+            
+    </script>
+    <script>
+        var cars = ["BMW", "Volvo", "Saab", "Ford", "Fiat", "Audi"];
+        var text = "";
+
+        for (var i = 0; i < cars.length; i++) {
+            text += cars[i] + "<br>";
+        }
+        document.getElementById("demo").innerHTML = text;
     </script>
     <script type="text/javascript">
         window.onload = function () {

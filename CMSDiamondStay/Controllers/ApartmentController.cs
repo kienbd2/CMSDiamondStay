@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using CMSDiamondStay.Models;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -261,10 +262,12 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
         }
         public class Convenience
         {
-            [DataMember]
             public int id { get; set; }
-            [DataMember]
             public string name { get; set; }
+        }
+        public class ListConvenience
+        {
+            public List<Convenience> lstConvenience { get; set; }
         }
 
         public async Task<ActionResult> Edit(string id)
@@ -304,14 +307,11 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
                     apartment.amount_bathroom = item["amount_bathroom"];
                     apartment.amount_bedroom = item["amount_bedroom"];
                     apartment.star_standard = item["star_standard"];
-                    var a =  item["conveniences"];
-                    var conveniences = item["conveniences"] as List<Convenience>;
-                    var d = serializer.Deserialize<dynamic>(item["conveniences"]);
-                 
-                   
-                    
+                    var str = Newtonsoft.Json.JsonConvert.SerializeObject(item["conveniences"]);
 
-                    apartment.conveniences = conveniences.Select(x=>x.id).ToList();
+                    //var result = JsonConvert.DeserializeObject<ListConvenience>(str);
+                    List<Convenience> item2 = serializer.Deserialize<List<Convenience>>(str);
+                    apartment.conveniences = item2.Select(x => x.id).ToList();
                     //apartment.cancel_policy = Convert.ToInt32(item["cancel_policy"]);
                     //apartment.latitude = item["latitude"];
                     //apartment.longitude = item["longitude"];
@@ -328,7 +328,8 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
                     apartment.check_in_time = item["check_in_time"];
                     apartment.check_out_time = item["check_out_time"];
                     apartment.description = item["description"];
-                    apartment.gallery = item["gallery"] as List<string>;
+                    var str2 = Newtonsoft.Json.JsonConvert.SerializeObject(item["gallery"]);
+                    apartment.gallery = serializer.Deserialize<List<string>>(str2);
 
                 }
             }
