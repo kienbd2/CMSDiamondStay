@@ -81,7 +81,7 @@ namespace CMSDiamondStay.Controllers
                         return View(dtoAdmin);
                     }
                 }
-                return View();
+                return RedirectToAction("Login", "Account");
             }
             return RedirectToAction("Login", "Account");
 

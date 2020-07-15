@@ -22,7 +22,7 @@
             </li>
 
             @{ var role = Convert.ToInt32(Session["role"]); }
-                @if (@role == 1|| @role == 5)
+                @if (@role == 1|| @role == 5|| @role == 2)
                 {
                 <li>
                     <a><i class="fa fa-building-o"></i> Quản lý căn hộ <span class="fa fa-chevron-down"></span></a>

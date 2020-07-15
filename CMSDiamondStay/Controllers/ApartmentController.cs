@@ -9,11 +9,13 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using System.Web.UI.WebControls.WebParts;
 
 namespace CMSDiamondStay.Controllers
 {
@@ -156,7 +158,6 @@ namespace CMSDiamondStay.Controllers
             apartment.cuisine_suggest = apartments.cuisine_suggest;
             apartment.regulation = apartments.regulation;
             apartment.phone = apartments.phone;
-            apartment.fax = apartments.fax;
             apartment.area = apartments.area;
             apartment.amount_bathroom = apartments.amount_bathroom;
             apartment.amount_bedroom = apartments.amount_bedroom;
@@ -258,7 +259,13 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
             return Json(new { result = false, mess = "ko co quyen" });
 
         }
-
+        public class Convenience
+        {
+            [DataMember]
+            public int id { get; set; }
+            [DataMember]
+            public string name { get; set; }
+        }
 
         public async Task<ActionResult> Edit(string id)
         {
@@ -292,33 +299,40 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
                     apartment.direction_instruction = item["direction_instruction"];
                     apartment.cuisine_suggest = item["cuisine_suggest"];
                     apartment.regulation = item["regulation"];
-                    apartment.phone = item["phone"];
-                    apartment.fax = item["fax"];
-                    apartment.area = item["area"];
+                    apartment.phone = Convert.ToString( item["phone"]);
+                    apartment.area = Convert.ToDouble(item["area"]);
                     apartment.amount_bathroom = item["amount_bathroom"];
                     apartment.amount_bedroom = item["amount_bedroom"];
                     apartment.star_standard = item["star_standard"];
-                    apartment.conveniences = item["conveniences"];
-                    apartment.cancel_policy = item["cancel_policy"];
-                    apartment.latitude = item["latitude"];
-                    apartment.longitude = item["longitude"];
+                    var a =  item["conveniences"];
+                    var conveniences = item["conveniences"] as List<Convenience>;
+                    var d = serializer.Deserialize<dynamic>(item["conveniences"]);
+                 
+                   
+                    
+
+                    apartment.conveniences = conveniences.Select(x=>x.id).ToList();
+                    //apartment.cancel_policy = Convert.ToInt32(item["cancel_policy"]);
+                    //apartment.latitude = item["latitude"];
+                    //apartment.longitude = item["longitude"];
                     apartment.detail_address = item["detail_address"];
                     apartment.village_address = item["village_address"];
                     apartment.district_address = item["district_address"];
                     apartment.province_address = item["province_address"];
-                    apartment.apartment_type = item["apartment_type"];
-                    apartment.price = item["price"];
-                    apartment.price_promotion = item["price_promotion"];
+                    //apartment.apartment_type =1* Convert.ToInt32(item["apartment_type"]);
+                    apartment.price = Convert.ToDouble(item["price"]);
+                    apartment.price_promotion = Convert.ToDouble(item["price_promotion"]);
                     apartment.min_day = item["min_day"];
                     apartment.max_day = item["max_day"];
-                    apartment.surcharge_per_person = item["surcharge_per_person"];
+                    apartment.surcharge_per_person = Convert.ToDouble(item["surcharge_per_person"]);
                     apartment.check_in_time = item["check_in_time"];
                     apartment.check_out_time = item["check_out_time"];
                     apartment.description = item["description"];
-                    apartment.gallery = item["gallery"];
+                    apartment.gallery = item["gallery"] as List<string>;
 
                 }
             }
+            ViewBag.convenience = getAllConvenience();
             return View(apartment);
         }
     }

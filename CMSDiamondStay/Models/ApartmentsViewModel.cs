@@ -19,7 +19,7 @@ namespace CMSDiamondStay.Models
         public string regulation { get; set; }
         public string phone { get; set; }
         public string fax { get; set; }
-        public float area { get; set; }
+        public double area { get; set; }
         public int amount_bathroom { get; set; }
         public int amount_bedroom { get; set; }
         public int star_standard { get; set; }
@@ -38,11 +38,11 @@ namespace CMSDiamondStay.Models
         public List<string> gallery { get; set; }
         public string thumb { get; set; }
 
-        public float price { get; set; }
-        public float price_promotion { get; set; }
+        public double price { get; set; }
+        public double price_promotion { get; set; }
         public int min_day { get; set; }
         public int max_day { get; set; }
-        public float surcharge_per_person { get; set; }
+        public double surcharge_per_person { get; set; }
         public string check_in_time { get; set; }
 
         public string check_out_time { get; set; }
