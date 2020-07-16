@@ -48,8 +48,8 @@ namespace CMSDiamondStay.Controllers
                             if (Convert.ToInt32(Session["role"]) == 2)
                             {
                                 dtoAdmin.total_user = jsonObject["total_user"];
-                                dtoAdmin.total = jsonObject["total"];
-                                dtoAdmin.total_month = jsonObject["total_month"];
+                                dtoAdmin.total = Convert.ToDouble(jsonObject["total"]);
+                                dtoAdmin.total_month = Convert.ToDouble(jsonObject["total_month"]);
                                 dtoAdmin.total_apartment = jsonObject["total_apartment"];
                                 dtoAdmin.total_booking = jsonObject["total_booking"];
                                 dtoAdmin.total_booking_finish = jsonObject["total_booking_finish"];

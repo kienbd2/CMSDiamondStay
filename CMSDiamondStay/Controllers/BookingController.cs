@@ -98,13 +98,22 @@ namespace CMSDiamondStay.Controllers
                     });
                     task.Wait();
                 }
-
+                if (Convert.ToInt32(Session["role"].ToString()) == 2)
+                {
+                    Session.Add("booking", bookings.Where(x => x.status == 5).Count());
+                }
+                if (Convert.ToInt32(Session["role"].ToString()) == 1)
+                {
+                    Session.Add("booking", bookings.Where(x => x.status == 3).Count());
+                }
                 ViewBag.size = items; // ViewBag DropDownList
                 ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
                 page = page ?? 1;
                 int pageSize = (size ?? 10);
                 int pageNumber = (page ?? 1);
                 bookings = bookings.Where(x => x.status != 6).ToList();
+                var a = bookings.Where(x => x.status == 3).Count();
+                
                 return View(bookings.ToPagedList(pageNumber, pageSize));
             }
             return RedirectToAction("Login", "Account");
