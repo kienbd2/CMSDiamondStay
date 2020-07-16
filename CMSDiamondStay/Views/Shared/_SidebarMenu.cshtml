@@ -22,7 +22,7 @@
             </li>
 
             @{ var role = Convert.ToInt32(Session["role"]); }
-                @if (@role == 1|| @role == 5|| @role == 2)
+                @if (@role == 1|| @role == 5)
                 {
                 <li>
                     <a><i class="fa fa-building-o"></i> Quản lý căn hộ <span class="fa fa-chevron-down"></span></a>
@@ -32,13 +32,13 @@
                     </ul>
                 </li>
             }
-            <li>
+            @*<li>
                 <a><i class="fa fa-fire"></i> Chiến dịch khuyến mãi <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="CampaignsList.html">Các chiến dịch</a></li>
                     <li><a href="AddCampaigns.html">Thêm mới chiến dịch</a></li>
                 </ul>
-            </li>
+            </li>*@
             @if (@role == 2 || @role == 1 || @role == 5)
             {
                 <li>

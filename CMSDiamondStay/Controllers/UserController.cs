@@ -72,6 +72,7 @@ namespace CMSDiamondStay.Controllers
                                     first_time = item["first_time"],
                                     role = item["role"],
                                     main_balance = item["main_balance"],
+                                    avatar = item["avatar"]
                                 });
                             }
 
@@ -142,6 +143,7 @@ namespace CMSDiamondStay.Controllers
                                     first_time = item["first_time"],
                                     role = item["role"],
                                     main_balance = item["main_balance"],
+                                    avatar = item["avatar"]
                                 });
                             }
 
@@ -250,6 +252,7 @@ namespace CMSDiamondStay.Controllers
                         user.first_time = item["first_time"];
                         user.role = item["role"];
                         user.main_balance = item["main_balance"];
+                        user.avatar = item["avatar"];
                         return View(user);
                     }
                 }

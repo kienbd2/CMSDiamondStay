@@ -17,5 +17,6 @@ namespace CMSDiamondStay.Models
         public int role { get; set; }
         public string password { get; set; }
         public int main_balance { get; set; }
+        public string avatar { get; set; }
     }
 }

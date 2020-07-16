@@ -64,7 +64,7 @@ namespace CMSDiamondStay.Controllers
                             {
                                 apartments.Add(new ApartmentsViewModel()
                                 {
-                                    id = Convert.ToString(item["id"]),
+                                    id = Convert.ToInt64(item["id"]),
                                     name = Convert.ToString(item["name"]),
                                     price = float.Parse(item["price"]),
                                     price_promotion = float.Parse(item["price_promotion"]),
@@ -88,8 +88,10 @@ namespace CMSDiamondStay.Controllers
                 }
 
             }
+            ViewBag.stt = 1;
             ViewBag.size = items; // ViewBag DropDownList
             ViewBag.currentSize = size; // tạo biến kích thước trang hiện tại
+            ViewBag.total = apartments.Count;
             page = page ?? 1;
             int pageSize = (size ?? 6);
             int pageNumber = (page ?? 1);
@@ -251,7 +253,7 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
                     }
                     if (response.IsSuccessStatusCode && status == 1)
                     {
-                        return Json(new { result = active, status = active, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+                        return Json(new { result = active, status = active, mess = "Thêm phòng thành công" });
                     }
 
                     return Json(new { result = false, mess = "Lỗi xác nhận thanh toán" });
@@ -270,7 +272,7 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
             public List<Convenience> lstConvenience { get; set; }
         }
 
-        public async Task<ActionResult> Edit(string id)
+        public async Task<ActionResult> Edit(long id)
         {
             var apartment = new ApartmentsViewModel();
             using (var client = new HttpClient())
@@ -292,7 +294,7 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
                     var EmpResponse = Res.Content.ReadAsStringAsync().Result;
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
                     var item = serializer.Deserialize<dynamic>(EmpResponse)["data"];
-
+                    apartment.id =Convert.ToInt64(id);
                     apartment.name = item["name"]; //Reading text box values using Jquery
                     apartment.amount_bed = item["amount_bed"];
                     apartment.amount_sofa = item["amount_sofa"];
@@ -335,6 +337,109 @@ new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/jso
             }
             ViewBag.convenience = getAllConvenience();
             return View(apartment);
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> Edit(ApartmentEdit apartments)
+        {
+
+            var lstImage = new List<string>();
+            HttpFileCollectionBase files = Request.Files;
+            if (files.Count > 5)
+            {
+                return Json(new { result = false, mess = "Không up lớn hơn 5 ảnh", url = Url.Action("Index", "Apartment") });
+            }
+            if (files.Count > 1)
+            {
+                Task task = Task.Run(async () =>
+                {
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        HttpPostedFileBase file = files[i];
+                        Account account = new Account("dev2020", "247996535991499", "9jI_5YjJaseBKUrY929sUtt0Fy0");
+
+                        string path = Path.Combine(Server.MapPath("Images"), Path.GetFileName(file.FileName));
+                        Cloudinary cloudinary = new Cloudinary(account);
+                        var uploadParams = new ImageUploadParams()
+                        {
+                            File = new FileDescription(path, file.InputStream),
+                        };
+                        var uploadResult = await cloudinary.UploadAsync(uploadParams);
+                        lstImage.Add(uploadResult.SecureUrl.ToString());
+                    }
+                });
+                task.Wait();
+            }
+            
+
+            var apartment = new ApartmentsViewModel();
+            apartment.id = apartments.id;
+            apartment.name = apartments.name; //Reading text box values using Jquery
+            apartment.amount_bed = apartments.amount_bed;
+            apartment.amount_sofa = apartments.amount_sofa;
+            apartment.capacity_standard = apartments.capacity_standard;
+            apartment.capacity_max = apartments.capacity_max;
+            apartment.relax_suggest = apartments.relax_suggest;
+            apartment.direction_instruction = apartments.direction_instruction;
+            apartment.cuisine_suggest = apartments.cuisine_suggest;
+            apartment.regulation = apartments.regulation;
+            apartment.phone = apartments.phone;
+            apartment.area = apartments.area;
+            apartment.amount_bathroom = apartments.amount_bathroom;
+            apartment.amount_bedroom = apartments.amount_bedroom;
+            apartment.star_standard = apartments.star_standard;
+            if (apartments.conveniencesEdit.Count > 1)
+            {
+                apartments.conveniencesEdit.RemoveAt(apartments.conveniencesEdit.Count - 1);
+            }
+            apartment.conveniences = apartments.conveniencesEdit;
+            apartment.cancel_policy = apartments.cancel_policy;
+            apartment.latitude = apartments.latitude;
+            apartment.longitude = apartments.longitude;
+            string[] arrListStr = apartments.travelfrom.Split(',');
+            if (arrListStr.Count() < 4)
+            {
+                return Json(new { result = false, mess = $"Địa chỉ của bạn nhập là {apartments.travelfrom} không đúng định dạng VD: số 50 Cầu Giấy, Dịch Vọng, Cầu Giấy, Hà Nội. Xin vui lòng nhập lại", url = Url.Action("CreateApartment", "Apartment") });
+            }
+            apartment.detail_address = arrListStr[0];
+            apartment.village_address = arrListStr[1];
+            apartment.district_address = arrListStr[2];
+            apartment.province_address = arrListStr[3];
+            apartment.apartment_type = apartments.apartment_type;
+            apartment.price = apartments.price;
+            apartment.price_promotion = apartments.price_promotion;
+            apartment.min_day = apartments.min_day;
+            apartment.max_day = apartments.max_day;
+            apartment.surcharge_per_person = apartments.surcharge_per_person;
+            apartment.check_in_time = apartments.check_in_time;
+            apartment.check_out_time = apartments.check_out_time;
+            apartment.description = apartments.description;
+            apartment.gallery = lstImage;
+
+
+
+
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Session["Authent"].ToString());
+                //HTTP POST
+                var response = await client.PostAsync("/manager/apartments/edit", new StringContent(
+new JavaScriptSerializer().Serialize(apartment), Encoding.UTF8, "application/json"));
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var EmpResponse = await response.Content.ReadAsStringAsync();
+                int code = Convert.ToInt32(serializer.Deserialize<dynamic>(EmpResponse)["status"]);
+                //var result = postTask.Result;
+                if (response.IsSuccessStatusCode && code == 1)
+                {
+                    //TempData["message"] = serializer.Deserialize<dynamic>(EmpResponse)["message"];
+                    return Json(new { result = true, mess = "Sửa phòng thành công", url = Url.Action("Index", "Apartment") });
+
+                }
+                return Json(new { result = false, mess = serializer.Deserialize<dynamic>(EmpResponse)["message"] });
+            }
+
         }
     }
 }

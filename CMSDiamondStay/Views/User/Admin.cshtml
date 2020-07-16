@@ -12,7 +12,7 @@
                 <div>
                 </div>
                 <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 text-left">
-                    @using (Html.BeginForm("Admin", "User", FormMethod.Get))
+                    @using (Html.BeginForm("Index", "Admin", FormMethod.Get))
                     {
                         <p>
                             Kích thước trang: @Html.DropDownList("size", (List<SelectListItem>)ViewBag.size, new { @onchange = "this.form.submit();" })
@@ -22,7 +22,7 @@
 
                 <div class="col-md-3 col-sm-3 col-xs-3 col-sm-3 input-group float-right">
 
-                    @using (Html.BeginForm("Admin", "User", FormMethod.Get))
+                    @using (Html.BeginForm("Index", "User", FormMethod.Get))
                     {
 
                         @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "", @placeholder = "Search for..." })
@@ -47,27 +47,36 @@
                         <div class="col-sm-12">
                             <div class="left col-sm-7">
                                 <h2>@item.first_name @item.last_name</h2>
-                                <p><strong>About: </strong> Web Designer / UI. </p>
+                                <p><strong>About: </strong>
+                                Web Designer / UI. </p>
                                 <ul class="list-unstyled">
                                     <li><i class="fa fa-building"></i> Address: </li>
                                     <li><i class="fa fa-phone"></i> Phone #: </li>
                                 </ul>
                             </div>
                             <div class="right col-sm-5 text-center">
-                                <img src="~/App_Themes/CMS/production/images/user.png" alt="" class="img-circle img-fluid">
+                                <img src="@item.avatar" alt="" class="img-circle img-fluid">
                             </div>
                         </div>
                         <div class=" bottom text-center">
                             <div class=" col-sm-6 emphasis">
                                 <p class="ratings">
-                                    <a>4.0</a>
-                                    <a href="#"><span class="fa fa-star"></span></a>
-                                    <a href="#"><span class="fa fa-star"></span></a>
-                                    <a href="#"><span class="fa fa-star"></span></a>
-                                    <a href="#"><span class="fa fa-star"></span></a>
-                                    <a href="#"><span class="fa fa-star-o"></span></a>
-                                </p>
-                            </div>
+                                    @if (item.role == 3)
+                                    {
+                                    <strong>Admin Bussines</strong>
+                                }
+                                    @if (item.role == 4)
+                                    {
+
+                                        <strong>Admin HR</strong>
+                                    }
+                                    @if (item.role == 5)
+                                    {
+
+                                        <strong>Admin Finance</strong>
+                                    }
+                                    </p>
+                                </div>
                             <div class=" col-sm-6 emphasis">
                                 <button type="button" class="btn btn-success btn-sm">
                                     <i class="fa fa-user">

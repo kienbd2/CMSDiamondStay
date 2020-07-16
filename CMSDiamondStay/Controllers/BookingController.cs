@@ -89,7 +89,7 @@ namespace CMSDiamondStay.Controllers
                                         check_in = DateTime.Parse(item["check_in"]),
                                         check_out = DateTime.Parse(item["check_out"]),
                                         status = Convert.ToInt32(item["status"]),
-                                        amount = string.Format(new CultureInfo("vi-VN"), "{0:#,##0.00}", item["amount"])
+                                        amount = string.Format(new CultureInfo("vi-VN"), "{0:#,##0.00}",Convert.ToDouble(item["amount"]))
                                     });
                                 }
                             }

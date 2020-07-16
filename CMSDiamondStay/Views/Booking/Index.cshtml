@@ -13,6 +13,11 @@
         <p class="alert alert-success">@TempData["message"]</p>
     }
 }
+<style>
+    .scale-down {
+        object-fit: scale-down;
+    }
+</style>
 <div class="right_col">
     <div class="x_panel">
         <div class="x_content">
@@ -62,13 +67,13 @@
                                             <thead>
                                                 <tr>
                                                     <th>Booking Id</th>
-                                                    <th>User Name</th>
+                                                    <th>Người đặt</th>
                                                     <th>Tên phòng</th>
                                                     <th>Loại phòng</th>
                                                     <th>Check in</th>
                                                     <th>Check Out</th>
                                                     <th>Tiền</th>
-                                                    <th>Mã</th>
+                                                    <th>Mã đặt chỗ</th>
                                                     <th> Ảnh</th>
 
                                                     <th>Trạng thái</th>
@@ -85,9 +90,9 @@
                                                         <td>@item.apartment_type</td>
                                                         <td>@item.check_in.ToString("dd/MM/yyyy")</td>
                                                         <td>@item.check_out.ToString("dd/MM/yyyy")</td>
-                                                        <td>@item.amount đ</td>
+                                                        <td>@(item.amount)đ</td>
                                                         <td>@item.code</td>
-                                                        <td><img src="@item.apartment_thumb" alt="ảnh đại diện" width:auto height="130"></td>
+                                                        <td><img src="@item.apartment_thumb" alt="ảnh đại diện" width="200" height="130" class="scale-down"></td>
                                                         <td>
                                                             @if (item.status == 5)
                                                             {

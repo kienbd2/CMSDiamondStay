@@ -5,7 +5,7 @@ using System.Web;
 
 namespace CMSDiamondStay.Models
 {
-    public class Apartments
+    public class ApartmentEdit
     {
         public long id { get; set; }
         public string name { get; set; }
@@ -21,9 +21,9 @@ namespace CMSDiamondStay.Models
         public string fax { get; set; }
         public float area { get; set; }
         public int amount_bathroom { get; set; }
-         public int amount_bedroom { get; set; }
+        public int amount_bedroom { get; set; }
         public int star_standard { get; set; }
-        public List<int> conveniences { get; set; }
+        public List<int> conveniencesEdit { get; set; }
         public int cancel_policy { get; set; }
         public float latitude { get; set; }
         public float longitude { get; set; }

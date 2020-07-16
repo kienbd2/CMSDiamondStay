@@ -50,7 +50,7 @@
                         <div class="profile_img">
                             <div id="crop-avatar">
                                 <!-- Current avatar -->
-                                <img class="img-responsive avatar-view" src="~/App_Themes/CMS/production/images/picture.jpg" alt="Avatar" title="Change the avatar">
+                                <img class="img-responsive avatar-view" src="@Model.avatar" alt="Avatar" title="Change the avatar">
                             </div>
                         </div>
                         <h3> @Model.last_name @Model.first_name</h3>
@@ -70,8 +70,8 @@
                             </li>
                         </ul>
 
-                        <a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
-                        <br />
+                        @*<a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                        <br />*@
                         <br />
 
                         <!-- start skills -->

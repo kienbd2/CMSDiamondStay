@@ -560,13 +560,14 @@
                                 }
                                 else {
                                     alert(response.mess);
-                                    $("#message").remove("loader");
+                                    $("#message").removeClass("loader");
                                 }
 
 
                             },
                             error: function (response) {
                                 alert(response.mess);
+                                $("#message").removeClass("loader");
                             }
                         });
                     }

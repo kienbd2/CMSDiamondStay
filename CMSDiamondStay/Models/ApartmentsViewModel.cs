@@ -7,7 +7,7 @@ namespace CMSDiamondStay.Models
 {
     public class ApartmentsViewModel
     {
-        public string id { get; set; }
+        public long id { get; set; }
         public string name { get; set; }
         public int amount_bed { get; set; }
         public int amount_sofa { get; set; }

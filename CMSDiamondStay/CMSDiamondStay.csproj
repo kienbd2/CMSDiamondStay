@@ -202,6 +202,7 @@
     <Compile Include="Models\Apartments.cs" />
     <Compile Include="Models\ApartmentsViewModel.cs" />
     <Compile Include="Models\Booking.cs" />
+    <Compile Include="Models\ApartmentEdit.cs" />
     <Compile Include="Models\ConvenienceViewModel.cs" />
     <Compile Include="Models\DashboardAdmin.cs" />
     <Compile Include="Models\DashBoardChuKs.cs" />

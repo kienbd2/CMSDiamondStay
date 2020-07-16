@@ -1,9 +1,10 @@
 ﻿@model PagedList.IPagedList<CMSDiamondStay.Models.ApartmentsViewModel>
 @using PagedList.Mvc;
+@using System.Globalization;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAparment.cshtml";
-
+    int stt = 1;
 }
 @if (TempData["message"] != null)
 {
@@ -63,6 +64,7 @@
                                         <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
+                                                    <th>STT</th>
                                                     <th>Tên căn hộ</th>
                                                     <th>Loại căn hộ</th>
                                                     <th>Ghế Sofa</th>
@@ -76,14 +78,16 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+
                                                 @foreach (var item in Model)
                                                 {
                                                     <tr>
+                                                        <td>@(ViewBag.stt++)</td>
                                                         <td>@item.name</td>
                                                         <td>@item.type</td>
                                                         <td>@item.amount_sofa</td>
                                                         <td>@item.amount_bed</td>
-                                                        <td>@item.price</td>
+                                                        <td> @string.Format(new CultureInfo("vi-VN"), "{0:#,##0.00}", Convert.ToDouble(item.price))đ </td>
                                                         <td>@item.detail_address,@item.village_address, @item.district_address</td>
                                                         <td><img src="@item.thumb" alt="Girl in a jacket" width:auto height="130"></td>
                                                         <td>
@@ -133,7 +137,7 @@
 
             </div>
             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 text-right">
-                Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+              @ViewBag.total bản ghi, Trang: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
             </div>
 
         </div>
