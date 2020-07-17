@@ -1,0 +1,206 @@
+﻿
+
+@{
+    ViewBag.Title = "Create Campaign";
+}
+
+<style type="text/css">
+    #map {
+        width: 100%;
+        height: 400px;
+    }
+
+
+    label.error {
+        color: red;
+    }
+</style>
+@if (TempData["message"] != null)
+{
+    if (TempData["message"] as string == "Create Success")
+    {
+        <p class="alert alert-success">@TempData["message"]</p>
+    }
+    else
+    {
+        <p class="alert alert-danger">@TempData["message"]</p>
+    }
+
+}
+<!-- page content -->
+
+<div class="">
+    <h3 style="text-align: center;">Vui lòng nhập thông tin campaign</h3>
+
+    <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12  ">
+            <div class="x_panel">
+                <div class="x_title">
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <form class="" action="" id="UserData" method="post" enctype="multipart/form-data">
+                        <fieldset>
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Số Coupaign</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="amount" id="amount"
+                                           placeholder="Vui lòng nhập số Coupon" required />
+                                </div>
+                            </div>
+
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày bắt đầu chiến dịch</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="date" data-validate-length-range="255" data-validate-words="2" name="start_date" id="start_date"
+                                           placeholder="Vui lòng nhập ngày bắt đầu chiến dịch" required />
+                                </div>
+                            </div>
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Ngày kết thúc chiến dịch</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="date" data-validate-length-range="255" data-validate-words="2" name="end_date" id="end_date"
+                                           placeholder="Vui lòng nhập ngày kết thúc chiến dịch" required />
+                                </div>
+                            </div>
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">Phần trăm giảm giá</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-validate-length-range="255" data-validate-words="2" name="percent" id="percent"
+                                           placeholder="phần trăm giảm giá" required="required" />
+                                </div>
+                            </div>
+                          
+
+                            
+
+                            <div class="ln_solid">
+                                <div class="form-group">
+                                    <div class="col-md-6 offset-md-3">
+                                        <input type='submit' class="btn btn-primary" id="btnSave" value="Tạo campain" />
+                                        @Html.ActionLink("Quay lại", "Campain", null, new { @class = "btn btn-success" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /form input mask -->
+
+    </div>
+</div><!-- /.docs-toggles -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+@section scripts{
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAWX9wvYc5A0RwrT_pMQfV9uw_YxIela_0" type="text/javascript"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#UserData").validate({
+                rules: {
+                    amount: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    start_date: "required",
+                    end_date: "required",
+                    percent: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                },
+                messages: {
+                    amount: {
+                        required: "Vui lòng nhập số campaing",	
+                        number: "Vui lòng nhập số lượng dưới dạng giá trị số",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+                    start_date: "Vui lòng nhập ngày bắt đầu chiến dịch",
+                    end_date: "Vui lòng nhập ngày kết thúc chiến dịch",
+                    percent: {
+                        required: "Vui lòng nhập phần trăm giảm giá",
+                        number: "Vui lòng nhập số lượng dưới dạng giá trị số",
+                        min: "Số lượng không được nhỏ hơn 0"
+                    },
+
+                }
+
+            });
+
+
+           
+            $(document).on('submit', '#UserData', function (e) {
+                var start = $('#start_date').val();
+                var end = $('#end_date').val();
+                e.preventDefault();
+
+                    if ($("#UserData").valid()) {
+                        var form = $('#UserData')[0];
+
+                        var dataModel = new FormData(form);
+                        if (start >= end) {
+                            alert("Vui lòng nhập ngày bắt đầu không nhỏ hơn hoặc bằng ngày kết thúc");
+                        }
+                        else {
+                            $.ajax({
+                                type: "POST",
+                                enctype: 'multipart/form-data',
+                                url: "/Campain/Create",
+                                data: dataModel,
+                                contentType: false, // Not to set any content header
+                                processData: false, // Not to process data
+                                success: function (response) {
+                                    if (response.result) {
+                                        alert(response.mess);
+                                        window.location.href = response.url;
+                                    }
+                                    else {
+                                        alert(response.mess);
+                                    }
+
+                                },
+                                error: function (response) {
+                                    alert(response.mess);
+                                }
+                            });
+                        }
+
+                      
+                    }
+
+                //$.ajax({
+                //    type: "POST",
+                //    url: "/Home/Create",
+                //    //dataType: "json",
+                //    contentType: false, // Not to set any content header
+                //    processData: false, // Not to process data
+                //    data: file_data,
+                //    success: function (result, status, xhr) {
+                //        alert(result);
+                //    },
+                //    error: function (xhr, status, error) {
+                //        alert(status);
+                //    }
+                //});
+
+
+
+            });
+
+        });
+
+    </script>
+
+
+}
+
+

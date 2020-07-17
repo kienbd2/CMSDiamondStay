@@ -22,8 +22,8 @@
             </li>
 
             @{ var role = Convert.ToInt32(Session["role"]); }
-                @if (@role == 1|| @role == 5)
-                {
+            @if (@role == 1 || @role == 5)
+            {
                 <li>
                     <a><i class="fa fa-building-o"></i> Quản lý căn hộ <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -33,21 +33,21 @@
                 </li>
             }
             @*<li>
-                <a><i class="fa fa-fire"></i> Chiến dịch khuyến mãi <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                    <li><a href="CampaignsList.html">Các chiến dịch</a></li>
-                    <li><a href="AddCampaigns.html">Thêm mới chiến dịch</a></li>
-                </ul>
-            </li>*@
-               
-            @if (@role == 2 || @role == 1 || @role == 5)
+            <a><i class="fa fa-fire"></i> Chiến dịch khuyến mãi <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+                <li><a href="CampaignsList.html">Các chiến dịch</a></li>
+                <li><a href="AddCampaigns.html">Thêm mới chiến dịch</a></li>
+            </ul>
+        </li>*@
+
+            @if (@role == 2 || @role == 1 || @role == 5 || @role == 3)
             {
                 <li>
                     <a><i class="fa fa-table"></i> Quản Lý Booking<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li><a href="/Booking/Index">Tất Cả Booking  <span style="color:red;font-size:20px"> ( @Session["booking"] )</span></a></li>
+                        <li><a href="/Booking/Index">Tất Cả Booking  <span style="color:red;font-size:20px">  @Session["booking"] </span></a></li>
                         @*<li> @Html.ActionLink("Tất Cả Booking ", "Index", "Booking") </li>*@
-                      
+
                         @if (Convert.ToInt32(Session["role"]) == 1)
                         {
                             <li> @Html.ActionLink("Booking đã hoàn thành", "BookingHoanThanh", "Booking") </li>
@@ -57,7 +57,7 @@
                 </li>
             }
 
-            @if (@role == 2|| @role == 5)
+            @if (@role == 2 || @role == 3)
             {
                 <li>
                     <a><i class="fa fa-fire"></i> Quản Lý Tiện Ích <span class="fa fa-chevron-down"></span></a>
@@ -76,6 +76,30 @@
                         <li>@Html.ActionLink("Tạo Tài Khoản", "Create", "User")</li>
                         <li>@Html.ActionLink("Chủ Khách Sạn", "Index", "User")</li>
                         <li>@Html.ActionLink("Admin", "Admin", "User")</li>
+
+                    </ul>
+
+                </li>
+            }
+            @if (@role == 2 || @role == 4)
+            {
+                <li>
+                    <a><i class="fa fa-hand-o-right"></i>Quản Lý Action Log <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li>@Html.ActionLink("Danh sách action log", "Index", "LogAction")</li>
+
+
+                    </ul>
+
+                </li>
+            }
+            @if (@role == 1)
+            {
+                <li>
+                    <a><i class="fa fa-fire"></i>Quản Lý Campain <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li>@Html.ActionLink("Danh sách campain", "Index", "Campain")</li>
+                        <li>@Html.ActionLink("Tạo campain", "Create", "Campain")</li>
 
                     </ul>
 

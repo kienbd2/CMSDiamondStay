@@ -45,9 +45,9 @@
                                                 @using (Html.BeginForm("BookingHoanThanh", "Booking", FormMethod.Get))
                                                 {
 
-                                                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "form-control col-md-8", @placeholder = "Search for..." })
+                                                    @Html.TextBox("Tìm kiếm", ViewBag.CurrentFilter as string, null, new { @class = "form-control col-md-8", @placeholder = "Search for..." })
 
-                                                    <input type="submit" class="btn btn-primary col-md-3" value="Search" />
+                                                    <input type="submit" class="btn btn-primary col-md-3" value="Tìm kiếm" />
 
                                                 }
 
@@ -61,16 +61,16 @@
                                             <thead>
                                                 <tr>
                                                     <th>Booking Id</th>
-                                                    <th>User Name</th>
-                                                    <th>Apartment Name</th>
-                                                    <th>Apartment Type</th>
-                                                    <th>Check In</th>
+                                                    <th>Người đặt</th>
+                                                    <th>Tên phòng</th>
+                                                    <th>Loại phòng</th>
+                                                    <th>Check in</th>
                                                     <th>Check Out</th>
-                                                    <th>Amount</th>
-                                                    <th>Code</th>
-                                                    <th> Image</th>
+                                                    <th>Tiền</th>
+                                                    <th>Mã đặt chỗ</th>
+                                                    <th> Ảnh</th>
 
-                                                    <th>Action</th>
+                                                    <th>Trạng thái</th>
                                                     @*<th>Deactive</th>*@
                                                 </tr>
                                             </thead>
@@ -84,7 +84,7 @@
                                                         <td>@item.apartment_type</td>
                                                         <td>@item.check_in.ToString("dd/MM/yyyy")</td>
                                                         <td>@item.check_out.ToString("dd/MM/yyyy")</td>
-                                                        <td>@item.amount đ</td>
+                                                        <td>@(item.amount)đ</td>
                                                         <td>@item.code</td>
                                                         <td><img src="@item.apartment_thumb" alt="Girl in a jacket" width:auto height="130"></td>
                                                         <td>
@@ -115,26 +115,7 @@
                     </div>
                 </div>
             </div>
-            @if (Convert.ToInt32(Session["role"].ToString()) == 3)
-            {
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Xác nhận booking thanh toán</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-success btn-dathanhtoan">Đã thanh toán</button>
-                                <button type="button" class="btn btn-danger btn-chuathanhtoan">Chưa thanh toán</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
+          
 
 
             <div class="col-md-12 col-sm-12  text-center">

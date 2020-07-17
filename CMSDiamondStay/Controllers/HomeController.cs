@@ -45,7 +45,8 @@ namespace CMSDiamondStay.Controllers
                             var EmpResponse = Res.Content.ReadAsStringAsync().Result;
                             JavaScriptSerializer serializer = new JavaScriptSerializer();
                             var jsonObject = serializer.Deserialize<dynamic>(EmpResponse)["data"];
-                            if (Convert.ToInt32(Session["role"]) == 2)
+                            int role = Convert.ToInt32(Session["role"]);
+                            if (role == 2 || role==3|| role==4|| role==5)
                             {
                                 dtoAdmin.total_user = jsonObject["total_user"];
                                 dtoAdmin.total = Convert.ToDouble(jsonObject["total"]);
@@ -55,7 +56,7 @@ namespace CMSDiamondStay.Controllers
                                 dtoAdmin.total_booking_finish = jsonObject["total_booking_finish"];
                             }
 
-                            if (Convert.ToInt32(Session["role"]) == 1)
+                            if (role == 1)
                             {
 
                                 dtoChuKs.total_good_review = jsonObject["total_good_review"];
@@ -76,12 +77,11 @@ namespace CMSDiamondStay.Controllers
                     {
                         return View("HomeChuKs",dtoChuKs);
                     }
-                    if (Convert.ToInt32(Session["role"]) == 2)
+                    else
                     {
                         return View(dtoAdmin);
                     }
                 }
-                return RedirectToAction("Login", "Account");
             }
             return RedirectToAction("Login", "Account");
 

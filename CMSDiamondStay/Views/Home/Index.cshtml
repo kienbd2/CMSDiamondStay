@@ -1,8 +1,9 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    var role = Convert.ToInt32(Session["role"]);
 }
 @using System.Globalization;
-@if (Convert.ToInt32(Session["role"]) == 2)
+@if (role == 2|| role==3|| role==4|| role==5)
 {
     @model  CMSDiamondStay.Models.DashboardAdmin
 
@@ -41,7 +42,7 @@
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
         </div>
         <div class="col-md-3 col-sm-4  tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Doanh thu tháng @(DateTime.Now.Month-1)</span>
+            <span class="count_top"><i class="fa fa-user"></i> Doanh thu tháng @(DateTime.Now.Month)</span>
             <div class="count green">@string.Format(new CultureInfo("vi-VN"), "{0:#,##0.00}", Convert.ToDouble(Model.total_month))đ</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
         </div>

@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAparment.cshtml";
-
+    var role = Convert.ToInt32(Session["role"].ToString());
 }
 @if (TempData["message"] != null)
 {
@@ -35,7 +35,7 @@
                                 <div class="col-sm-12">
                                     <div class="card-box table-responsive">
 
-                                        <div class="">
+                                        <div class="col-sm-12">
                                             <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 text-left">
                                                 @using (Html.BeginForm("Index", "Booking", FormMethod.Get))
                                                 {
@@ -45,14 +45,14 @@
                                                 }
                                             </div>
 
-                                            <div class="col-md-7 col-sm-7 col-xs-8 col-sm-8 input-group  form-group float-right">
+                                            <div class="col-sm-4 float-right">
 
                                                 @using (Html.BeginForm("Index", "Booking", FormMethod.Get))
                                                 {
 
-                                                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "form-control col-md-8", @placeholder = "Search for..." })
+                                                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, null, new { @class = "form-control col-md-8", @placeholder = "Tìm kiếm theo booking id, tên..." })
 
-                                                    <input type="submit" class="btn btn-primary col-md-3" value="Search" />
+                                                    <input type="submit" class="btn btn-primary col-md-3" value="Tìm Kiếm" />
 
                                                 }
 
@@ -141,7 +141,7 @@
                     </div>
                 </div>
             </div>
-            @if (Convert.ToInt32(Session["role"].ToString()) == 2)
+            @if (role == 2|| role == 3|| role == 5)
             {
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -188,7 +188,7 @@
 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-@if (Convert.ToInt32(Session["role"].ToString()) == 2)
+@if (role == 2|| role == 3|| role == 5)
 {
     <script>
     $(document).ready(function () {

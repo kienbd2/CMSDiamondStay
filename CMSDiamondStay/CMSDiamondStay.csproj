@@ -191,8 +191,10 @@
     <Compile Include="Controllers\ApartmentController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
+    <Compile Include="Controllers\CampainController.cs" />
     <Compile Include="Controllers\ConvenienceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LogActionController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -203,10 +205,12 @@
     <Compile Include="Models\ApartmentsViewModel.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\ApartmentEdit.cs" />
+    <Compile Include="Models\Campaign.cs" />
     <Compile Include="Models\ConvenienceViewModel.cs" />
     <Compile Include="Models\DashboardAdmin.cs" />
     <Compile Include="Models\DashBoardChuKs.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LogAction.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -5389,6 +5393,9 @@
     <Content Include="Views\User\Admin.cshtml" />
     <Content Include="Views\Home\HomeChuKs.cshtml" />
     <Content Include="Views\Apartment\Edit.cshtml" />
+    <Content Include="Views\LogAction\Index.cshtml" />
+    <Content Include="Views\Campain\Create.cshtml" />
+    <Content Include="Views\Campain\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

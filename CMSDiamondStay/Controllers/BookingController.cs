@@ -45,8 +45,9 @@ namespace CMSDiamondStay.Controllers
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     Task task = Task.Run(async () =>
                     {
-                        HttpResponseMessage Res = await client.GetAsync(""); 
-                        if (Convert.ToInt32(Session["role"].ToString()) == 2)
+                        HttpResponseMessage Res = await client.GetAsync("");
+                        var role = Convert.ToInt32(Session["role"].ToString());
+                        if (role == 2|| role==3|| role==5)
                         {
                             Res = await client.GetAsync($"/admin/booking/?page=1&limit=100");
                             if (!searchString.IsNullOrWhiteSpace())
@@ -112,7 +113,6 @@ namespace CMSDiamondStay.Controllers
                 int pageSize = (size ?? 10);
                 int pageNumber = (page ?? 1);
                 bookings = bookings.Where(x => x.status != 6).ToList();
-                var a = bookings.Where(x => x.status == 3).Count();
                 
                 return View(bookings.ToPagedList(pageNumber, pageSize));
             }
