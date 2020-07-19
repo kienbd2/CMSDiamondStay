@@ -13,10 +13,10 @@ using System.Web.Script.Serialization;
 
 namespace CMSDiamondStay.Controllers
 {
-    public class CampainController : Controller
+    public class CampainController : BaseController
     {
         // GET: Campain
-        string Baseurl = "http://35.240.224.17:12345";
+       
         public ActionResult Index(int? size, int? page)
         {
 

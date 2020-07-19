@@ -14,10 +14,9 @@ using System.Web.Script.Serialization;
 
 namespace CMSDiamondStay.Controllers
 {
-    public class LogActionController : Controller
+    public class LogActionController : BaseController
     {
         // GET: LogAction
-        string Baseurl = "http://35.240.224.17:12345";
         public ActionResult Index(int? size, int? page, string searchString, string searchStringDate)
         {
             if (Session["Authent"] != null)

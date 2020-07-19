@@ -17,7 +17,7 @@ namespace CMSDiamondStay.Controllers
 {
     public class HomeController : BaseController
     {
-        string Baseurl = "http://35.240.224.17:12345";
+        
         public ActionResult Index()
         {
             if (Session["Authent"] != null)

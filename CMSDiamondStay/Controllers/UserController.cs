@@ -16,9 +16,9 @@ using Newtonsoft.Json;
 
 namespace CMSDiamondStay.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
-        string Baseurl = "http://35.240.224.17:12345";
+      
         // GET: User
         public ActionResult Index(int? size, int? page, string searchString)
         {

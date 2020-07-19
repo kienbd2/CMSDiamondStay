@@ -1,6 +1,7 @@
 ﻿using CMSDiamondStay.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -14,8 +15,7 @@ namespace CMSDiamondStay.Controllers
     public class BaseController : Controller
     {
 
-
-        string Baseurl = "http://35.240.224.17:12345";
+        public string Baseurl = ConfigurationManager.AppSettings["Baseurl"];
         public List<ConvenienceViewModel> getAllConvenience()
         {
             List<ConvenienceViewModel> students = new List<ConvenienceViewModel>();

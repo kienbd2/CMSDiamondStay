@@ -15,9 +15,8 @@ using System.Web.Script.Serialization;
 
 namespace CMSDiamondStay.Controllers
 {
-    public class BookingController : Controller
+    public class BookingController : BaseController
     {
-        string Baseurl = "http://35.240.224.17:12345";
         // GET: Booking
         public ActionResult Index(int? size, int? page, string searchString)
         {

@@ -22,7 +22,7 @@ namespace CMSDiamondStay.Controllers
 {
     public class ApartmentController : BaseController
     {
-        string Baseurl = "http://35.240.224.17:12345";
+        
         public ActionResult Index(int? size, int? page, string searchString)
         {
             List<ApartmentsViewModel> apartments = new List<ApartmentsViewModel>();

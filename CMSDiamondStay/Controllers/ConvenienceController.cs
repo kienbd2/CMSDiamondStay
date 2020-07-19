@@ -16,9 +16,8 @@ using System.IO;
 
 namespace CMSDiamondStay.Controllers
 {
-    public class ConvenienceController : Controller
+    public class ConvenienceController : BaseController
     {
-        string Baseurl = "http://35.240.224.17:12345";
         // GET: Convenience
         public async Task<ActionResult> Index(int? size, int? page)
         {
